@@ -1,0 +1,16 @@
+
+# help file
+text.txt
+
+# OS files
+*.DS_Store
+
+# images
+*.jpg
+*.png
+
+# virtual environment
+venv/
+
+# cached files
+*__pycache__
