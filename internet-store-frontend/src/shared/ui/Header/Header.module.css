@@ -1,0 +1,117 @@
+header{
+	background: linear-gradient(90deg, #796DE2 0%, #3F6AC9 100%);
+	color: white;
+	height: 120px;
+	padding-top: 2%;
+	width: 100%;
+}
+
+
+.mainDivOfHeader{
+	display: flex;
+	align-items: center;
+	text-align: center;
+	padding-left: 10%;
+	padding-right: 10%;
+	padding-top: 1%;
+	padding-bottom: 2%;
+}
+
+.logo{
+	margin-right: 3rem;
+}
+
+
+.searchBar{
+	display: flex;
+	justify-content: space-between;
+	margin-left: 1rem;
+	padding-right: 2%;
+	padding-left: 2%;
+	width: 951px;
+	height: 61px;
+	border-radius: 18px;
+	background-color: white;
+	align-items: center;
+}
+
+
+.categories{
+	display: flex;
+	background: rgba(121, 109, 226, 1);
+	padding-left: 1.5rem;
+	width: 150px;
+	border-radius: 18px;
+	align-items: center;
+}
+
+
+.categoriesSvg{
+	height: 25px;
+}
+
+
+.categoriesText{
+	margin-left: 1rem;
+}
+
+
+.searchButton{
+	padding: 0.6rem;
+	background: rgba(63, 106, 201, 1);
+	border-radius: 18px;
+}
+
+
+.personActivities{
+	display: flex;
+	margin-left: 4.5rem;
+}
+
+
+.svgOfPersonActivities{
+	margin-top: -1rem;
+}
+
+
+.favorites{
+	height: 20px;
+}
+
+
+.shoppingCart{
+	margin-left: 2rem;
+	margin-right: 2rem;
+	height: 20px;
+}
+
+
+.leftWhell{
+	margin-top: 20px;
+	margin-left: 7px;
+	position: absolute;
+}
+
+
+.rightwhell{
+	margin-top: 20px;
+	margin-left: -8px;
+	position: absolute;
+}
+
+
+.evnironmentsForProfile{
+	position: absolute;
+	margin-left: -3px;
+	margin-top: -3px;
+}
+
+
+.profile{
+	height: 20px;
+}
+
+
+.textOfPersonActivities{
+	margin-top: 1rem;
+}

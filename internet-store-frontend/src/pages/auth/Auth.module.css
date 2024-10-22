@@ -1,0 +1,40 @@
+.divForAuthForms{
+	width: 510px;
+	height: 430px;
+	margin-top: 3%;
+	margin-left: 35%;
+	border-radius: 30px;
+	background: rgba(255, 255, 255, 1);
+}
+
+
+.divForEnterForm{
+	width: 510px;
+	height: 520px;
+	margin-top: 3%;
+	margin-left: 35%;
+	border-radius: 30px;
+	background: rgba(255, 255, 255, 1);
+}
+
+
+.divForRegisterForm{
+	height: 700px;
+}
+
+
+.hr{
+	width: 400px;
+	margin-top: 2rem;
+}
+
+
+.textOfForms{
+	padding-top: 2rem;
+	text-align: center;
+}
+
+
+.divForButtons{
+	text-align: center;
+}

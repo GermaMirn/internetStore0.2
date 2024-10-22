@@ -1,0 +1,9 @@
+.divForForm{
+	text-align: center;
+}
+
+
+.errorField{
+	color: red;
+	/* position: absolute; */
+}

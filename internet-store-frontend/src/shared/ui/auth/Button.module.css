@@ -1,0 +1,22 @@
+.button {
+	margin-top: 1rem;
+	width: 316px;
+	height: 65px;
+  border-radius: 35px;
+	font-size: x-large;
+}
+
+
+.color {
+	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+	border: 1px solid #3F6AC9;
+	color: white;
+}
+
+
+.notColor {
+	background: rgba(216, 216, 216, 1);
+	border: solid 1px rgba(216, 216, 216, 1);
+	color: black;
+}
+
