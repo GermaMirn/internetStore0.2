@@ -22,13 +22,13 @@ class UserViewSet(viewsets.ModelViewSet):
       phoneNumber = request.data.get('phone')
 
       if User.objects.filter(username=username).exists():
-        return Response({'message': 'Имя пользователя уже занято.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Имя пользователя уже занято', 'errorType': 'username', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
 
       try:
         user = User.objects.create_user(username=username, password=password)
         profile = Profile(user=user, fullname=fullname, phoneNumber=phoneNumber)
         profile.save()
-        return Response({'message': 'Аккаунт успешно создан!'})
+        return Response({'message': 'Аккаунт успешно создан!', 'success': True})
       except (ValidationError, Exception) as e:
         return Response({'message': 'Ошибка при создании аккаунта.', 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -37,32 +37,19 @@ class UserViewSet(viewsets.ModelViewSet):
       username = request.data.get('username')
       password = request.data.get('password')
 
-      user = authenticate(username=username, password=password)
-      if user is not None:
-          login(request, user)
-          serializer = UserProfileSerializer(user)
-          return Response({'message': 'Успешный вход!', 'exists': True, 'user': serializer.data})
-      else:
-          return Response({'message': 'Неверные учетные данные.', 'exists': False}, status=status.HTTP_401_UNAUTHORIZED)
-
-    @action(detail=False, methods=['post'], url_path='getUsernameAndPassword')
-    def getUsernameAndPassword(self, request):
-      username = request.data.get('username')
-      password = request.data.get('password')
-
       if username is None or password is None:
-        return Response({'exists': False, 'error': 'Имя пользователя и пароль должны быть указаны.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success': False, 'message': 'Имя пользователя и пароль должны быть указаны.'}, status=status.HTTP_400_BAD_REQUEST)
 
       user = authenticate(username=username, password=password)
 
       if user is None:
         if User.objects.filter(username=username).exists():
-          return Response({'exists': False, 'error': 'Неверный пароль.'}, status=status.HTTP_401_UNAUTHORIZED)
+          return Response({'success': False, 'message': 'Неверный пароль.', 'errorType': 'password'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-          return Response({'exists': False, 'error': 'Имя пользователя не существует.'}, status=status.HTTP_404_NOT_FOUND)
+          return Response({'success': False, 'message': 'Имя пользователя не существует.', 'errorType': 'username'}, status=status.HTTP_404_NOT_FOUND)
       else:
         login(request, user)
-        return Response({'exists': True}, status=status.HTTP_200_OK)
+        return Response({'success': True}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'], url_path='logout')
     def logoutUser(self, request):

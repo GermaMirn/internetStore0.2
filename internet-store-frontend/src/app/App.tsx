@@ -6,6 +6,7 @@ import LoginChoicePage from '../pages/auth/login-choice/LoginChoicePage';
 import WelcomePage from '../pages/welcome/WelcomePage';
 import { Header } from '../shared/ui/Header/Header';
 
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -19,5 +20,6 @@ const App: React.FC = () => {
     </Router>
   );
 };
+
 
 export default App;

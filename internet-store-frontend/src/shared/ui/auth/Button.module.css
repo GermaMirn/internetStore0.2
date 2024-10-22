@@ -14,9 +14,20 @@
 }
 
 
+.color:hover {
+	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
+	border: 1px solid #ffffffb8;
+}
+
+
 .notColor {
 	background: rgba(216, 216, 216, 1);
 	border: solid 1px rgba(216, 216, 216, 1);
 	color: black;
 }
 
+
+.notColor:hover {
+	background: rgba(216, 216, 216, 0.829);
+	border: 1px solid rgba(216, 216, 216, 0.829);
+}

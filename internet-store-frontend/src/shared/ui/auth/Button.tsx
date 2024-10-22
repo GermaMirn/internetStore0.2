@@ -5,17 +5,19 @@ import { useNavigate } from 'react-router-dom';
 
 interface ButtonProps {
   text: string;
+	disabled?: boolean;
 	username?: string;
   color?: 'notColor' | 'color';
 	navigateTo?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ text, username = '', color = 'notColor', navigateTo }) => {
+
+const Button: React.FC<ButtonProps> = ({ text, username = '', color = 'notColor', navigateTo, disabled = false }) => {
 	const navigate = useNavigate();
 
 	const handleClick = () => {
 		if (navigateTo) {
-			if (navigateTo === "/login") {
+			if (!disabled && navigateTo === "/login") {
 				navigate(navigateTo, { state: { username } });
 			} else {
 				navigate(navigateTo);
@@ -29,5 +31,6 @@ const Button: React.FC<ButtonProps> = ({ text, username = '', color = 'notColor'
     </button>
   );
 };
+
 
 export default Button;

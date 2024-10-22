@@ -3,6 +3,7 @@ import Button from '../../../shared/ui/auth/Button';
 import styles from '../Auth.module.css';
 import Input from '../../../shared/ui/auth/Input';
 
+
 const LoginChoicePage: React.FC = () => {
 	const [username, setUsername] = useState('');
 
@@ -31,5 +32,6 @@ const LoginChoicePage: React.FC = () => {
     </div>
   );
 };
+
 
 export default LoginChoicePage;

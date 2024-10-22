@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import styles from './Input.module.css';
 import classNames from 'classnames';
 
+
 interface InputProps {
   name: string;
   value: string;
@@ -11,6 +12,7 @@ interface InputProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
 }
+
 
 const Input: React.FC<InputProps> = ({ name, value, placeholder, type = 'text', className, onChange, error }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -40,5 +42,6 @@ const Input: React.FC<InputProps> = ({ name, value, placeholder, type = 'text', 
     </div>
   );
 };
+
 
 export default Input;

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Form from '../../../shared/ui/auth/Form';
 import styles from '../Auth.module.css';
 
+
 const LoginPage: React.FC = ( ) => {
 	const location = useLocation();
 	const username = location.state?.username || '';
@@ -18,5 +19,6 @@ const LoginPage: React.FC = ( ) => {
     </div>
   );
 };
+
 
 export default LoginPage;

@@ -28,22 +28,20 @@ export function Header() {
 			<div className={styles.personActivities}>
 
 				<div className={classNames(styles.favorites, styles.svgOfPersonActivities)}>
-					<img src="/header/favorites.svg" alt="" />
+					<img className={styles.divForSvgOfPersonActivities} src="/header/favorites.svg" alt="" />
 
 					<p className={styles.textOfPersonActivities}>Избранные</p>
 				</div>
 
 				<div className={classNames(styles.shoppingCart, styles.svgOfPersonActivities)}>
-					<img className={styles.leftWhell} src="/header/whellForShoppingCart.svg" alt="" />
-					<img src="/header/shoppingCart.svg" alt="" />
-					<img className={styles.rightwhell} src="/header/whellForShoppingCart.svg" alt="" />
+					<img  className={styles.divForSvgOfPersonActivities} src="/header/shoppingCart.svg" alt="" />
 
-					<p className={styles.textOfPersonActivities}>Корзина</p>
+					<p className={classNames(styles.textOfPersonActivities, styles.testForShoppingCart)}>Корзина</p>
 				</div>
 
 				<div className={classNames(styles.profile, styles.svgOfPersonActivities)}>
-					<img className={styles.evnironmentsForProfile} src="/header/evnironmentsForProfile.svg" alt="" />
-					<img src="/header/profile.svg" alt="" />
+
+					<img className={styles.divForSvgOfPersonActivities} src="/header/profile.svg" alt="" />
 
 					<p className={styles.textOfPersonActivities}>Профиль</p>
 				</div>

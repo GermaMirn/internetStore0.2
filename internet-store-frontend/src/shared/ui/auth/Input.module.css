@@ -8,6 +8,7 @@
 	padding-left: 1rem;
 }
 
+
 .inputWrapper{
 	padding: 0.8rem;
 }
@@ -23,6 +24,7 @@
 .errorField{
 	color: red;
 }
+
 
 .errorText{
 	color: red;
