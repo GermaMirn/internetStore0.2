@@ -16,10 +16,10 @@ export const loginUser = async (data: LoginData) => {
       withCredentials: true,
     });
 
-    return response.data;  // Если все успешно, возвращаем данные
+    return response.data;
   } catch (error: any) {
     if (error.response) {
-      return { success: false, message: error.response.data.message, errorType: error.response.data.errorType };  // Обработка сообщения с бэкенда
+      return { success: false, message: error.response.data.message, errorType: error.response.data.errorType };
     }
     console.error('Ошибка при входе в аккаунт:', error);
     throw error;

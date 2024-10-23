@@ -1,13 +1,16 @@
-import styles from './Header.module.css'
+import { useNavigate } from 'react-router-dom';
+import styles from './Header.module.css';
 import classNames from 'classnames';
 
 
 export function Header() {
+	const navigate = useNavigate();
+
 	return (
 	<header>
 		<div className={styles.mainDivOfHeader}>
 
-			<div className={styles.logo}>
+			<div className={styles.logo} onClick={() => navigate('/')}>
 				<img src="/header/logo.svg" alt="" />
 			</div>
 

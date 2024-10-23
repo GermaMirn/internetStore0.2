@@ -1,7 +1,7 @@
 import React, { useState }  from 'react';
-import Button from '../../../shared/ui/auth/Button';
+import Button from '../../../shared/ui/Button';
 import styles from '../Auth.module.css';
-import Input from '../../../shared/ui/auth/Input';
+import Input from '../../../shared/ui/Input/Input';
 
 
 const LoginChoicePage: React.FC = () => {

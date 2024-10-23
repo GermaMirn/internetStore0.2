@@ -18,7 +18,7 @@ export const registerUser = async (data: RegisterData) => {
       phone: data.phone,
       password: data.password,
     }, {
-      withCredentials: true,  // чтобы отправлялись sessionid и csrftoken
+      withCredentials: true,
     });
 
     return response.data;
