@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import LoginForm from '../../../features/auth/ui/LoginForm';
 import styles from '../Auth.module.css';
 
+
 const LoginPage: React.FC = () => {
   const location = useLocation();
   const username = location.state?.username || '';

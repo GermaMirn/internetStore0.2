@@ -36,7 +36,7 @@ from django.core.paginator import EmptyPage
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+
 
 @api_view(['GET'])
 def getPopularProducts(request):
@@ -47,57 +47,75 @@ def getPopularProducts(request):
 
 @api_view(['GET'])
 def searchPageProducts(request):
-  pageNumber = int(request.GET.get("page", 1))
-  allProducts = Product.objects.all().order_by("name")
-  tags = request.GET.get("tags")
+	pageNumber = int(request.GET.get("page", 1))
+	allProducts = Product.objects.all().order_by("name")
+	tags = request.GET.get("tags")
 
-  if tags:
-    tagList = tags.split(',')
-    allProducts = allProducts.filter(categories__name__in=tagList).distinct()
+	if tags:
+		tagList = tags.split(',')
+		allProducts = allProducts.filter(categories__name__in=tagList).distinct()
 
-  searchField = request.GET.get("searchInput")
-  if searchField:
-    allProducts = allProducts.filter(name__icontains=searchField)
+	searchField = request.GET.get("searchInput")
+	if searchField:
+		allProducts = allProducts.filter(name__icontains=searchField)
 
-  productPaginator = Paginator(allProducts, 6)
+	productPaginator = Paginator(allProducts, 8)
+	try:
+		page = productPaginator.page(pageNumber)
+	except EmptyPage:
+		page = productPaginator.page(1)
 
-  try:
-    page = productPaginator.page(pageNumber)
-  except EmptyPage:
-    page = productPaginator.page(1)
+	userHearts = []
+	cartItems = {}
+	if request.user.is_authenticated:
+		try:
+			profile = request.user.profile
+			userHearts = ProductHeart.objects.filter(user=profile).values_list('product_id', flat=True)
 
-  userHearts = []
-  if request.user.is_authenticated:
-    try:
-      profile = request.user.profile
-      userHearts = ProductHeart.objects.filter(user=profile).values_list('product_id', flat=True)
-    except Profile.DoesNotExist:
-        pass
+			try:
+				cart = profile.cart
+				cartItems = CartItem.objects.filter(cart=cart).select_related('product')
+			except:
+				pass
+		except Profile.DoesNotExist:
+			pass
 
-  productsData = []
-  for product in page.object_list:
-    categories = list(product.categories.values_list('name', flat=True))
-    mainImageUrl = product.mainImage.url if product.mainImage else None
-    imagesUrl = [image.image.url for image in product.productImages.all()]
-    isHearted = product.id in userHearts
+	productsData = []
+	for product in page.object_list:
+		categories = list(product.categories.values_list('name', flat=True))
+		mainImageUrl = product.mainImage.url if product.mainImage else None
+		imagesUrl = [image.image.url for image in product.productImages.all()]
+		isHearted = product.id in userHearts
+		isInCart = False
+		cartItemId = None
+		cartQuantity = 0
 
-    productsData.append({
-      'id': product.id,
-      'name': product.name,
-      'description': product.description,
-      'price': str(product.price),
-      'categories': categories,
-      'imagesURL': imagesUrl,
-      'mainImageUrl': mainImageUrl,
-      'hearts': product.hearts,
-      'isHearted': isHearted
-    })
+		for cart_item in cartItems:
+			if cart_item.product.id == product.id:
+				isInCart = True
+				cartItemId = cart_item.id
+				cartQuantity = cart_item.quantity
 
-  return Response({
-    "page": page.number,
-    "total_pages": productPaginator.num_pages,
-    "products": productsData
-  })
+		productsData.append({
+			'id': product.id,
+			'name': product.name,
+			'description': product.description,
+			'price': str(product.price),
+			'categories': categories,
+			'imagesURL': imagesUrl,
+			'mainImageUrl': mainImageUrl,
+			'hearts': product.hearts,
+			'isHearted': isHearted,
+			'isInCart': isInCart,
+			'cartQuantity': cartQuantity,
+			'cartItemId': cartItemId,
+		})
+
+	return Response({
+		"page": page.number,
+		"total_pages": productPaginator.num_pages,
+		"products": productsData,
+	})
 
 
 @api_view(['POST', 'DELETE'])
@@ -347,10 +365,9 @@ def getShoppingCartItems(request):
 
 @api_view(['POST', 'DELETE'])
 @login_required
-def removeAddProductToCart(request, itemId=None):
-	print(itemId)
+def removeAddProductToCart(request, productId=None):
 	if request.method == 'POST':
-		product = get_object_or_404(Product, id=itemId)
+		product = get_object_or_404(Product, id=productId)
 		try:
 			cart, created = Cart.objects.get_or_create(user=request.user.profile)
 			cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
@@ -358,14 +375,15 @@ def removeAddProductToCart(request, itemId=None):
 			if created:
 				cart_item.quantity = 1
 				cart_item.save()
-				return Response({'success': True, 'message': 'Товар добавлен в корзину.'}, status=201)
+				serializer = CartItemSerializer(cart_item).data
+				return Response({'success': True, 'message': 'Товар добавлен в корзину.', 'item': serializer}, status=201)
 			else:
 				return Response({'success': False, 'message': 'Товар уже был добавлен в корзину.'}, status=400)
 		except Exception as e:
 			return Response({'success': False, 'message': 'Не удалось добавить товар.'}, status=500)
 
 	elif request.method == 'DELETE':
-		cart_item = get_object_or_404(CartItem, id=itemId)
+		cart_item = get_object_or_404(CartItem, id=productId)
 		try:
 			cart_item.delete()
 			return Response({'success': True}, status=200)
@@ -373,41 +391,31 @@ def removeAddProductToCart(request, itemId=None):
 			return Response({'success': False, 'message': 'Не удалось удалить продукт'}, status=500)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 @login_required
-def updateCartProductQuantity(request, cartItemId, action):
-	print(cartItemId, action)
+def updateCartProductQuantity(request, ItemId):
 	try:
-		cart_item = CartItem.objects.get(id=cartItemId)
+		cart_item = get_object_or_404(CartItem, id=ItemId)
 
-		if action == 'add':
+		if request.method == 'POST':
 			cart_item.quantity += 1
 			cart_item.save()
 			return Response({
-				'success': True,
-				'CartItemName': cart_item.product.name,
-				'newQuantity': cart_item.quantity,
-				'newPrice': cart_item.price
+					'success': True,
+					'CartItemName': cart_item.product.name,
+					'newQuantity': cart_item.quantity,
+					'newPrice': cart_item.price
 			}, status=200)
 
-		elif action == 'remove':
+		elif request.method == 'DELETE':
 			if cart_item.quantity > 1:
 				cart_item.quantity -= 1
 				cart_item.save()
-				return Response({
-					'success': True,
-					'CartItemName': cart_item.product.name,
-					'newQuantity': cart_item.quantity
-				}, status=200)
-			elif cart_item.quantity == 1:
-				cart_item.delete()
-				return Response({
-					'success': True,
-					'CartItemName': cart_item.product.name,
-					'newQuantity': 0
-				}, status=200)
-
-		return Response({'success': False, 'message': 'Неверное действие.'}, status=400)
+			return Response({
+				'success': True,
+				'CartItemName': cart_item.product.name,
+				'newQuantity': cart_item.quantity
+			}, status=200)
 
 	except CartItem.DoesNotExist:
 		return Response({'success': False, 'message': 'Товар не найден в корзине'}, status=404)

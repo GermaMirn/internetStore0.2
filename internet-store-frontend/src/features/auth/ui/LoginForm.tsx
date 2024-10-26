@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/login';
 import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
+import { useAuth } from '../../../app/context/AuthContext';
 import Button from '../../../shared/ui/Button';
 import Input from '../../../shared/ui/Input/Input';
 import styles from './Form.module.css';
-
 
 interface LoginFormProps {
   username?: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
-	const { showNotification } = useNotification();
+	const { login } = useAuth();
+  const { showNotification } = useNotification();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: username,
@@ -62,9 +63,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
       setIsLoading(true);
       try {
         const response = await loginUser(formData);
+
         if (response.success) {
-          navigate("/", { state: { username: response.username } });
-					showNotification('Добро пожаловать', 'success')
+          navigate("/");
+					login(response.profile.username);
+          showNotification('Добро пожаловать!', 'success');
         } else {
           if (response.errorType === 'username') {
             setErrors((prevErrors) => ({
@@ -80,6 +83,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
         }
       } catch (error) {
         console.error('Ошибка при входе:', error);
+        showNotification('Ошибка при входе. Попробуйте снова.', 'error');
       } finally {
         setIsLoading(false);
       }

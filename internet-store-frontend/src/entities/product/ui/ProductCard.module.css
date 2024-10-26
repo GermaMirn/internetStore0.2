@@ -1,0 +1,35 @@
+.productCard{
+	padding-top: 10px;
+	padding-left: 10px;
+	background-color: white;
+	border-radius: 30px;
+	width: 260px;
+	height: 412px;
+	margin-top: 1rem;
+	margin-left: 1rem;
+}
+
+
+.imgOfProduct{
+	width: 249px;
+	height: 220px;
+	border-radius: 30px;
+}
+
+
+.nameOfProduct{
+	color: #492DBB;
+	cursor: pointer;
+	height: 45px;
+}
+
+
+.divForButtonsAndHeart{
+	display: flex;
+	align-items: center;
+}
+
+
+.heart{
+	margin-left: 15px;
+}

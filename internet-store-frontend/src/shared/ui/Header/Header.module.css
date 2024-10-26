@@ -4,6 +4,7 @@ header{
 	max-height: 120px;
 	padding-top: 2%;
 	max-width: 100%;
+	z-index: 1;
 }
 
 
@@ -80,6 +81,21 @@ header{
 	margin-bottom: -80px;
 	height: 40px;
 	width: 40px;
+}
+
+
+.svgOfFavorites{
+	margin-left: 8px;
+}
+
+
+.svgOfShoppingCart{
+	margin-right: 8px;
+}
+
+
+.svgOfProfile{
+	margin-right: -11px;
 }
 
 

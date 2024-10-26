@@ -1,9 +1,25 @@
-.button {
-	margin-top: 1rem;
+.button {}
+
+
+.textButton {
+  margin-top: 1rem;
 	width: 290px;
 	height: 60px;
   border-radius: 35px;
 	font-size: large;
+}
+
+
+.iconButton{
+	width: 184px;
+	height: 44px;
+	border-radius: 35px;
+}
+
+
+.icon{
+	width: 30px;
+	height: 24px;
 }
 
 

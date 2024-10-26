@@ -15,15 +15,19 @@ from .views import (
     heartComment,
     getShoppingCartItems,
 )
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 router = DefaultRouter()
+
 
 urlpatterns = [
     path('getPopularProducts/', getPopularProducts, name='getPopularProducts'),
     path('searchPageProducts/', searchPageProducts, name='searchPageProducts'),
-    path('heartProduct/<int:productId>', heartProduct, name='heartProduct'),
+    path('heartProduct/<int:productId>/', heartProduct, name='heartProduct'),
 
-    path('infoAboutproductDetail/<int:productId>', infoAboutproductDetail, name='infoAboutproductDetail/'),
+    path('infoAboutproductDetail/<int:productId>/', infoAboutproductDetail, name='infoAboutproductDetail/'),
     path('product/<int:productId>/fastviews/', addFastView, name='addFastViews'),
     path('product/<int:productId>/review/', addReview, name='addReview'),
     path('review/<int:reviewId>/heart/', heartReview, name='heartReview'),
@@ -31,8 +35,12 @@ urlpatterns = [
     path('comment/<int:commentId>/heart/', heartComment, name='heartComment'),
 
 	path('getShoppingCartItems/', getShoppingCartItems, name='getShoppingCartItems'),
-    path('cart/item/<int:itemId>/', removeAddProductToCart, name='removeAddProductToCart'),
-    path('cart/item/<int:cartItemId>/<str:action>/', updateCartProductQuantity, name='updateCartProductQuantity'),
+    path('cart/item/<int:productId>/', removeAddProductToCart, name='removeAddProductToCart'),
+    path('cart/item/update/<int:ItemId>/', updateCartProductQuantity, name='updateCartProductQuantity'),
 
     path('order/', createOrder, name='createOrder'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

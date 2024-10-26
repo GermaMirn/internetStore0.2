@@ -4,6 +4,7 @@ import ProductCard from '../../../entities/product/ui/ProductCard';
 import Paginator from '../../../features/pagination/ui/Paginator';
 import styles from './SearchProductsPage.module.css'
 
+
 interface Product {
   id: number;
   name: string;
@@ -14,7 +15,11 @@ interface Product {
   mainImageUrl: string;
   hearts: number;
   isHearted: boolean;
+	isInCart: boolean;
+  cartQuantity: number;
+	cartItemId: number;
 }
+
 
 const SearchProductsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,7 +47,7 @@ const SearchProductsPage: React.FC = () => {
   }, [currentPage]);
 
   return (
-    <div>
+    <div className={styles.divForProductCards}>
       {loading && <p>Loading products...</p>}
       {error && <p>{error}</p>}
 
@@ -60,5 +65,6 @@ const SearchProductsPage: React.FC = () => {
     </div>
   );
 };
+
 
 export default SearchProductsPage;

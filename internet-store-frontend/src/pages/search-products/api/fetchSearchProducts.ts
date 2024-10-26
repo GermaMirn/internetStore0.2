@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from "../../../shared/api/axiosInstance";
 
 interface Product {
   id: number;
@@ -10,6 +10,9 @@ interface Product {
   mainImageUrl: string;
   hearts: number;
   isHearted: boolean;
+	isInCart: boolean;
+  cartQuantity: number;
+	cartItemId: number;
 }
 
 interface SearchProductsResponse {
@@ -20,9 +23,10 @@ interface SearchProductsResponse {
 
 export const fetchSearchProducts = async (page: number = 1): Promise<SearchProductsResponse> => {
   try {
-    const response = await axios.get<SearchProductsResponse>(`http://127.0.0.1:8000/api/store/searchPageProducts/`, {
+    const response = await axiosInstance.get<SearchProductsResponse>(`/store/searchPageProducts/`, {
       params: { page }
     });
+
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../../shared/api/axiosInstance';
 
 
 interface LoginData {
@@ -9,13 +9,20 @@ interface LoginData {
 
 export const loginUser = async (data: LoginData) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/account/accounts/login/', {
+    const response = await axiosInstance.post('/account/login/', {
       username: data.username,
       password: data.password,
     }, {
       withCredentials: true,
     });
 
+		localStorage.setItem('token', response.data.token);
+		localStorage.setItem('username', response.data.profile.username);
+		localStorage.setItem('fullname', response.data.profile.fullname);
+		localStorage.setItem('phoneNumber', response.data.profile.phoneNumber);
+
+    axiosInstance.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
+		console.log(response.data.profile)
     return response.data;
   } catch (error: any) {
     if (error.response) {

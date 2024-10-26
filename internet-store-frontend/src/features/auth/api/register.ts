@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../../shared/api/axiosInstance';
 
 
 interface RegisterData {
@@ -12,7 +12,7 @@ interface RegisterData {
 
 export const registerUser = async (data: RegisterData) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/account/accounts/createAccount/', {
+    const response = await axiosInstance.post('/account/createAccount/', {
       username: data.username,
       fullname: data.fio,
       phone: data.phone,

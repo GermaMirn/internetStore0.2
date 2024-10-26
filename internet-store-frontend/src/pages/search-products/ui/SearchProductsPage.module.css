@@ -1,4 +1,13 @@
+.divForProductCardsAndPaginator{
+	margin-top: 3%;
+}
+
 .divForProductCard{
+	/* height: 900px; */
 	margin-left: 7%;
 	margin-right: 7%;
+	display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 16px;
 }
