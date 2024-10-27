@@ -1,0 +1,12 @@
+.divForShoppingCart{
+	margin-top: 3%;
+	margin-left: 7%;
+	margin-right: 7%;
+	display: flex;
+}
+
+
+.divForCartItems{
+	background-color: white;
+	border-radius: 30px;
+}

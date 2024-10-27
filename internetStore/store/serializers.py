@@ -86,9 +86,29 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+    productId = serializers.SerializerMethodField()
+    productName = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    isHearted = serializers.SerializerMethodField()
+
     class Meta:
         model = CartItem
-        fields = '__all__'
+        fields = ['id', 'quantity', 'price', 'productId', 'productName', 'image', 'isHearted']  #
+
+    def get_productId(self, obj):
+        return obj.product.id if obj.product else None
+
+    def get_productName(self, obj):
+        return obj.product.name if obj.product else None
+
+    def get_image(self, obj):
+        if obj.product and obj.product.mainImage:
+            return obj.product.mainImage.url
+        return None
+
+    def get_isHearted(self, obj):
+        user_hearts = self.context.get('user_hearts', [])
+        return obj.product.id in user_hearts if obj.product else False
 
 
 class CartSerializer(serializers.ModelSerializer):

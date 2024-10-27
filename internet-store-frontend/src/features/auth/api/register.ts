@@ -24,7 +24,6 @@ export const registerUser = async (data: RegisterData) => {
     return response.data;
   } catch (error: any) {
 		if (error.response) {
-			console.log(error.response)
 			return {success: false, message: error.response.data.message, errorType: error.response.data.errorType}
 		}
 

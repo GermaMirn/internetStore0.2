@@ -38,7 +38,7 @@ urlpatterns = [
     path('cart/item/<int:productId>/', removeAddProductToCart, name='removeAddProductToCart'),
     path('cart/item/update/<int:ItemId>/', updateCartProductQuantity, name='updateCartProductQuantity'),
 
-    path('order/', createOrder, name='createOrder'),
+    path('createOrder/', createOrder, name='createOrder'),
 ]
 
 

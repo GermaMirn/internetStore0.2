@@ -1,0 +1,51 @@
+.divOfCartItems{
+	padding: 10px;
+	margin: 20px;
+	width: 900px;
+	display: flex;
+	align-items: center;
+}
+
+
+.imgOfItem{
+	width: 135px;
+	height: 135px;
+	border-radius: 30px;
+}
+
+
+.textOfItem{
+	margin-left: 30px;
+	color: #492DBB;
+	text-align: left;
+	width: 300px;
+}
+
+
+.divForTrashCanAndHeart{
+	display: flex;
+}
+
+
+.trashCan{
+	margin-left: 30px;
+	margin-right: 10px;
+}
+
+
+.priceOfItem{
+	width: 90px;
+	margin-left: 80px;
+}
+
+
+.quantityOfItem{
+	text-align: right;
+	margin-left: 80px;
+}
+
+
+.active{
+	background-color: rgb(238, 238, 238);
+	border-radius: 30px;
+}

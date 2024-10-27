@@ -8,7 +8,6 @@ interface PaginatorProps {
 }
 
 const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange }) => {
-  // Генерация массива страниц
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
@@ -18,7 +17,7 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
           key={pageNumber}
           className={`${styles.pageButton} ${pageNumber === currentPage ? styles.active : ''}`}
           onClick={() => onPageChange(pageNumber)}
-          disabled={pageNumber === currentPage} // Отключаем кнопку для текущей страницы
+          disabled={pageNumber === currentPage}
         >
           <h1 className={styles.textOfPaginator}>{pageNumber}</h1>
         </button>

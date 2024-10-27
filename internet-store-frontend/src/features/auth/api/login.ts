@@ -22,7 +22,6 @@ export const loginUser = async (data: LoginData) => {
 		localStorage.setItem('phoneNumber', response.data.profile.phoneNumber);
 
     axiosInstance.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
-		console.log(response.data.profile)
     return response.data;
   } catch (error: any) {
     if (error.response) {

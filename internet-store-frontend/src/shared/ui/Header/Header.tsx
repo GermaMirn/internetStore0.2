@@ -42,7 +42,7 @@ export function Header() {
             <p className={styles.textOfPersonActivities}>Избранные</p>
           </div>
           <div className={classNames(styles.shoppingCart, styles.svgOfPersonActivities)}>
-            <img className={classNames(styles.divForSvgOfPersonActivities, styles.svgOfShoppingCart)} src="/header/shoppingCart.svg" alt="" />
+            <img className={classNames(styles.divForSvgOfPersonActivities, styles.svgOfShoppingCart)} src="/header/shoppingCart.svg" alt="shopping cart" onClick={() => navigate('/shoppingCart')} />
             <p className={classNames(styles.textOfPersonActivities, styles.testForShoppingCart)}>Корзина</p>
           </div>
 

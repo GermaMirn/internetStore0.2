@@ -356,11 +356,14 @@ def heartComment(request, commentId):
 @api_view(['GET'])
 @login_required
 def getShoppingCartItems(request):
-  cart, created = Cart.objects.get_or_create(user=request.user.profile)
-  cart_items = CartItem.objects.filter(cart=cart)
+    cart, created = Cart.objects.get_or_create(user=request.user.profile)
+    cart_items = CartItem.objects.filter(cart=cart)
 
-  serializer = CartItemSerializer(cart_items, many=True)
-  return Response({'cartItems': serializer.data}, status=200)
+    user_hearts = ProductHeart.objects.filter(user=request.user.profile).values_list('product_id', flat=True)
+
+    serializer = CartItemSerializer(cart_items, many=True, context={'user_hearts': list(user_hearts)})
+
+    return Response({'cartItems': serializer.data}, status=200)
 
 
 @api_view(['POST', 'DELETE'])

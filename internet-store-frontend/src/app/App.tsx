@@ -8,6 +8,7 @@ import RegistrationPage from '../pages/auth/registration/RegistrationPage';
 import LoginChoicePage from '../pages/auth/login-choice/LoginChoicePage';
 import WelcomePage from '../pages/welcome/WelcomePage';
 import SearchProductsPage from '../pages/search-products/ui/SearchProductsPage';
+import ShoppingCart from '../pages/shoppingCart/ui/ShoppingCart';
 import { Header } from '../shared/ui/Header/Header';
 
 
@@ -27,6 +28,7 @@ const App: React.FC = () => {
 						<Route path="/enter" element={<LoginChoicePage />} />
 						<Route path="/" element={<WelcomePage />} />
 						<Route path="/catalog" element={<SearchProductsPage />} />
+						<Route path="/shoppingCart" element={<ShoppingCart />} />
 					</Routes>
 				</Router>
 			</NotificationProvider>

@@ -4,12 +4,13 @@
 	position: absolute;
 	background-color: rgba(255, 255, 255, 0.95);
 	width: 260px;
-	height: 285px;
+	height: 315px;
 	border-radius: 20px;
 	color: black;
 	text-align: left;
 	padding-left: 20px;
 	padding-right: 20px;
+	z-index: 1;
 }
 
 

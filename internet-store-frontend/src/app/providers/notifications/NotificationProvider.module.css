@@ -1,23 +1,33 @@
 .notification {
-	margin-top: -40px;
-	margin-left: 40%;
-	padding-top: 20px;
-  border-radius: 18px;
-  position: absolute;
-	width: 287px;
-	height: 40px;
-  z-index: 1000;
-	border: 1px solid #7DB981;
-	text-align: center;
-	align-items: center;
+  margin: 0 auto;
+  padding: 12px;
+  border-radius: 8px;
+  position: fixed;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  z-index: 9999;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.5s ease;
+  opacity: 0;
 }
+
 
 .success {
   background-color: #B0FFB6;
   color: #7DB981;
+  border: 1px solid #7DB981;
 }
+
 
 .error {
   background-color: #f44336;
   color: white;
+  border: 1px solid #c62828;
+}
+
+
+.show {
+  opacity: 1;
 }

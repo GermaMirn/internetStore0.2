@@ -1,7 +1,7 @@
 import axiosInstance from '../axiosInstance';
 
 
-export const addProductToCart = async (productId: number) => {
+export const removeProductToCart = async (productId: number) => {
   try {
     const response = await axiosInstance.delete(`/store/cart/item/${productId}/`);
     const answer = response.data;

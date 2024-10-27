@@ -32,7 +32,6 @@ const RegistrationForm: React.FC = () => {
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-		console.log(e.target)
 		setFormData((prevData) => {
 			const updatedData = { ...prevData, [name]: value };
 			return updatedData;
@@ -79,7 +78,6 @@ const RegistrationForm: React.FC = () => {
 			valid = false;
 		}
 
-		console.log(formData.password)
 		if (formData.password.length < 6) {
 			newErrors.password = { message: 'Пароль должен содержать не менее 6 символов', className: styles.errorField };
 			valid = false;

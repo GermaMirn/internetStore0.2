@@ -18,18 +18,27 @@ export const useNotification = () => {
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [message, setMessage] = useState<string | null>(null);
   const [type, setType] = useState<'success' | 'error' | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const showNotification = (message: string, type: 'success' | 'error') => {
     setMessage(message);
     setType(type);
-    setTimeout(() => setMessage(null), 3000);
+    setIsVisible(true);
+
+    setTimeout(() => {
+      setIsVisible(false);
+      setTimeout(() => {
+        setMessage(null);
+        setType(null);
+      }, 500);
+    }, 3000);
   };
 
   return (
     <NotificationContext.Provider value={{ showNotification }}>
       {children}
       {message && type && (
-        <div className={`${styles.notification} ${styles[type]}`}>
+        <div className={`${styles.notification} ${styles[type]} ${isVisible ? styles.show : ''}`}>
           {message}
         </div>
       )}

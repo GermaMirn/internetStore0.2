@@ -1,0 +1,28 @@
+.divCartSummary{
+	position: fixed;
+	padding-top: 10px;
+	padding-left: 25px;
+	margin-left: 60%;
+	background-color: white;
+	border-radius: 30px;
+	height: 292px;
+	width: 310px;
+}
+
+
+.textOfCartSummary{
+	display: flex;
+	align-items: center;
+}
+
+
+.itemCount{
+	margin-left: 73%;
+}
+
+.totalAmount{
+	width: 70px;
+	color: #492DBB;
+	margin-left: 58%;
+	text-align: right;
+}

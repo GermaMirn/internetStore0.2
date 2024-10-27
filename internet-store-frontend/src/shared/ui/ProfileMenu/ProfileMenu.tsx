@@ -44,6 +44,10 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ onLogout, visible, toggleMenu
 				<p>Корзина</p>
 			</div>
 
+			<div className={styles.menuItem} onClick={() => navigate('/orders')}>
+				<p>Заказы</p>
+			</div>
+
 			<hr className={styles.hr} />
       <div className={styles.menuItem} onClick={onLogout}>
         <p className={styles.logout}>Выйти</p>

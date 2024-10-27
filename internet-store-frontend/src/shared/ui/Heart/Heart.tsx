@@ -6,7 +6,7 @@ import { removeHeart } from '../../api/Heart/removeHeart';
 
 
 interface HeartProps {
-  isProductLiked?: boolean;
+  isProductLiked: boolean;
 	productId: number;
 }
 
