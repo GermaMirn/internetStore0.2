@@ -9,11 +9,13 @@ interface CartItemProps {
 	item: CartItemType;
 	productId: number;
 	onToggle: () => void;
+	onIncrease: () => void;
+  onDecrease: () => void;
 }
 
 const baseUrl = 'http://127.0.0.1:8000/';
 
-export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle }) => {
+export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, onIncrease, onDecrease }) => {
 	const [isVisible, setIsVisible] = useState(true);
 
 	const handleRemoveClick = () => {
@@ -59,7 +61,12 @@ export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle })
 						className={styles.quantityOfItem}
 						onClick={(e) => e.stopPropagation()}
 					>
-						<AddRemoveQuantityOfProducts countOfProduct={item.quantity} cartItemId={item.id} />
+						<AddRemoveQuantityOfProducts
+							countOfProduct={item.quantity}
+							cartItemId={item.id}
+							onIncrease={onIncrease}
+							onDecrease={onDecrease}
+						/>
 					</div>
 				</div>
 			)}

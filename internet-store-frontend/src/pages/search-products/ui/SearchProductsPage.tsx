@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { fetchSearchProducts } from '../api/fetchSearchProducts';
-import ProductCard from '../../../entities/product/ui/ProductCard';
+import ProductContainer from '../../../entities/product/ui/ProductContainer';
 import Paginator from '../../../features/pagination/ui/Paginator';
-import styles from './SearchProductsPage.module.css'
+import styles from './SearchProductsPage.module.css';
 
 
 interface Product {
@@ -15,9 +15,9 @@ interface Product {
   mainImageUrl: string;
   hearts: number;
   isHearted: boolean;
-	isInCart: boolean;
+  isInCart: boolean;
   cartQuantity: number;
-	cartItemId: number;
+  cartItemId: number;
 }
 
 
@@ -53,7 +53,7 @@ const SearchProductsPage: React.FC = () => {
 
       <div className={styles.divForProductCard}>
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductContainer key={product.id} product={product} />
         ))}
       </div>
 

@@ -1,27 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './AddRemoveQuantityOfProducts.module.css';
 import { addUnitToCartProduct } from '../../api/updateCartProductQuantity/addUnitToCartProduct';
 import { removeUnitToCartProduct } from '../../api/updateCartProductQuantity/removeUnitToCartProduct';
 
 
-interface AddRemoveQuantityOfProducts {
+interface AddRemoveQuantityOfProductsProps {
   countOfProduct: number;
   cartItemId: number;
+  onIncrease?: () => void;
+  onDecrease?: () => void;
 }
 
-const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProducts> = ({ countOfProduct = 1, cartItemId }) => {
+
+const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = ({
+  countOfProduct = 1,
+  cartItemId,
+  onIncrease,
+  onDecrease,
+}) => {
   const [count, setCount] = useState(countOfProduct);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCount(countOfProduct);
+  }, [countOfProduct]);
 
   const handleAdd = async () => {
     setLoading(true);
-    setError(null);
+
     try {
       await addUnitToCartProduct(cartItemId);
-      setCount((prevCount) => prevCount + 1);
+      setCount((prevCount) => {
+        const newCount = prevCount + 1;
+        return newCount;
+      });
+      if (onIncrease) onIncrease();
     } catch (err) {
-      setError('Ошибка при добавлении товара в корзину.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -29,24 +43,25 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProducts> = ({ co
   };
 
   const handleRemove = async () => {
-    if (count > 1) {
-      setLoading(true);
-      setError(null);
-      try {
-        await removeUnitToCartProduct(cartItemId);
-        setCount((prevCount) => prevCount - 1);
-      } catch (err) {
-        setError('Ошибка при удалении товара из корзины.');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    if (loading || count <= 1) return;
+    setLoading(true);
+
+    try {
+      await removeUnitToCartProduct(cartItemId);
+      setCount((prevCount) => {
+        const newCount = prevCount - 1;
+        return newCount;
+      });
+      if (onDecrease) onDecrease();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.divOfaddRemoveQuantityOfProducts}>
-      {error && <div className={styles.error}>{error}</div>}
       <button className={styles.countButton} onClick={handleRemove} disabled={loading}>
         <img className={styles.icon} src={'/product/minus.svg'} alt="Minus" />
       </button>
@@ -59,5 +74,6 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProducts> = ({ co
     </div>
   );
 };
+
 
 export default AddRemoveQuantityOfProducts;

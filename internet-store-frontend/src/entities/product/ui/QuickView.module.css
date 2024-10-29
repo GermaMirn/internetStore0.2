@@ -1,0 +1,58 @@
+.quickViewOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+}
+
+
+.quickView {
+	border-radius: 30px;
+  background: rgba(220, 220, 220, 0.95);
+  padding: 10px;
+	display: flex;
+}
+
+
+.imgOfQuickView{
+	border-radius: 30px;
+	width: 720px;
+	height: 600px;
+}
+
+
+.textOfQuickView{
+	margin-top: 20px;
+	width: 300px;
+	padding: 20px;
+}
+
+
+.nameOfProduct{
+	color: #492DBB;
+	margin-bottom: 50px;
+}
+
+
+.priceOfQuickView{
+	margin-bottom: 60px;
+}
+
+
+.descriptionOfQuicView{
+	margin-bottom: 185px;
+}
+
+
+.cross{
+	margin-top: -590px;
+	margin-left: -40px;
+}

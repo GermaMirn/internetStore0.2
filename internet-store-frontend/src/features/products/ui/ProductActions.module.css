@@ -1,0 +1,8 @@
+.divForButtonsAndHeart{
+	display: flex;
+	align-items: center;
+}
+
+.heart{
+	margin-left: 15px;
+}

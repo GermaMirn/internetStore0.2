@@ -10,6 +10,16 @@ class CategoryAdmin(admin.ModelAdmin):
   ordering = ("name", )
 
 
+class ProductImageInline(admin.TabularInline):
+	model = ProductImage
+	extra = 1
+
+
+class ProductHeartInline(admin.TabularInline):
+	model = ProductHeart
+	extra = 1
+
+
 class ProductAdmin(admin.ModelAdmin):
   list_display = (
     "name",
@@ -19,12 +29,13 @@ class ProductAdmin(admin.ModelAdmin):
     "mainImage",
     "hearts",
   )
+  inlines = [ProductImageInline, ProductHeartInline]
 
   ordering = ("name", )
 
   def get_categories(self, obj):
     return ", ".join([category.name for category in obj.categories.all()])
-    
+
   get_categories.short_description = 'Categories'
 
 
@@ -47,6 +58,16 @@ class ProductImageAdmin(admin.ModelAdmin):
   ordering = ("product", )
 
 
+class ReviewImageInline(admin.TabularInline):
+	model = ReviewImage
+	extra = 1
+
+
+class ReviewHeartInline(admin.TabularInline):
+	model = ReviewHeart
+	extra = 1
+
+
 class ReviewAdmin(admin.ModelAdmin):
   list_display = (
     "user",
@@ -57,6 +78,7 @@ class ReviewAdmin(admin.ModelAdmin):
   )
 
   ordering = ("product", )
+  inlines = [ReviewImageInline, ReviewHeartInline]
 
 
 class ReviewHeartAdmin(admin.ModelAdmin):
@@ -78,6 +100,15 @@ class ReviewImageAdmin(admin.ModelAdmin):
   ordering = ("review", )
 
 
+class CommentImageInline(admin.TabularInline):
+	model = CommentImage
+	extra = 1
+
+class CommentHeartInline(admin.TabularInline):
+	model = CommentHeart
+	extra = 1
+
+
 class CommentAdmin(admin.ModelAdmin):
   list_display = (
     "review",
@@ -88,6 +119,7 @@ class CommentAdmin(admin.ModelAdmin):
   )
 
   ordering = ("created_at", )
+  inlines = [CommentImageInline, CommentHeartInline]
 
 
 class CommentHeartAdmin(admin.ModelAdmin):
@@ -116,6 +148,11 @@ class CartAdmin(admin.ModelAdmin):
   ordering = ("created_at", )
 
 
+class CartItemInline(admin.TabularInline):
+	model = CartItem
+	extra = 1
+
+
 class CartItemAdmin(admin.ModelAdmin):
   list_display = (
     "cart",
@@ -126,14 +163,23 @@ class CartItemAdmin(admin.ModelAdmin):
   ordering = ("cart", )
 
 
-class OrderAdmin(admin.ModelAdmin):
-  list_display = (
-    "user",
-    "created_at",
-    "totalPrice"
-  )
 
-  ordering = ("created_at", )
+class OrderItemInline(admin.TabularInline):
+	model = OrderItem
+	extra = 0
+	fields = ('product', 'quantity', 'price')
+	readonly_fields = ('price',)
+
+
+class OrderAdmin(admin.ModelAdmin):
+	list_display = (
+		"user",
+		"created_at",
+		"totalPrice"
+	)
+
+	ordering = ("created_at", )
+	inlines = [OrderItemInline]
 
 
 class OrderItemAdmin(admin.ModelAdmin):

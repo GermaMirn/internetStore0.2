@@ -40,6 +40,10 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ onLogout, visible, toggleMenu
 				<p>Избранные</p>
 			</div>
 
+			<div className={styles.menuItem} onClick={() => navigate('/catalog')}>
+				<p>Каталог</p>
+			</div>
+
 			<div className={styles.menuItem} onClick={() => navigate('/shoppingCart')}>
 				<p>Корзина</p>
 			</div>

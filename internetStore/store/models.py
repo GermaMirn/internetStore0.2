@@ -11,7 +11,7 @@ class Category(models.Model):
 
   def __str__(self):
     return self.name
-  
+
   class Meta:
     verbose_name = "Категория"
     verbose_name_plural = "Категории"
@@ -29,7 +29,7 @@ class Product(models.Model):
 
   def __str__(self):
     return self.name
-  
+
   class Meta:
     verbose_name = "Продукт"
     verbose_name_plural = "Продукты"
@@ -41,7 +41,7 @@ class ProductImage(models.Model):
 
   def __str__(self):
     return f"Изображения для {self.product.name}"
-  
+
   class Meta:
     verbose_name = "Изображение"
     verbose_name_plural = "Изображения"
@@ -97,7 +97,7 @@ class Review(models.Model):
 
   def __str__(self):
     return f"Отзыв от {self.user.fullname} для {self.product.name}"
-  
+
   class Meta:
     verbose_name = "Отзыв"
     verbose_name_plural = "Отзовы"
@@ -129,10 +129,10 @@ def decreaseReviewHearts(sender, instance, **kwargs):
 class ReviewImage(models.Model):
   review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='reviewImages')
   image = models.ImageField(upload_to='reviews/')
-  
+
   def __str__(self):
     return f"Изображение для отзыва {self.review.id}"
-  
+
   class Meta:
     verbose_name = "Изображение для отзыва"
     verbose_name_plural = "Изображения для отзывов"
@@ -163,7 +163,7 @@ class Comment(models.Model):
 
   def __str__(self):
     return f"Комментарий от {self.user.user.username} для отзыва {self.review.id}"
-  
+
   class Meta:
     verbose_name = "Комментарий"
     verbose_name_plural = "Комментарии"
@@ -201,7 +201,7 @@ class CommentImage(models.Model):
 
   def __str__(self):
     return f"Изображение для комментария {self.comment.id}"
-  
+
   class Meta:
     verbose_name = "Изображение для комментария"
     verbose_name_plural = "Изображения для комментариев"
@@ -228,7 +228,7 @@ class Cart(models.Model):
 
   def __str__(self):
     return f"Корзина пользователя {self.user.fullname}"
-  
+
   class Meta:
     verbose_name = "Корзина"
     verbose_name_plural = "Корзины"
@@ -264,7 +264,7 @@ class Order(models.Model):
 
   def __str__(self):
     return f'Заказ пользователя: {self.id}. ФИО: {self.user.fullname}'
-  
+
   class Meta:
     verbose_name = "Заказ"
     verbose_name_plural = "Заказы"
@@ -282,7 +282,7 @@ class OrderItem(models.Model):
   def save(self, *args, **kwargs):
     if not self.id:
       self.price = self.product.price
-    
+
     if self.quantity >= 1:
       self.price = self.product.price * self.quantity
     super().save(*args, **kwargs)

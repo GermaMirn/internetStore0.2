@@ -1,4 +1,5 @@
 from rest_framework.decorators import api_view
+from django.core.cache import cache
 from rest_framework.response import Response
 from rest_framework import status
 from accounts.models import Profile
@@ -48,14 +49,24 @@ def getPopularProducts(request):
 @api_view(['GET'])
 def searchPageProducts(request):
 	pageNumber = int(request.GET.get("page", 1))
+	tags = request.GET.get("tags", "")
+	searchField = request.GET.get("searchInput", "")
+
+	if request.user.is_authenticated:
+		cache_key = f'search_page_products_auth_{request.user.id}_{pageNumber}_{tags}_{searchField}'
+	else:
+		cache_key = f'search_page_products_guest_{pageNumber}_{tags}_{searchField}'
+
+	cached_data = cache.get(cache_key)
+	if cached_data:
+		return Response(cached_data)
+
 	allProducts = Product.objects.all().order_by("name")
-	tags = request.GET.get("tags")
 
 	if tags:
 		tagList = tags.split(',')
 		allProducts = allProducts.filter(categories__name__in=tagList).distinct()
 
-	searchField = request.GET.get("searchInput")
 	if searchField:
 		allProducts = allProducts.filter(name__icontains=searchField)
 
@@ -111,35 +122,46 @@ def searchPageProducts(request):
 			'cartItemId': cartItemId,
 		})
 
-	return Response({
+	response_data = {
 		"page": page.number,
 		"total_pages": productPaginator.num_pages,
 		"products": productsData,
-	})
+	}
+
+	cache.set(cache_key, response_data, timeout= 60 * 60)
+
+	return Response(response_data)
 
 
 @api_view(['POST', 'DELETE'])
 @login_required
 def heartProduct(request, productId):
-  data = request.data
-  product = get_object_or_404(Product, id=productId)
+	product = get_object_or_404(Product, id=productId)
 
-  try:
-    profile = request.user.profile
-  except Profile.DoesNotExist:
-    return Response({'error': 'Профиль не найден'}, status=status.HTTP_404_NOT_FOUND)
+	try:
+		profile = request.user.profile
+	except Profile.DoesNotExist:
+		return Response({'error': 'Профиль не найден'}, status=status.HTTP_404_NOT_FOUND)
 
-  if request.method == 'POST':
-    heart, created = ProductHeart.objects.get_or_create(product=product, user=profile)
-    return Response({'hearts': product.hearts}, status=status.HTTP_200_OK)
+	if request.method == 'POST':
+		heart, created = ProductHeart.objects.get_or_create(product=product, user=profile)
+		cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
+		cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 
-  elif request.method == 'DELETE':
-    try:
-      heart = ProductHeart.objects.get(product=product, user=profile)
-      heart.delete()
-      return Response({'hearts': product.hearts}, status=status.HTTP_200_OK)
-    except ProductHeart.DoesNotExist:
-      return Response({'error': 'Лайк не найден'}, status=status.HTTP_404_NOT_FOUND)
+		updated_product = Product.objects.get(id=productId)
+		return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
+
+	elif request.method == 'DELETE':
+		try:
+			heart = ProductHeart.objects.get(product=product, user=profile)
+			heart.delete()
+			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
+			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+
+			updated_product = Product.objects.get(id=productId)
+			return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
+		except ProductHeart.DoesNotExist:
+			return Response({'error': 'Лайк не найден'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -356,14 +378,23 @@ def heartComment(request, commentId):
 @api_view(['GET'])
 @login_required
 def getShoppingCartItems(request):
-    cart, created = Cart.objects.get_or_create(user=request.user.profile)
-    cart_items = CartItem.objects.filter(cart=cart)
+	cache_key = f'shopping_cart_auth_{request.user.id}'
+	cached_data = cache.get(cache_key)
 
-    user_hearts = ProductHeart.objects.filter(user=request.user.profile).values_list('product_id', flat=True)
+	if cached_data:
+		return Response({'cartItems': cached_data}, status=200)
 
-    serializer = CartItemSerializer(cart_items, many=True, context={'user_hearts': list(user_hearts)})
 
-    return Response({'cartItems': serializer.data}, status=200)
+	cart, created = Cart.objects.get_or_create(user=request.user.profile)
+	cart_items = CartItem.objects.filter(cart=cart)
+
+	user_hearts = ProductHeart.objects.filter(user=request.user.profile).values_list('product_id', flat=True)
+
+	serializer = CartItemSerializer(cart_items, many=True, context={'user_hearts': list(user_hearts)})
+
+	cache.set(cache_key, serializer.data, timeout=60 * 60)
+
+	return Response({'cartItems': serializer.data}, status=200)
 
 
 @api_view(['POST', 'DELETE'])
@@ -379,6 +410,9 @@ def removeAddProductToCart(request, productId=None):
 				cart_item.quantity = 1
 				cart_item.save()
 				serializer = CartItemSerializer(cart_item).data
+				cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
+				cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+
 				return Response({'success': True, 'message': 'Товар добавлен в корзину.', 'item': serializer}, status=201)
 			else:
 				return Response({'success': False, 'message': 'Товар уже был добавлен в корзину.'}, status=400)
@@ -389,6 +423,9 @@ def removeAddProductToCart(request, productId=None):
 		cart_item = get_object_or_404(CartItem, id=productId)
 		try:
 			cart_item.delete()
+			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
+			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+
 			return Response({'success': True}, status=200)
 		except Exception as e:
 			return Response({'success': False, 'message': 'Не удалось удалить продукт'}, status=500)
@@ -403,6 +440,9 @@ def updateCartProductQuantity(request, ItemId):
 		if request.method == 'POST':
 			cart_item.quantity += 1
 			cart_item.save()
+			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
+			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+
 			return Response({
 					'success': True,
 					'CartItemName': cart_item.product.name,
@@ -414,6 +454,9 @@ def updateCartProductQuantity(request, ItemId):
 			if cart_item.quantity > 1:
 				cart_item.quantity -= 1
 				cart_item.save()
+			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
+			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+
 			return Response({
 				'success': True,
 				'CartItemName': cart_item.product.name,

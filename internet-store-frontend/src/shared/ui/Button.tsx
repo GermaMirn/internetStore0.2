@@ -11,10 +11,11 @@ interface ButtonProps {
 	username?: string;
   color?: 'notColor' | 'color';
 	navigateTo?: string;
+	size?: 'small' | 'medium' | 'large';
 }
 
 
-const Button: React.FC<ButtonProps> = ({ text, icon, username = '', color = 'notColor', navigateTo, disabled = false }) => {
+const Button: React.FC<ButtonProps> = ({ text, icon, username = '', color = 'notColor', navigateTo, disabled = false, size = 'medium' }) => {
 	const navigate = useNavigate();
 
 	const handleClick = () => {
@@ -33,7 +34,8 @@ const Button: React.FC<ButtonProps> = ({ text, icon, username = '', color = 'not
         styles.button,
         { [styles.textButton]: text },
         { [styles.iconButton]: icon },
-        styles[color]
+				{ [styles[size]]: !icon },
+        styles[color],
       )}
       onClick={handleClick}
       disabled={disabled}

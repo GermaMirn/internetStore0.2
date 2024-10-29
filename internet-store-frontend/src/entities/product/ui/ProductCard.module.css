@@ -24,12 +24,8 @@
 }
 
 
-.divForButtonsAndHeart{
-	display: flex;
-	align-items: center;
-}
-
-
-.heart{
-	margin-left: 15px;
+.fastView{
+	position: absolute;
+	margin-top: -75px;
+	margin-left: 8px;
 }

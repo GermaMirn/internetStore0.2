@@ -1,7 +1,5 @@
 .textButton {
   margin-top: 1rem;
-	width: 290px;
-	height: 60px;
   border-radius: 35px;
 	font-size: large;
 }
@@ -43,4 +41,22 @@
 .notColor:hover {
 	background: rgba(216, 216, 216, 0.829);
 	border: 1px solid rgba(216, 216, 216, 0.829);
+}
+
+
+.small {
+  width: 230px;
+  height: 45px;
+}
+
+
+.medium {
+  width: 290px;
+  height: 60px;
+}
+
+
+.large {
+  width: 400px;
+  height: 80px;
 }

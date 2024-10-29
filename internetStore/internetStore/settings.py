@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
   	'django.middleware.csrf.CsrfViewMiddleware',
-  	"corsheaders.middleware.CorsMiddleware",
+  	'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -45,7 +45,7 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:5173",
+    'http://localhost:5173',
 ]
 
 
@@ -74,6 +74,18 @@ TEMPLATES = [
         },
     },
 ]
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'db': '1',
+        }
+    }
+}
 
 
 WSGI_APPLICATION = 'internetStore.wsgi.application'
