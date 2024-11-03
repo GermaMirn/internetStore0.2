@@ -1,48 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AddRemoveQuantityOfProducts from '../../../shared/ui/AddRemoveQuantityOfProducts/AddRemoveQuantityOfProducts';
 import Button from '../../../shared/ui/Button';
 import Heart from '../../../shared/ui/Heart/Heart';
 import styles from './ProductActions.module.css';
+import { addProductToCart } from '../../../shared/api/removeAddProductToCart/addProductToCart';
 
 interface ProductActionsProps {
+  productId: number;
   isInCart: boolean;
   cartQuantity: number;
-  itemId: number;
-  onAddToCart: () => void;
-  productId: number;
+	itemId: number;
   isHearted: boolean;
-  onIncreaseQuantity: () => void;
-  onDecreaseQuantity: () => void;
-  onToggleHeart: (newLikedState: boolean) => Promise<void>;
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({
+  productId,
   isInCart,
   cartQuantity,
-  itemId,
-  onAddToCart,
-  productId,
+	itemId,
   isHearted,
-  onIncreaseQuantity,
-  onDecreaseQuantity,
-  onToggleHeart,
 }) => {
+  const [isInCartProduct, setIsInCart] = useState(isInCart);
+  const [cartQuantityProduct, setCartQuantity] = useState(cartQuantity);
+  const [isHeartedProduct, setIsHearted] = useState(isHearted);
+  const [cartItemId, setCartItemId] = useState(itemId);
+
+  const handleAddToCart = async () => {
+    try {
+      const answer = await addProductToCart(productId);
+      setCartItemId(answer.item.id);
+      setIsInCart(true);
+      setCartQuantity(1);
+    } catch (error) {
+      console.error('Ошибка при добавлении товара в корзину', error);
+    }
+  };
+
+  const handleIncreaseQuantity = () => {
+    setCartQuantity((prev) => prev + 1);
+  };
+
+  const handleDecreaseQuantity = () => {
+    setCartQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  const handleToggleHeart = async () => {
+    setIsHearted((prev) => !prev);
+  };
+
   return (
     <div className={styles.divForButtonsAndHeart}>
-      {isInCart ? (
+      {isInCartProduct ? (
         <AddRemoveQuantityOfProducts
-          countOfProduct={cartQuantity}
-          cartItemId={itemId}
-          onIncrease={onIncreaseQuantity}
-          onDecrease={onDecreaseQuantity}
+          countOfProduct={cartQuantityProduct}
+          cartItemId={cartItemId}
+          onIncrease={handleIncreaseQuantity}
+          onDecrease={handleDecreaseQuantity}
         />
       ) : (
-        <div onClick={onAddToCart}>
+        <div onClick={handleAddToCart}>
           <Button icon={'/header/shoppingCart.svg'} color={'color'} />
         </div>
       )}
       <div className={styles.heart}>
-        <Heart productId={productId} isProductLiked={isHearted} onToggleLike={onToggleHeart} />
+        <Heart productId={productId} isProductLiked={isHeartedProduct} onToggleLike={handleToggleHeart} />
       </div>
     </div>
   );

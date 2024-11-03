@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchSearchProducts } from '../api/fetchSearchProducts';
+import { fetchSearchProducts } from '../api/getProducts';
 import ProductContainer from '../../../entities/product/ui/ProductContainer';
 import Paginator from '../../../features/pagination/ui/Paginator';
 import styles from './SearchProductsPage.module.css';

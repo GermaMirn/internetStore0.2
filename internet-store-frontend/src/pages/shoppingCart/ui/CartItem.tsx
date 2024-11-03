@@ -4,6 +4,8 @@ import styles from './CartItem.module.css';
 import AddRemoveQuantityOfProducts from '../../../shared/ui/AddRemoveQuantityOfProducts/AddRemoveQuantityOfProducts';
 import Heart from '../../../shared/ui/Heart/Heart';
 import TrashCan from '../../../shared/ui/TrashCan';
+import { useNavigate } from 'react-router-dom';
+
 
 interface CartItemProps {
 	item: CartItemType;
@@ -13,9 +15,12 @@ interface CartItemProps {
   onDecrease: () => void;
 }
 
+
 const baseUrl = 'http://127.0.0.1:8000/';
 
+
 export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, onIncrease, onDecrease }) => {
+	const navigate = useNavigate()
 	const [isVisible, setIsVisible] = useState(true);
 
 	const handleRemoveClick = () => {
@@ -32,7 +37,15 @@ export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, o
 					<img className={styles.imgOfItem} src={baseUrl + item.image} alt="" />
 
 					<div>
-						<p className={styles.textOfItem}>{item.productName}</p>
+						<p
+							onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/product/${productId}`);
+              }}
+							className={styles.textOfItem}
+						>
+							{item.productName}
+						</p>
 
 						<div className={styles.divForTrashCanAndHeart}>
 

@@ -1,0 +1,77 @@
+.review{
+	display: flex;
+}
+
+
+.logo{
+	width: 55px;
+	height: 55px;
+}
+
+
+.dataReview{
+	margin-top: -15px;
+	margin-left: 10px;
+}
+
+
+.userNameReview{
+	color: #492DBB;
+}
+
+
+.dateReview{
+	margin-top: -10px;
+	color: #989898;
+}
+
+
+.textReview{
+	font-weight: bold;
+	margin-top: -5px;
+	font-size: 14px;
+}
+
+
+.countHeartReview{
+	font-size: 18px;
+}
+
+
+.heartReview{
+	margin-bottom: 100px;
+	margin-left: auto;
+}
+
+
+.divComment{
+	display: flex;
+	align-items: center;
+}
+
+
+.divCommentText{
+	text-decoration: underline;
+}
+
+
+.openCommetns{
+	margin-left: 10px;
+	width: 13.2px;
+	height: 7.18px;
+}
+
+
+.openCommetns {
+  transition: transform 0.3s ease;
+}
+
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+
+.divForComments{
+	margin-left: 63px;
+}

@@ -8,10 +8,6 @@ import ProductActions from '../../../features/products/ui/ProductActions';
 interface QuickViewProps {
   product: Product;
   onClose: () => void;
-  onAddToCart: () => void;
-  onToggleHeart: () => void;
-  onIncreaseQuantity: () => void;
-  onDecreaseQuantity: () => void;
 }
 
 
@@ -21,10 +17,6 @@ const baseUrl = 'http://127.0.0.1:8000';
 const QuickView: React.FC<QuickViewProps> = ({
   product,
   onClose,
-  onAddToCart,
-  onToggleHeart,
-  onIncreaseQuantity,
-  onDecreaseQuantity,
 }) => {
   return (
     <div className={styles.quickViewOverlay}>
@@ -40,12 +32,8 @@ const QuickView: React.FC<QuickViewProps> = ({
             isInCart={product.isInCart}
             cartQuantity={product.cartQuantity}
             itemId={product.cartItemId}
-            onAddToCart={onAddToCart}
             productId={product.id}
             isHearted={product.isHearted}
-            onIncreaseQuantity={onIncreaseQuantity}
-            onDecreaseQuantity={onDecreaseQuantity}
-            onToggleHeart={async () => await onToggleHeart()}
           />
         </div>
       </div>

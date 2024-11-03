@@ -1,0 +1,50 @@
+.divReviews{
+	margin-top: 40px;
+}
+
+
+.headerReviews{
+	height: 55px;
+	display: flex;
+	align-items: center;
+	margin-bottom: -20px;
+}
+
+
+.textHeaderReviews{
+	margin-right: 50px;
+}
+
+
+.underline{
+	text-decoration: underline;
+}
+
+
+.sortTextHeaderReviews{
+	color: #989898;
+	margin-right: 10px;
+}
+
+
+.sortText{
+	margin-left: 15px;
+	margin-right: 5px;
+}
+
+
+.sortDiv{
+	display: flex;
+	align-items: center;
+}
+
+
+.divForHeart{
+	margin-left: auto;
+	display: flex;
+}
+
+
+.countHearts{
+	margin-right: 5px;
+}

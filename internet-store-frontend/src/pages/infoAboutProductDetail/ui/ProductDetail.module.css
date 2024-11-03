@@ -1,0 +1,54 @@
+.mainDivProductDetail{
+	margin-top: 3%;
+	margin-left: 7%;
+	margin-right: 7%;
+}
+
+.divForProductDetail{
+	display: flex;
+}
+
+
+.imgsAndImgOfProductDetail{
+	display: flex;
+}
+
+
+.imgOfProductDetail{
+	width: 536px;
+	height: 430px;
+	border-radius: 30px;
+}
+
+
+.infoProductDetail{
+	margin-top: -15px;
+	margin-left: 40px;
+}
+
+
+.nameProductDetail{
+	width: 384px;
+	height: 108px;
+}
+
+
+.descriptionProductDetail{
+	width: 386px;
+	margin-top: 20%;
+}
+
+
+.cartMoves{
+	background-color: white;
+	width: 250px;
+	height: 250px;
+	border-radius: 30px;
+	padding: 20px;
+	margin-left: 30px;
+}
+
+
+.mainMoves{
+	margin-top: 63%;
+}

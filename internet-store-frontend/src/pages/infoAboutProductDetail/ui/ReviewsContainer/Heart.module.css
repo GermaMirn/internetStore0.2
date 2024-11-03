@@ -1,0 +1,30 @@
+.divForCountAndHeartImg{
+	display: flex;
+	align-items: center;
+}
+
+
+.heartContainer{
+	margin-left: 5px;
+	align-items: center;
+}
+
+
+.liked {
+  width: 28px;
+  height: 28px;
+}
+
+.notLiked {
+	width: 28px;
+  height: 28px;
+  background: linear-gradient(90deg, rgba(90, 61, 230, 1) 0%, rgba(63, 106, 201, 1) 100%);
+	border-radius: 30px;
+}
+
+.heartIcon {
+	margin-left: 4px;
+	margin-top: 6.5px;
+  width: 20px;
+  height: 16px;
+}

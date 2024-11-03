@@ -147,6 +147,7 @@ def heartProduct(request, productId):
 		heart, created = ProductHeart.objects.get_or_create(product=product, user=profile)
 		cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 		cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+		cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
 		updated_product = Product.objects.get(id=productId)
 		return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
@@ -157,6 +158,7 @@ def heartProduct(request, productId):
 			heart.delete()
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
 			updated_product = Product.objects.get(id=productId)
 			return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
@@ -171,28 +173,55 @@ def infoAboutproductDetail(request, productId):
 	product.detailViews += 1
 	product.save()
 
-	imagesUrl = [image.image.url for image in product.productImages.all()] if product.productImages.exists() else []
+	if request.user.is_authenticated:
+		cache_key = f'product_detail_auth_{request.user.id}_{productId}'
+	else:
+		cache_key = f'product_detail_guest_{productId}'
 
+	cached_data = cache.get(cache_key)
+	if cached_data:
+		return Response(cached_data)
+
+	imagesUrl = [image.image.url for image in product.productImages.all()] if product.productImages.exists() else []
 	main_product_image = product.mainImage.url if product.mainImage else None
 
 	isHearted = False
+	isInCart = False
+	cartItemId = None
+	cartQuantity = 0
+
 	if request.user.is_authenticated:
 		try:
 			profile = request.user.profile
 			isHearted = ProductHeart.objects.filter(user=profile, product=product).exists()
+
+			cart = profile.cart
+			cart_item = CartItem.objects.filter(cart=cart, product=product).first()
+			if cart_item:
+				isInCart = True
+				cartItemId = cart_item.id
+				cartQuantity = cart_item.quantity
 		except Profile.DoesNotExist:
 			pass
 
 	reviews = product.reviews.prefetch_related('comments').all()
 
 	reviewData = []
+	likedReview = []
+	likedComment = []
+
+	if request.user.is_authenticated:
+		likedReview = ReviewHeart.objects.filter(user=profile).values_list('review_id', flat=True)
+		likedComment = CommentHeart.objects.filter(user=profile).values_list('comment_id', flat=True)
+
 	for review in reviews:
 		comments = review.comments.all()
 		commentData = []
-
 		for comment in comments:
 			comment_images = [img.image.url for img in comment.commentImages.all()] if comment.commentImages.exists() else []
 			main_comment_image = comment_images[0] if comment_images else None
+
+			isCommentLiked = comment.id in likedComment
 
 			commentData.append({
 				'id': comment.id,
@@ -201,11 +230,14 @@ def infoAboutproductDetail(request, productId):
 				'created_at': comment.created_at,
 				'hearts': comment.hearts,
 				'imagesUrl': comment_images,
-				'mainImage': main_comment_image
+				'mainImage': main_comment_image,
+				'isLiked': isCommentLiked
 			})
 
 		main_review_image = [img.image.url for img in review.reviewImages.all()] if review.reviewImages.exists() else []
 		main_review_image_url = main_review_image[0] if main_review_image else None
+
+		isReviewLiked = review.id in likedReview
 
 		reviewData.append({
 			'id': review.id,
@@ -215,17 +247,11 @@ def infoAboutproductDetail(request, productId):
 			'hearts': review.hearts,
 			'imagesUrl': main_review_image,
 			'mainImage': main_review_image_url,
-			'comments': commentData
+			'comments': commentData,
+			'isLiked': isReviewLiked
 		})
 
-	likedReview = []
-	likedComment = []
-
-	if request.user.is_authenticated:
-		likedReview = ReviewHeart.objects.filter(user=profile).values_list('review_id', flat=True)
-		likedComment = CommentHeart.objects.filter(user=profile).values_list('comment_id', flat=True)
-
-	return Response({
+	response_data = {
 		'product': {
 			'id': product.id,
 			'name': product.name,
@@ -235,11 +261,20 @@ def infoAboutproductDetail(request, productId):
 			'mainImage': main_product_image,
 			'isHearted': isHearted,
 			'hearts': product.hearts,
+			'isInCart': isInCart,
+			'cartQuantity': cartQuantity,
+			'cartItemId': cartItemId,
 			'reviews': reviewData,
 		},
 		'likedReview': likedReview,
 		'likedComment': likedComment,
-	})
+	}
+
+	cache.set(cache_key, response_data, timeout=60 * 15)
+
+	return Response(response_data)
+
+
 
 
 @api_view(['POST'])
@@ -287,29 +322,33 @@ def addReview(request, productId):
 @api_view(['POST', 'DELETE'])
 @login_required
 def heartReview(request, reviewId):
-  review = get_object_or_404(Review, id=reviewId)
-  profile = get_object_or_404(Profile, user=request.user)
+	review = get_object_or_404(Review, id=reviewId)
+	profile = get_object_or_404(Profile, user=request.user)
 
-  if request.method == 'POST':
-    heart, created = ReviewHeart.objects.get_or_create(review=review, user=profile)
-    return Response({
-      'success': True,
-      'hearts': review.hearts,
-      'isHearted': created,
-    }, status=200)
+	if request.method == 'POST':
+		heart, created = ReviewHeart.objects.get_or_create(review=review, user=profile)
+		cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
-  elif request.method == 'DELETE':
-    try:
-      heart = ReviewHeart.objects.get(review=review, user=profile)
-      heart.delete()
-      return Response({
-        'success': True,
-        'hearts': review.hearts
-      }, status=200)
-    except ReviewHeart.DoesNotExist:
-      return Response({'error': 'Лайк не найден'}, status=404)
+		return Response({
+			'success': True,
+			'hearts': review.hearts,
+			'isHearted': created,
+		}, status=200)
 
-  return Response({'success': False}, status=400)
+	elif request.method == 'DELETE':
+		try:
+			heart = ReviewHeart.objects.get(review=review, user=profile)
+			heart.delete()
+			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+
+			return Response({
+				'success': True,
+				'hearts': review.hearts
+			}, status=200)
+		except ReviewHeart.DoesNotExist:
+			return Response({'error': 'Лайк не найден'}, status=404)
+
+	return Response({'success': False}, status=400)
 
 
 @api_view(['POST'])
@@ -350,29 +389,33 @@ def addComment(request, reviewId):
 @api_view(['POST', 'DELETE'])
 @login_required
 def heartComment(request, commentId):
-  comment = get_object_or_404(Comment, id=commentId)
-  profile = get_object_or_404(Profile, user=request.user)
+	comment = get_object_or_404(Comment, id=commentId)
+	profile = get_object_or_404(Profile, user=request.user)
 
-  if request.method == 'POST':
-    heart, created = CommentHeart.objects.get_or_create(comment=comment, user=profile)
-    return Response({
-        'success': True,
-        'hearts': comment.hearts,
-        'isHearted': created,
-    }, status=200)
+	if request.method == 'POST':
+		heart, created = CommentHeart.objects.get_or_create(comment=comment, user=profile)
+		cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
-  elif request.method == 'DELETE':
-    try:
-      heart = CommentHeart.objects.get(comment=comment, user=profile)
-      heart.delete()
-      return Response({
-          'success': True,
-          'hearts': comment.hearts
-      }, status=200)
-    except CommentHeart.DoesNotExist:
-      return Response({'error': 'Лайк не найден'}, status=404)
+		return Response({
+				'success': True,
+				'hearts': comment.hearts,
+				'isHearted': created,
+		}, status=200)
 
-  return Response({'success': False}, status=400)
+	elif request.method == 'DELETE':
+		try:
+			heart = CommentHeart.objects.get(comment=comment, user=profile)
+			heart.delete()
+			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+
+			return Response({
+					'success': True,
+					'hearts': comment.hearts
+			}, status=200)
+		except CommentHeart.DoesNotExist:
+			return Response({'error': 'Лайк не найден'}, status=404)
+
+	return Response({'success': False}, status=400)
 
 
 @api_view(['GET'])
@@ -412,6 +455,7 @@ def removeAddProductToCart(request, productId=None):
 				serializer = CartItemSerializer(cart_item).data
 				cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 				cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+				cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
 				return Response({'success': True, 'message': 'Товар добавлен в корзину.', 'item': serializer}, status=201)
 			else:
@@ -425,6 +469,7 @@ def removeAddProductToCart(request, productId=None):
 			cart_item.delete()
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
 			return Response({'success': True}, status=200)
 		except Exception as e:
@@ -442,6 +487,7 @@ def updateCartProductQuantity(request, ItemId):
 			cart_item.save()
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
 			return Response({
 					'success': True,
@@ -456,6 +502,7 @@ def updateCartProductQuantity(request, ItemId):
 				cart_item.save()
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
 			return Response({
 				'success': True,

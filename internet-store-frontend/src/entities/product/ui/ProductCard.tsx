@@ -20,11 +20,7 @@ export interface Product {
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: () => void;
-  onToggleHeart: () => void;
   onQuickViewOpen: () => void;
-  onIncreaseQuantity: () => void;
-  onDecreaseQuantity: () => void;
 }
 
 
@@ -33,11 +29,7 @@ const baseUrl = 'http://127.0.0.1:8000';
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  onAddToCart,
-  onToggleHeart,
   onQuickViewOpen,
-  onIncreaseQuantity,
-  onDecreaseQuantity,
 }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -73,12 +65,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
         isInCart={product.isInCart}
         cartQuantity={product.cartQuantity}
         itemId={product.cartItemId}
-        onAddToCart={onAddToCart}
         productId={product.id}
         isHearted={product.isHearted}
-        onIncreaseQuantity={onIncreaseQuantity}
-        onDecreaseQuantity={onDecreaseQuantity}
-				onToggleHeart={async () => await onToggleHeart()}
       />
     </div>
   );

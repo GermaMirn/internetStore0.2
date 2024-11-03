@@ -7,9 +7,9 @@ import LoginPage from '../pages/auth/login/LoginPage';
 import RegistrationPage from '../pages/auth/registration/RegistrationPage';
 import LoginChoicePage from '../pages/auth/login-choice/LoginChoicePage';
 import WelcomePage from '../pages/welcome/WelcomePage';
-import SearchProductsPage from '../pages/search-products/ui/SearchProductsPage';
+import SearchProductsPage from '../pages/searchProducts/ui/SearchProductsPage';
 import ShoppingCart from '../pages/shoppingCart/ui/ShoppingCart';
-import ProductDetail from '../pages/info-about-product-detail/ui/ProductDetail';
+import ProductDetail from '../pages/infoAboutProductDetail/ui/ProductDetail';
 import { Header } from '../shared/ui/Header/Header';
 
 

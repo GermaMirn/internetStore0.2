@@ -8,10 +8,10 @@ import styles from './ShoppingCart.module.css';
 export interface CartItemType {
   id: number;
   price: number;
-  unitPrice: number;
   quantity: number;
   productId: number;
   productName: string;
+	productPrice: number;
   image: string;
   isHearted: boolean;
   isActive?: boolean;
@@ -54,12 +54,12 @@ const ShoppingCart: React.FC = () => {
     );
   };
 
-  const handleQuantityChange = (itemId: number, newQuantity: number) => {
+  const handleQuantityChange = (itemId: number, increment: boolean) => {
     setCartItems(prevItems =>
       prevItems.map(item => {
         if (item.id === itemId) {
-          const newPrice = item.unitPrice * newQuantity;
-          return { ...item, quantity: newQuantity, price: newPrice };
+          const newPrice = increment ? item.price + item.productPrice : item.price - item.productPrice;
+          return { ...item, price: newPrice };
         }
         return item;
       })
@@ -92,17 +92,19 @@ const ShoppingCart: React.FC = () => {
             item={item}
             productId={item.productId}
             onToggle={() => handleToggleItem(item.id)}
-            onIncrease={() => handleQuantityChange(item.id, item.quantity + 1)}
-            onDecrease={() => handleQuantityChange(item.id, item.quantity - 1)}
+            onIncrease={() => handleQuantityChange(item.id, true)}
+            onDecrease={() => handleQuantityChange(item.id, false)}
           />
         ))}
       </div>
-      <CartSummary
-        totalAmount={totalAmount}
-        itemCount={selectedItemsCount}
-        selectedItems={selectedItems}
-        onOrderSuccess={handleOrderSuccess}
-      />
+			<div className={styles.cartSummary}>
+				<CartSummary
+					totalAmount={totalAmount}
+					itemCount={selectedItemsCount}
+					selectedItems={selectedItems}
+					onOrderSuccess={handleOrderSuccess}
+				/>
+			</div>
     </div>
   );
 };
