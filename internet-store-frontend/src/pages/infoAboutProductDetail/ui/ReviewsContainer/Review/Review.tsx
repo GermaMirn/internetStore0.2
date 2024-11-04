@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Review.module.css';
 import CommentItem, { Comment } from '../Comment/Comment';
-import { formatDate } from '../dateUtils';
+import { formatDate } from '../utils/dateUtils';
 import HeartCommentAndReview from '../Heart';
-
 
 export interface Review {
   id: number;
@@ -11,18 +10,35 @@ export interface Review {
   text: string;
   created_at: string;
   hearts: number;
-	isLiked: boolean;
+  isLiked: boolean;
   imagesUrl: string[];
   mainImage: string | null;
   comments: Comment[];
 }
 
+interface ReviewItemProps extends Review {
+  updateReviewLikes: (id: number, newLikes: number) => void;
+}
 
-const ReviewItem: React.FC<Review> = ({ id, user, text, created_at, hearts, isLiked, comments }) => {
+const ReviewItem: React.FC<ReviewItemProps> = ({
+  id,
+  user,
+  text,
+  created_at,
+  hearts,
+  isLiked,
+  comments,
+  updateReviewLikes,
+}) => {
   const [showComments, setShowComments] = useState(false);
 
   const toggleComments = () => {
-    setShowComments(prev => !prev);
+    setShowComments((prev) => !prev);
+  };
+
+  const handleLikeToggle = () => {
+    const newLikes = isLiked ? hearts - 1 : hearts + 1;
+    updateReviewLikes(id, newLikes);
   };
 
   return (
@@ -53,14 +69,14 @@ const ReviewItem: React.FC<Review> = ({ id, user, text, created_at, hearts, isLi
           )}
         </div>
 
-        <div className={styles.heartReview}>
-					<HeartCommentAndReview isReviewLiked={isLiked} reviewId={id} heartsCount={hearts} />
+        <div className={styles.heartReview} onClick={handleLikeToggle}>
+          <HeartCommentAndReview isReviewLiked={isLiked} reviewId={id} heartsCount={hearts} />
         </div>
       </div>
 
       {showComments && comments.length > 0 && (
         <div className={styles.divForComments}>
-          {comments.map(comment => (
+          {comments.map((comment) => (
             <CommentItem key={comment.id} {...comment} />
           ))}
         </div>
@@ -70,6 +86,5 @@ const ReviewItem: React.FC<Review> = ({ id, user, text, created_at, hearts, isLi
     </div>
   );
 };
-
 
 export default ReviewItem;

@@ -12,7 +12,7 @@ interface ProductActionsProps {
   itemId: number;
   isHearted: boolean;
   updateCartState?: (isInCart: boolean, quantity: number, itemId: number) => void;
-  updateHeartState?: (isHearted: boolean) => void;
+  updateHeartState?: (newHearts: boolean) => void;
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({
@@ -60,7 +60,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
   const handleToggleHeart = async () => {
     const newIsHearted = !isHeartedProduct;
     setIsHearted(newIsHearted);
-    updateHeartState?.(newIsHearted);
+		updateHeartState?.(newIsHearted);
   };
 
   return (

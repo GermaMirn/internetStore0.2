@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Comment.module.css';
-import { formatDate } from '../dateUtils';
+import { formatDate } from '../utils/dateUtils';
 import HeartCommentAndReview from '../Heart';
 
 

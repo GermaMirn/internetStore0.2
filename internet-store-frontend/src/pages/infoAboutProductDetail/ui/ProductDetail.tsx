@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getProductDetail } from '../api/getProductDetail';
 import ProductActions from '../../../features/products/ui/ProductActions';
 import ImagesCarousel from './ImagesCarousel';
-import Reviews from './ReviewsContainer/ReviewsContainer/ReviewsContainer';
+import ReviewsContainer from './ReviewsContainer/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetail.module.css';
 
 
@@ -29,6 +29,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentImage, setCurrentImage] = useState<string>('');
+	const [hearts, setHearts] = useState<number>(0);
 
   useEffect(() => {
     const loadProductDetail = async () => {
@@ -37,6 +38,7 @@ const ProductDetail = () => {
           const fetchedProduct = await getProductDetail(id);
           setProduct(fetchedProduct);
           setCurrentImage(fetchedProduct.mainImage);
+					setHearts(fetchedProduct.hearts);
         } catch (err) {
           console.log('Error fetching product detail:', err);
         } finally {
@@ -49,6 +51,10 @@ const ProductDetail = () => {
 
     loadProductDetail();
   }, [id]);
+
+	const updateHearts = (newHearts: boolean) => {
+		setHearts(prevHearts => prevHearts + (newHearts ? 1 : -1));
+	};
 
   if (loading) return <div>Loading...</div>;
 
@@ -90,12 +96,13 @@ const ProductDetail = () => {
               itemId={product.cartItemId}
               productId={product.id}
               isHearted={product.isHearted}
+							updateHeartState={updateHearts}
             />
           </div>
         </div>
       </div>
 
-      <Reviews reviews={product.reviews} hearts={product.hearts} />
+      <ReviewsContainer reviews={product.reviews} hearts={hearts} />
     </div>
   );
 };

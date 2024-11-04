@@ -1,13 +1,25 @@
-.componentSort {
-  width: 13px;
-  height: 15px;
-  border-radius: 10px;
-}
-
 .inDescendingOrder {
   background-color: red;
 }
 
+
 .ascendingOrder {
   background-color: green;
+}
+
+
+.underline{
+	text-decoration: underline;
+}
+
+
+.sortText{
+	margin-left: 15px;
+	margin-right: 5px;
+}
+
+
+.sortDiv{
+	display: flex;
+	align-items: center;
 }

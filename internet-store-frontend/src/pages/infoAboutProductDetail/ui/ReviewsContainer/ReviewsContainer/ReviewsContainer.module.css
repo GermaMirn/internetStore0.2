@@ -16,26 +16,9 @@
 }
 
 
-.underline{
-	text-decoration: underline;
-}
-
-
 .sortTextHeaderReviews{
 	color: #989898;
 	margin-right: 10px;
-}
-
-
-.sortText{
-	margin-left: 15px;
-	margin-right: 5px;
-}
-
-
-.sortDiv{
-	display: flex;
-	align-items: center;
 }
 
 
