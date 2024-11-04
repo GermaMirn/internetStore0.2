@@ -25,4 +25,5 @@ const TrashCan: React.FC<TrashCanProps> = ({ itemId }) => {
   );
 };
 
+
 export default TrashCan;

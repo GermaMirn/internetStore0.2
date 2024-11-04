@@ -11,13 +11,12 @@ interface QuickViewProps {
 }
 
 
-const baseUrl = 'http://127.0.0.1:8000';
-
-
 const QuickView: React.FC<QuickViewProps> = ({
   product,
   onClose,
 }) => {
+	const baseUrl = 'http://127.0.0.1:8000';
+
   return (
     <div className={styles.quickViewOverlay}>
       <div className={styles.quickView}>

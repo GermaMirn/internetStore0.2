@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './ComponentSort.module.css';
 import classNames from 'classnames';
 
+
 const ComponentSort: React.FC = () => {
   const [isInDescendingOrder, setIsInDescendingOrder] = useState(true);
 
@@ -28,5 +29,6 @@ const ComponentSort: React.FC = () => {
     </div>
   );
 };
+
 
 export default ComponentSort;

@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './Paginator.module.css';
 
+
 interface PaginatorProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
+
 
 const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange }) => {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -25,5 +27,6 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
     </div>
   );
 };
+
 
 export default Paginator;

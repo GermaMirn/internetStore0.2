@@ -5,6 +5,7 @@ import ProfileMenu from '../ProfileMenu/ProfileMenu';
 import styles from './Header.module.css';
 import classNames from 'classnames';
 
+
 export function Header() {
   const navigate = useNavigate();
   const { username, logout } = useAuth();

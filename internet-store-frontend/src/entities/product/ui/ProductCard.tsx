@@ -24,13 +24,11 @@ interface ProductCardProps {
 }
 
 
-const baseUrl = 'http://127.0.0.1:8000';
-
-
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onQuickViewOpen,
 }) => {
+	const baseUrl = 'http://127.0.0.1:8000';
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
 

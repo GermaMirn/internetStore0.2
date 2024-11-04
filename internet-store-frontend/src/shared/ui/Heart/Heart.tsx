@@ -4,11 +4,13 @@ import classNames from 'classnames';
 import { addHeart } from '../../api/Heart/addHeart';
 import { removeHeart } from '../../api/Heart/removeHeart';
 
+
 interface HeartProps {
   isProductLiked: boolean;
   productId: number;
   onToggleLike?: (newLikedState: boolean) => Promise<void>;
 }
+
 
 const DivForFullHeart: React.FC<HeartProps> = ({ isProductLiked = false, productId, onToggleLike }) => {
   const [isLiked, setIsLiked] = useState(isProductLiked);
@@ -60,5 +62,6 @@ const DivForFullHeart: React.FC<HeartProps> = ({ isProductLiked = false, product
     </div>
   );
 };
+
 
 export default DivForFullHeart;

@@ -1,11 +1,14 @@
 import React, { createContext, useContext, useState } from 'react';
 import styles from './NotificationProvider.module.css';
 
+
 interface NotificationContextProps {
   showNotification: (message: string, type: 'success' | 'error') => void;
 }
 
+
 const NotificationContext = createContext<NotificationContextProps | null>(null);
+
 
 export const useNotification = () => {
   const context = useContext(NotificationContext);
@@ -14,6 +17,7 @@ export const useNotification = () => {
   }
   return context;
 };
+
 
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [message, setMessage] = useState<string | null>(null);

@@ -7,6 +7,7 @@ import Input from '../../../shared/ui/Input/Input';
 import PhoneInput from '../../../shared/ui/Input/PhoneInput';
 import styles from './Form.module.css';
 
+
 const RegistrationForm: React.FC = () => {
 	const { showNotification } = useNotification();
 	const navigate = useNavigate();
@@ -167,5 +168,6 @@ const RegistrationForm: React.FC = () => {
 		</div>
 	);
 };
+
 
 export default RegistrationForm;

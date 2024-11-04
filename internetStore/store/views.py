@@ -489,6 +489,7 @@ def updateCartProductQuantity(request, ItemId):
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
 
+			print(cart_item.quantity)
 			return Response({
 					'success': True,
 					'CartItemName': cart_item.product.name,
@@ -517,26 +518,27 @@ def updateCartProductQuantity(request, ItemId):
 @api_view(['POST'])
 @login_required
 def createOrder(request):
-  data = request.data
-  items = data.get('items')
-  total_price = data.get('totalPrice')
+	data = request.data
+	items = data.get('items')
+	total_price = data.get('totalPrice')
 
-  order = Order.objects.create(user=request.user.profile, totalPrice=total_price)
+	order = Order.objects.create(user=request.user.profile, totalPrice=total_price)
 
-  for item in items:
-    cart_item_id = item['id']
-    quantity = item['quantity']
+	for item in items:
+		cart_item_id = item['id']
+		quantity = item['quantity']
 
-    try:
-      cart_item = CartItem.objects.get(id=cart_item_id)
-      OrderItem.objects.create(
-        order=order,
-        product=cart_item.product,
-        quantity=quantity,
-        price=cart_item.price,
-      )
-      cart_item.delete()
-    except CartItem.DoesNotExist:
-      return Response({'success': False, 'message': f'Элемент корзины {item["product"]} не найден.'}, status=404)
+		try:
+			cart_item = CartItem.objects.get(id=cart_item_id)
+			OrderItem.objects.create(
+				order=order,
+				product=cart_item.product,
+				quantity=quantity,
+				price=cart_item.price,
+			)
+			cart_item.delete()
+		except CartItem.DoesNotExist:
+			return Response({'success': False, 'message': f'Элемент корзины {item["product"]} не найден.'}, status=404)
 
-  return Response({'success': True, 'message': 'Заказ успешно создан'}, status=201)
+	cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+	return Response({'success': True, 'message': 'Заказ успешно создан'}, status=201)

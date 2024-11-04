@@ -54,12 +54,12 @@ const ShoppingCart: React.FC = () => {
     );
   };
 
-  const handleQuantityChange = (itemId: number, increment: boolean) => {
+  const handleQuantityChange = (itemId: number, increment: boolean, newQuantity: number) => {
     setCartItems(prevItems =>
       prevItems.map(item => {
         if (item.id === itemId) {
           const newPrice = increment ? item.price + item.productPrice : item.price - item.productPrice;
-          return { ...item, price: newPrice };
+          return { ...item, quantity: newQuantity, price: newPrice };
         }
         return item;
       })
@@ -81,7 +81,11 @@ const ShoppingCart: React.FC = () => {
     );
   };
 
-  const selectedItems = cartItems.filter(item => item.isActive);
+	const handleRemoveItem = (itemId: number) => {
+		setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+	};
+
+	const selectedItems = cartItems.filter(item => item.isActive);
 
   return (
     <div className={styles.divForShoppingCart}>
@@ -92,19 +96,27 @@ const ShoppingCart: React.FC = () => {
             item={item}
             productId={item.productId}
             onToggle={() => handleToggleItem(item.id)}
-            onIncrease={() => handleQuantityChange(item.id, true)}
-            onDecrease={() => handleQuantityChange(item.id, false)}
+            onIncrease={() => handleQuantityChange(item.id, true, item.quantity + 1)}
+            onDecrease={() => handleQuantityChange(item.id, false, item.quantity - 1)}
+						onRemove={() => handleRemoveItem(item.id)}
           />
         ))}
       </div>
-			<div className={styles.cartSummary}>
-				<CartSummary
-					totalAmount={totalAmount}
-					itemCount={selectedItemsCount}
-					selectedItems={selectedItems}
-					onOrderSuccess={handleOrderSuccess}
-				/>
-			</div>
+
+			{cartItems.length > 0 ? (
+				<div className={styles.cartSummary}>
+					<CartSummary
+						totalAmount={totalAmount}
+						itemCount={selectedItemsCount}
+						selectedItems={selectedItems}
+						onOrderSuccess={handleOrderSuccess}
+					/>
+				</div>
+			) : (
+				<div className={styles.empty}>
+					<h1>Корзина пуста</h1>
+				</div>
+			)}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import Heart from '../../../shared/ui/Heart/Heart';
 import styles from './ProductActions.module.css';
 import { addProductToCart } from '../../../shared/api/removeAddProductToCart/addProductToCart';
 
+
 interface ProductActionsProps {
   productId: number;
   isInCart: boolean;
@@ -12,6 +13,7 @@ interface ProductActionsProps {
 	itemId: number;
   isHearted: boolean;
 }
+
 
 const ProductActions: React.FC<ProductActionsProps> = ({
   productId,
@@ -68,5 +70,6 @@ const ProductActions: React.FC<ProductActionsProps> = ({
     </div>
   );
 };
+
 
 export default ProductActions;
