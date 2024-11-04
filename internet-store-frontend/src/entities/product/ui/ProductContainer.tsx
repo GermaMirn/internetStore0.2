@@ -9,6 +9,12 @@ interface ProductContainerProps {
 
 const ProductContainer: React.FC<ProductContainerProps> = ({ product }) => {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  const [cartData, setCartData] = useState({
+    isInCart: product.isInCart,
+    cartQuantity: product.cartQuantity,
+    cartItemId: product.cartItemId,
+    isHearted: product.isHearted,
+  });
 
   const handleQuickViewOpen = () => {
     setIsQuickViewOpen(true);
@@ -18,21 +24,29 @@ const ProductContainer: React.FC<ProductContainerProps> = ({ product }) => {
     setIsQuickViewOpen(false);
   };
 
+  const updateCartState = (isInCart: boolean, quantity: number, itemId: number) => {
+    setCartData(prev => ({ ...prev, isInCart, cartQuantity: quantity, cartItemId: itemId }));
+  };
+
+  const updateHeartState = (isHearted: boolean) => {
+    setCartData(prev => ({ ...prev, isHearted }));
+  };
+
   return (
     <div>
       <ProductCard
-        product={{
-          ...product,
-        }}
+        product={{ ...product, ...cartData }}
         onQuickViewOpen={handleQuickViewOpen}
+        updateCartState={updateCartState}
+        updateHeartState={updateHeartState}
       />
 
       {isQuickViewOpen && (
         <QuickView
-          product={{
-            ...product,
-          }}
+          product={{ ...product, ...cartData }}
           onClose={handleQuickViewClose}
+          updateCartState={updateCartState}
+          updateHeartState={updateHeartState}
         />
       )}
     </div>

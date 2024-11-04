@@ -1,53 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddRemoveQuantityOfProducts from '../../../shared/ui/AddRemoveQuantityOfProducts/AddRemoveQuantityOfProducts';
 import Button from '../../../shared/ui/Button';
 import Heart from '../../../shared/ui/Heart/Heart';
 import styles from './ProductActions.module.css';
 import { addProductToCart } from '../../../shared/api/removeAddProductToCart/addProductToCart';
 
-
 interface ProductActionsProps {
   productId: number;
   isInCart: boolean;
   cartQuantity: number;
-	itemId: number;
+  itemId: number;
   isHearted: boolean;
+  updateCartState?: (isInCart: boolean, quantity: number, itemId: number) => void;
+  updateHeartState?: (isHearted: boolean) => void;
 }
-
 
 const ProductActions: React.FC<ProductActionsProps> = ({
   productId,
   isInCart,
   cartQuantity,
-	itemId,
+  itemId,
   isHearted,
+  updateCartState,
+  updateHeartState,
 }) => {
   const [isInCartProduct, setIsInCart] = useState(isInCart);
   const [cartQuantityProduct, setCartQuantity] = useState(cartQuantity);
   const [isHeartedProduct, setIsHearted] = useState(isHearted);
-  const [cartItemId, setCartItemId] = useState(itemId);
+
+  useEffect(() => {
+    setIsInCart(isInCart);
+    setCartQuantity(cartQuantity);
+    setIsHearted(isHearted);
+  }, [isInCart, cartQuantity, isHearted]);
 
   const handleAddToCart = async () => {
     try {
       const answer = await addProductToCart(productId);
-      setCartItemId(answer.item.id);
       setIsInCart(true);
       setCartQuantity(1);
+      updateCartState?.(true, 1, answer.item.id);
     } catch (error) {
       console.error('Ошибка при добавлении товара в корзину', error);
     }
   };
 
   const handleIncreaseQuantity = () => {
-    setCartQuantity((prev) => prev + 1);
+    const newQuantity = cartQuantityProduct + 1;
+    setCartQuantity(newQuantity);
+    updateCartState?.(isInCartProduct, newQuantity, itemId);
   };
 
   const handleDecreaseQuantity = () => {
-    setCartQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+    const newQuantity = Math.max(cartQuantityProduct - 1, 1);
+    setCartQuantity(newQuantity);
+    updateCartState?.(isInCartProduct, newQuantity, itemId);
   };
 
   const handleToggleHeart = async () => {
-    setIsHearted((prev) => !prev);
+    const newIsHearted = !isHeartedProduct;
+    setIsHearted(newIsHearted);
+    updateHeartState?.(newIsHearted);
   };
 
   return (
@@ -55,7 +68,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
       {isInCartProduct ? (
         <AddRemoveQuantityOfProducts
           countOfProduct={cartQuantityProduct}
-          cartItemId={cartItemId}
+          cartItemId={itemId}
           onIncrease={handleIncreaseQuantity}
           onDecrease={handleDecreaseQuantity}
         />
@@ -70,6 +83,5 @@ const ProductActions: React.FC<ProductActionsProps> = ({
     </div>
   );
 };
-
 
 export default ProductActions;

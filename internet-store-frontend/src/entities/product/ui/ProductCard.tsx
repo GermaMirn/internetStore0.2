@@ -21,20 +21,20 @@ export interface Product {
 interface ProductCardProps {
   product: Product;
   onQuickViewOpen: () => void;
+	updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void;
+  updateHeartState: (isHearted: boolean) => void;
 }
 
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onQuickViewOpen,
+	updateCartState,
+  updateHeartState,
 }) => {
 	const baseUrl = 'http://127.0.0.1:8000';
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
-
-  const handleQuickViewClick = () => {
-    onQuickViewOpen();
-  };
 
   return (
     <div className={styles.productCard}>
@@ -50,7 +50,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         />
 
         {isHovered && (
-          <div className={styles.fastView} onClick={handleQuickViewClick}>
+          <div className={styles.fastView} onClick={onQuickViewOpen}>
             <Button text="Быстрый просмотр" size="small" />
           </div>
         )}
@@ -65,6 +65,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
         itemId={product.cartItemId}
         productId={product.id}
         isHearted={product.isHearted}
+				updateCartState={updateCartState}
+        updateHeartState={updateHeartState}
       />
     </div>
   );

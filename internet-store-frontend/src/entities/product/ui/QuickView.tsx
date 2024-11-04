@@ -8,12 +8,16 @@ import ProductActions from '../../../features/products/ui/ProductActions';
 interface QuickViewProps {
   product: Product;
   onClose: () => void;
+	updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void;
+  updateHeartState: (isHearted: boolean) => void;
 }
 
 
 const QuickView: React.FC<QuickViewProps> = ({
   product,
   onClose,
+	updateCartState,
+  updateHeartState,
 }) => {
 	const baseUrl = 'http://127.0.0.1:8000';
 
@@ -33,6 +37,8 @@ const QuickView: React.FC<QuickViewProps> = ({
             itemId={product.cartItemId}
             productId={product.id}
             isHearted={product.isHearted}
+						updateCartState={updateCartState}
+            updateHeartState={updateHeartState}
           />
         </div>
       </div>
