@@ -1,7 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    getPopularProducts,
     searchPageProducts,
     heartProduct,
     infoAboutproductDetail,
@@ -23,7 +22,6 @@ router = DefaultRouter()
 
 
 urlpatterns = [
-    path('getPopularProducts/', getPopularProducts, name='getPopularProducts'),
     path('searchPageProducts/', searchPageProducts, name='searchPageProducts'),
     path('heartProduct/<int:productId>/', heartProduct, name='heartProduct'),
 

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import styles from './ImagesCarousel.module.css';
 
-
 interface ImagesCarouselProps {
   imagesUrl: string[];
   mainImage: string;
   onImageSelect: (imageUrl: string) => void;
 }
-
 
 const ImagesCarousel: React.FC<ImagesCarouselProps> = ({ imagesUrl, mainImage, onImageSelect }) => {
   const baseURL = 'http://127.0.0.1:8000';
@@ -21,15 +19,15 @@ const ImagesCarousel: React.FC<ImagesCarouselProps> = ({ imagesUrl, mainImage, o
   };
 
   const handleNextImage = () => {
-    if (selectedIndex < images.length - 1) {
-      handleImageClick(selectedIndex + 1);
-    }
+    const nextIndex = (selectedIndex + 1) % images.length;
+    setSelectedIndex(nextIndex);
+    onImageSelect(images[nextIndex]);
   };
 
   const handlePreviousImage = () => {
-    if (selectedIndex > 0) {
-      handleImageClick(selectedIndex - 1);
-    }
+    const prevIndex = (selectedIndex - 1 + images.length) % images.length;
+    setSelectedIndex(prevIndex);
+    onImageSelect(images[prevIndex]);
   };
 
   return (
@@ -37,29 +35,32 @@ const ImagesCarousel: React.FC<ImagesCarouselProps> = ({ imagesUrl, mainImage, o
       <img
         className={styles.changePhotoUp}
         src="/product/changeUp.svg"
-        alt=""
+        alt="Previous"
         onClick={handlePreviousImage}
       />
 
-      {images.map((imageUrl, index) => (
-        <img
-          key={index}
-          className={`${styles.imageCarousel} ${selectedIndex === index ? styles.activeImage : ''}`}
-          src={baseURL + imageUrl}
-          alt={`Image ${index + 1}`}
-          onClick={() => handleImageClick(index)}
-        />
-      ))}
+      <div className={styles.scrollWrapper}>
+        <div className={styles.scrollContent}>
+          {images.map((imageUrl, index) => (
+            <img
+              key={index}
+              className={`${styles.imageCarousel} ${selectedIndex === index ? styles.activeImage : ''}`}
+              src={baseURL + imageUrl}
+              alt={`Image ${index + 1}`}
+              onClick={() => handleImageClick(index)}
+            />
+          ))}
+        </div>
+      </div>
 
       <img
         className={styles.changePhotoDown}
         src="/product/changeDown.svg"
-        alt=""
+        alt="Next"
         onClick={handleNextImage}
       />
     </div>
   );
 };
-
 
 export default ImagesCarousel;

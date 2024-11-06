@@ -40,22 +40,21 @@ from django.contrib.auth.decorators import login_required
 
 
 @api_view(['GET'])
-def getPopularProducts(request):
-  popularProducts = Product.objects.annotate(hearts_count=Count('product_hearts')).order_by('-hearts_count')[:5]
-  serializer = ProductSerializer(popularProducts, many=True)
-  return Response(serializer.data)
-
-
-@api_view(['GET'])
 def searchPageProducts(request):
 	pageNumber = int(request.GET.get("page", 1))
 	tags = request.GET.get("tags", "")
 	searchField = request.GET.get("searchInput", "")
+	isLiked = request.GET.get("isLiked", "false") == "true"
 
-	if request.user.is_authenticated:
-		cache_key = f'search_page_products_auth_{request.user.id}_{pageNumber}_{tags}_{searchField}'
+
+	if isLiked:
+		if request.user.is_authenticated:
+			cache_key = f'favorite_page_auth_{request.user.id}_{pageNumber}_{tags}_{searchField}'
 	else:
-		cache_key = f'search_page_products_guest_{pageNumber}_{tags}_{searchField}'
+		if request.user.is_authenticated:
+			cache_key = f'search_page_products_auth_{request.user.id}_{pageNumber}_{tags}_{searchField}'
+		else:
+			cache_key = f'search_page_products_guest_{pageNumber}_{tags}_{searchField}'
 
 	cached_data = cache.get(cache_key)
 	if cached_data:
@@ -69,6 +68,14 @@ def searchPageProducts(request):
 
 	if searchField:
 		allProducts = allProducts.filter(name__icontains=searchField)
+
+	if isLiked and request.user.is_authenticated:
+		try:
+			profile = request.user.profile
+			liked_product_ids = ProductHeart.objects.filter(user=profile).values_list('product_id', flat=True)
+			allProducts = allProducts.filter(id__in=liked_product_ids)
+		except Profile.DoesNotExist:
+			pass
 
 	productPaginator = Paginator(allProducts, 8)
 	try:
@@ -128,9 +135,10 @@ def searchPageProducts(request):
 		"products": productsData,
 	}
 
-	cache.set(cache_key, response_data, timeout= 60 * 60)
+	cache.set(cache_key, response_data, timeout=60 * 60)
 
 	return Response(response_data)
+
 
 
 @api_view(['POST', 'DELETE'])
@@ -148,6 +156,7 @@ def heartProduct(request, productId):
 		cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 		cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 		cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+		cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
 
 		updated_product = Product.objects.get(id=productId)
 		return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
@@ -159,6 +168,8 @@ def heartProduct(request, productId):
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+
 
 			updated_product = Product.objects.get(id=productId)
 			return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
@@ -456,6 +467,7 @@ def removeAddProductToCart(request, productId=None):
 				cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 				cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 				cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+				cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
 
 				return Response({'success': True, 'message': 'Товар добавлен в корзину.', 'item': serializer}, status=201)
 			else:
@@ -470,6 +482,7 @@ def removeAddProductToCart(request, productId=None):
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
 
 			return Response({'success': True}, status=200)
 		except Exception as e:
@@ -488,8 +501,8 @@ def updateCartProductQuantity(request, ItemId):
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
 
-			print(cart_item.quantity)
 			return Response({
 					'success': True,
 					'CartItemName': cart_item.product.name,
@@ -504,6 +517,7 @@ def updateCartProductQuantity(request, ItemId):
 			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
 			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
 
 			return Response({
 				'success': True,

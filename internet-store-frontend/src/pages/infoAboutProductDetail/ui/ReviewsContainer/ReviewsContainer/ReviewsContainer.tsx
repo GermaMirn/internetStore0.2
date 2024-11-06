@@ -5,10 +5,12 @@ import ComponentSort from '../../../../../shared/ui/ComponentSort/ComponentSort'
 import ReviewItem from '../Review/Review';
 import { Review } from '../Review/Review';
 
+
 interface ReviewsProps {
   reviews: Review[];
   hearts: number;
 }
+
 
 const ReviewsContainer: React.FC<ReviewsProps> = ({ reviews, hearts }) => {
   const [sortedReviews, setSortedReviews] = useState<Review[]>(reviews);
@@ -54,5 +56,6 @@ const ReviewsContainer: React.FC<ReviewsProps> = ({ reviews, hearts }) => {
     </div>
   );
 };
+
 
 export default ReviewsContainer;

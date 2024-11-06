@@ -56,6 +56,15 @@ const ProductDetail = () => {
 		setHearts(prevHearts => prevHearts + (newHearts ? 1 : -1));
 	};
 
+	const updateCartState = (isInCart: boolean, quantity: number, itemId: number) => {
+		setProduct(prevProduct => ({
+			...prevProduct!,
+			isInCart,
+			cartQuantity: quantity,
+			cartItemId: itemId,
+		}));
+	};
+
   if (loading) return <div>Loading...</div>;
 
   if (!product) return <div>No product found</div>;
@@ -96,6 +105,7 @@ const ProductDetail = () => {
               itemId={product.cartItemId}
               productId={product.id}
               isHearted={product.isHearted}
+							updateCartState={updateCartState}
 							updateHeartState={updateHearts}
             />
           </div>

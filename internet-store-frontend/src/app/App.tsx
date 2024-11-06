@@ -10,6 +10,7 @@ import WelcomePage from '../pages/welcome/WelcomePage';
 import SearchProductsPage from '../pages/searchProducts/ui/SearchProductsPage';
 import ShoppingCart from '../pages/shoppingCart/ui/ShoppingCart';
 import ProductDetail from '../pages/infoAboutProductDetail/ui/ProductDetail';
+import LikedProductsPage from '../pages/favorits/ui/FavoritsPage';
 import { Header } from '../shared/ui/Header/Header';
 
 
@@ -30,6 +31,7 @@ const App: React.FC = () => {
 						<Route path="/" element={<WelcomePage />} />
 						<Route path="/catalog" element={<SearchProductsPage />} />
 						<Route path="/product/:id" element={<ProductDetail />} />
+						<Route path="/favorits" element={<LikedProductsPage />} />
 						<Route path="/shoppingCart" element={<ShoppingCart />} />
 					</Routes>
 				</Router>
