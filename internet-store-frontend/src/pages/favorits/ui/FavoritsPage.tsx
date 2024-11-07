@@ -10,38 +10,49 @@ const LikedProductsPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    getLikedProducts(true)
-      .then(products => {
+    const fetchLikedProducts = async () => {
+      try {
+        const products = await getLikedProducts(true);
         setLikedProducts(products);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Ошибка при загрузке лайкнутых продуктов:', error);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchLikedProducts();
   }, []);
+
+  const handleRemoveLike = (productId: number) => {
+    setLikedProducts(prev => prev.filter(product => product.id !== productId));
+  };
 
   if (loading) {
     return <p>Загрузка...</p>;
   }
 
   return (
-    <div className={styles.mainDivFavoritsPage}>
-      <h1 className={styles.mainTextFavoritsPage}>Избранные товары</h1>
-      <div className={styles.divFavoritsProduts}>
-        {likedProducts ? (
-          likedProducts.map((product: Product) => (
-            <div key={product.id} className={styles.productCard}>
-              <ProductContainer product={product} />
-            </div>
-          ))
-        ) : (
-          <p>Вы еще не лайкнули ни одного товара.</p>
-        )}
-      </div>
-    </div>
-  );
+		<div className={styles.mainDivFavoritsPage}>
+			{likedProducts.length > 0 ? (
+				<>
+					<h1 className={styles.mainTextFavoritsPage}>Избранные товары</h1>
+					<div className={styles.divFavoritsProduts}>
+						{likedProducts.map((product: Product) => (
+							<div key={product.id} className={styles.productCard}>
+								<ProductContainer
+									product={product}
+									onRemoveLike={handleRemoveLike}
+								/>
+							</div>
+						))}
+					</div>
+				</>
+			) : (
+				<h2 className={styles.emptyFavorites}>Вы еще не лайкнули ни одного товара.</h2>
+			)}
+		</div>
+	);
 };
 
 

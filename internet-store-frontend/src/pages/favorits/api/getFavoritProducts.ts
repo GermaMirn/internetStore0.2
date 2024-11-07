@@ -24,7 +24,7 @@ export const getLikedProducts = async (isLiked: boolean): Promise<Product[]> => 
         isLiked,
       },
     });
-		console.log(response.data)
+
     return response.data.products;
   } catch (error) {
     console.error('Error fetching liked products:', error);

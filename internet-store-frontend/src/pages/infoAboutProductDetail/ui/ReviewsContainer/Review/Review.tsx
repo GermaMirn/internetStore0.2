@@ -4,6 +4,7 @@ import CommentItem, { Comment } from '../Comment/Comment';
 import { formatDate } from '../utils/dateUtils';
 import HeartCommentAndReview from '../Heart';
 
+
 export interface Review {
   id: number;
   user: string;
@@ -16,9 +17,12 @@ export interface Review {
   comments: Comment[];
 }
 
+
 interface ReviewItemProps extends Review {
   updateReviewLikes: (id: number, newLikes: number) => void;
+  setIsLiked: (id: number, isLiked: boolean) => void;
 }
+
 
 const ReviewItem: React.FC<ReviewItemProps> = ({
   id,
@@ -29,6 +33,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
   isLiked,
   comments,
   updateReviewLikes,
+  setIsLiked,
 }) => {
   const [showComments, setShowComments] = useState(false);
 
@@ -39,6 +44,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
   const handleLikeToggle = () => {
     const newLikes = isLiked ? hearts - 1 : hearts + 1;
     updateReviewLikes(id, newLikes);
+    setIsLiked(id, !isLiked);
   };
 
   return (
@@ -86,5 +92,6 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
     </div>
   );
 };
+
 
 export default ReviewItem;

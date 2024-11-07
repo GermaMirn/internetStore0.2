@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './SortIcon.module.css'; // Предположим, что у вас есть стили
+import styles from './SortIcon.module.css';
 import classNames from 'classnames';
 
 

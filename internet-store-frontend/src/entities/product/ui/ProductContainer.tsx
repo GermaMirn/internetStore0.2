@@ -5,9 +5,10 @@ import { Product } from './ProductCard';
 
 interface ProductContainerProps {
   product: Product;
+	onRemoveLike?: (productId: number) => void;
 }
 
-const ProductContainer: React.FC<ProductContainerProps> = ({ product }) => {
+const ProductContainer: React.FC<ProductContainerProps> = ({ product, onRemoveLike }) => {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   const [cartData, setCartData] = useState({
     isInCart: product.isInCart,
@@ -30,6 +31,7 @@ const ProductContainer: React.FC<ProductContainerProps> = ({ product }) => {
 
   const updateHeartState = (isHearted: boolean) => {
     setCartData(prev => ({ ...prev, isHearted }));
+		onRemoveLike?.(product.id)
   };
 
   return (

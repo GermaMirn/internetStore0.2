@@ -86,6 +86,17 @@ class LogoutUserView(APIView):
 			return Response({'message': 'Ошибка при выходе из аккаунта.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class GetUserInfo(APIView):
+	permission_classes = [AllowAny]
+
+	def get(self, request):
+		user = request.user
+
+		if user.is_authenticated:
+			serializedProfile = UserProfileSerializer(user).data
+			return Response({'success': True, 'profile': serializedProfile}, status=status.HTTP_200_OK)
+
+		return Response({'success': False, 'message': 'Пользователь не аутентифицирован.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class GetCsrfToken(APIView):

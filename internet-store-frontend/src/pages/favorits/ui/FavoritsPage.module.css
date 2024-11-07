@@ -25,3 +25,8 @@
 .divFavoritsProduts::-webkit-scrollbar {
   display: none;
 }
+
+
+.emptyFavorites{
+	margin-left: 31.5%;
+}

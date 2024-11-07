@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './ComponentSort.module.css';
 import classNames from 'classnames';
 import { Review } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/Review/Review';
@@ -6,30 +6,44 @@ import SortIcon from './SortIcon';
 import { sortReviews } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/utils/sortReviews';
 
 
+
 interface ComponentSortProps {
   reviews: Review[];
   onSortChange: (sortedReviews: Review[]) => void;
+  currentSort: 'date' | 'likes';
+  isAscendingDate: boolean;
+  isAscendingLikes: boolean;
+  setCurrentSort: (sort: 'date' | 'likes') => void;
+  setIsAscendingDate: (isAscending: boolean) => void;
+  setIsAscendingLikes: (isAscending: boolean) => void;
 }
 
 
-const ComponentSort: React.FC<ComponentSortProps> = ({ reviews, onSortChange }) => {
-  const [currentSort, setCurrentSort] = useState<'date' | 'likes'>('date');
-  const [isAscendingDate, setIsAscendingDate] = useState(true);
-  const [isAscendingLikes, setIsAscendingLikes] = useState(true);
-
+const ComponentSort: React.FC<ComponentSortProps> = ({
+  reviews,
+  onSortChange,
+  currentSort,
+  isAscendingDate,
+  isAscendingLikes,
+  setCurrentSort,
+  setIsAscendingDate,
+  setIsAscendingLikes,
+}) => {
   const handleSortTypeChange = (type: 'date' | 'likes') => {
+    let newOrder;
+
     if (type === 'date') {
-      const newOrder = !isAscendingDate;
+      newOrder = !isAscendingDate;
       setIsAscendingDate(newOrder);
-      const sorted = sortReviews(reviews, 'date', newOrder);
-      onSortChange(sorted);
+      setCurrentSort('date');
     } else {
-      const newOrder = !isAscendingLikes;
+      newOrder = !isAscendingLikes;
       setIsAscendingLikes(newOrder);
-      const sorted = sortReviews(reviews, 'likes', newOrder);
-      onSortChange(sorted);
+      setCurrentSort('likes');
     }
-    setCurrentSort(type);
+
+    const sorted = sortReviews(reviews, type, newOrder);
+    onSortChange(sorted);
   };
 
   return (
