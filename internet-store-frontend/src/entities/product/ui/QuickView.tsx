@@ -31,15 +31,17 @@ const QuickView: React.FC<QuickViewProps> = ({
           <h2>О товаре</h2>
           <h4 className={styles.descriptionOfQuickView}>{product.description}</h4>
 
-          <ProductActions
-            isInCart={product.isInCart}
-            cartQuantity={product.cartQuantity}
-            itemId={product.cartItemId}
-            productId={product.id}
-            isHearted={product.isHearted}
-						updateCartState={updateCartState}
-            updateHeartState={updateHeartState}
-          />
+					<div className={styles.productActions}>
+						<ProductActions
+							isInCart={product.isInCart}
+							cartQuantity={product.cartQuantity}
+							itemId={product.cartItemId}
+							productId={product.id}
+							isHearted={product.isHearted}
+							updateCartState={updateCartState}
+							updateHeartState={updateHeartState}
+						/>
+					</div>
         </div>
       </div>
       <div onClick={onClose} className={styles.cross}>

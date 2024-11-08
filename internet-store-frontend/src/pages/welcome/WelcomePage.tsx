@@ -6,7 +6,12 @@ function WelcomePage() {
 	return (
 		<div>
 			<div className={styles.mainDivWelcome}>
-				<h2 className={styles.welcomeHeaderText}>Some welcome words</h2>
+				<div className={styles.divWelcomeHeaderText}>
+					<img className={styles.dotImg} src="/product/dot.svg" alt="dot" />
+					<h2>Some welcome words</h2>
+				</div>
+				<hr className={styles.hr} />
+
 				<h4 className={styles.welcomeText}>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima molestiae quaerat ab dignissimos laudantium. Aspernatur sint dignissimos est exercitationem ea neque doloribus consectetur laudantium quae, dolore, impedit in libero suscipit.
 					Voluptas minus veniam, quidem debitis delectus voluptatibus unde sunt velit. Voluptate aperiam accusantium repellat omnis eos! Consectetur esse quo qui accusantium voluptatibus ea facilis! Illum iusto ut tempore voluptatibus fugit.

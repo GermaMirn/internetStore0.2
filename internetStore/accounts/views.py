@@ -93,6 +93,11 @@ class GetUserInfo(APIView):
 		user = request.user
 
 		if user.is_authenticated:
+			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
+			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
+			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+
 			serializedProfile = UserProfileSerializer(user).data
 			return Response({'success': True, 'profile': serializedProfile}, status=status.HTTP_200_OK)
 
