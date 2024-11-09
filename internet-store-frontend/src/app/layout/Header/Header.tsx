@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../app/context/AuthContext';
-import ProfileMenu from '../ProfileMenu/ProfileMenu';
+import { useAuth } from '../../context/AuthContext';
+import ProfileMenu from '../../../shared/ui/ProfileMenu/ProfileMenu';
 import styles from './Header.module.css';
 import classNames from 'classnames';
 

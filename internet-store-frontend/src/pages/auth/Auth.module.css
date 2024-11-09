@@ -1,8 +1,7 @@
 .divForAuthForms{
 	width: 510px;
 	height: 430px;
-	margin-top: 2%;
-	margin-left: 35%;
+	margin-left: 29%;
 	border-radius: 30px;
 	background: rgba(255, 255, 255, 1);
 }
@@ -11,8 +10,7 @@
 .divForEnterForm{
 	width: 510px;
 	height: 520px;
-	margin-top: 2%;
-	margin-left: 35%;
+	margin-left: 29%;
 	border-radius: 30px;
 	background: rgba(255, 255, 255, 1);
 }
@@ -24,6 +22,7 @@
 
 
 .hr{
+	color: #989898;
 	width: 400px;
 	margin-top: 2rem;
 }

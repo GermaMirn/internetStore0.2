@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import axiosInstance from '../../shared/api/axiosInstance';
+
 
 interface AuthContextType {
   username: string | null;
@@ -31,6 +33,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUsername(null);
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+		axiosInstance.defaults.headers.common['Authorization'] = '';
+  	delete axiosInstance.defaults.headers.common['X-CSRFToken'];
   };
 
   return (

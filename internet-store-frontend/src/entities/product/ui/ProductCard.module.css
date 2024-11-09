@@ -25,7 +25,8 @@
 
 
 .fastView{
-	position: absolute;
+	position: relative;
 	margin-top: -75px;
 	margin-left: 8px;
+	margin-bottom: 30px;
 }
