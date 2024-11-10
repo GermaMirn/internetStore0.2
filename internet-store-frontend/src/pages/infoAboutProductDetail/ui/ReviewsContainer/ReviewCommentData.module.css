@@ -1,0 +1,116 @@
+.review{
+	display: flex;
+}
+
+
+.logo{
+	width: 55px;
+	height: 55px;
+}
+
+
+.divForUserNameReviewCommentAndImages{
+	display: flex;
+}
+
+
+.imagesCommentReview{
+	margin-top: 16px;
+	margin-left: 90px;
+	position: absolute;
+	display: flex;
+	z-index: 0;
+}
+
+
+.imgageCommentReview{
+	cursor: pointer;
+	margin-right: 5px;
+	width: 50px;
+	height: 50px;
+	border-radius: 10px;
+	border: 1px solid #492DBB;
+}
+
+
+.dataReview{
+	margin-top: -15px;
+	margin-left: 10px;
+}
+
+
+.userNameReview{
+	color: #492DBB;
+}
+
+
+.dateReview{
+	margin-top: -10px;
+	color: #989898;
+}
+
+
+.textReview{
+	margin-top: -5px;
+	font-size: 14px;
+}
+
+
+.countHeartReview{
+	font-size: 18px;
+}
+
+
+.heartReview{
+	margin-bottom: 100px;
+	margin-left: auto;
+}
+
+
+.divReviewCommentActions{
+	display: flex;
+	align-items: center;
+}
+
+
+.divComment{
+	margin-right: 12px;
+	display: flex;
+	align-items: center;
+}
+
+
+.openReviewForm{
+	display: flex;
+	align-items: center;
+}
+
+
+.divCommentText{
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+.imgOfReviewForm{
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+
+.openComments{
+	cursor: pointer;
+	margin-left: 5px;
+	width: 13.2px;
+	height: 7.18px;
+}
+
+
+.openComments {
+  transition: transform 0.3s ease;
+}
+
+
+.rotate {
+  transform: rotate(180deg);
+}

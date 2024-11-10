@@ -3,36 +3,6 @@
 }
 
 
-.logo{
-	width: 55px;
-	height: 55px;
-}
-
-
-.dataComment{
-	margin-top: -15px;
-	margin-left: 10px;
-}
-
-
-.userNameComment{
-	color: #492DBB;
-}
-
-
-.dateComment{
-	margin-top: -10px;
-	color: #989898;
-}
-
-
-.textComment{
-	font-weight: bold;
-	margin-top: -5px;
-	font-size: 14px;
-}
-
-
 .heartComment{
 	margin-bottom: 70px;
 	margin-left: auto;

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Review.module.css';
 import CommentItem, { Comment } from '../Comment/Comment';
-import { formatDate } from '../utils/dateUtils';
 import HeartCommentAndReview from '../Heart';
-
+import ReviewData from '../ReviewCommentData';
 
 export interface Review {
   id: number;
@@ -17,12 +16,10 @@ export interface Review {
   comments: Comment[];
 }
 
-
 interface ReviewItemProps extends Review {
   updateReviewLikes: (id: number, newLikes: number) => void;
   setIsLiked: (id: number, isLiked: boolean) => void;
 }
-
 
 const ReviewItem: React.FC<ReviewItemProps> = ({
   id,
@@ -30,6 +27,8 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
   text,
   created_at,
   hearts,
+  imagesUrl,
+  mainImage,
   isLiked,
   comments,
   updateReviewLikes,
@@ -50,30 +49,17 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
   return (
     <div className={styles.mainDivReview}>
       <div className={styles.review}>
-        <div className={styles.logoUser}>
-          <img className={styles.logo} src="/user/userLogo.svg" alt="user photo" />
-        </div>
-
-        <div className={styles.dataReview}>
-          <h3 className={styles.userNameReview}>{user}</h3>
-          <h5 className={styles.dateReview}>{formatDate(created_at)}</h5>
-          <p className={styles.textReview}>{text}</p>
-
-          {comments.length > 0 ? (
-            <div className={styles.divComment} onClick={toggleComments}>
-              <p className={styles.divCommentText}>{comments.length} ответов</p>
-              <img
-                className={`${styles.openCommetns} ${showComments ? styles.rotate : ''}`}
-                src="/product/changeDown.svg"
-                alt="open comments"
-              />
-            </div>
-          ) : (
-            <div>
-              <p className={styles.divCommentText}>Комментировать</p>
-            </div>
-          )}
-        </div>
+        <ReviewData
+          isReview={true}
+          user={user}
+          created_at={created_at}
+          text={text}
+					mainImage={mainImage}
+          imagesUrl={imagesUrl}
+          comments={comments}
+          showComments={showComments}
+          toggleComments={toggleComments}
+        />
 
         <div className={styles.heartReview} onClick={handleLikeToggle}>
           <HeartCommentAndReview isReviewLiked={isLiked} reviewId={id} heartsCount={hearts} />
@@ -87,11 +73,9 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
           ))}
         </div>
       )}
-
       <hr />
     </div>
   );
 };
-
 
 export default ReviewItem;

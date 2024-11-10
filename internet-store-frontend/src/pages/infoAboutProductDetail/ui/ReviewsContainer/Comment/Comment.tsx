@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Comment.module.css';
-import { formatDate } from '../utils/dateUtils';
 import HeartCommentAndReview from '../Heart';
+import ReviewData from '../ReviewCommentData';
 
 
 export interface Comment {
@@ -16,19 +16,18 @@ export interface Comment {
 }
 
 
-const CommentItem: React.FC<Comment> = ({ id, user, text, created_at, hearts, isLiked }) => {
+const CommentItem: React.FC<Comment> = ({ id, user, text, created_at, hearts, isLiked, mainImage, imagesUrl}) => {
   return (
     <div className={styles.mainDivComment}>
       <div className={styles.comment}>
-        <div className={styles.logoUser}>
-          <img className={styles.logo} src="/user/userLogo.svg" alt="user photo" />
-        </div>
-
-        <div className={styles.dataComment}>
-          <h3 className={styles.userNameComment}>{user}</h3>
-          <h5 className={styles.dateComment}>{formatDate(created_at)}</h5>
-          <p className={styles.textComment}>{text}</p>
-        </div>
+				<ReviewData
+					isReview={false}
+          user={user}
+          created_at={created_at}
+          text={text}
+					mainImage={mainImage}
+					imagesUrl={imagesUrl}
+        />
 
         <div className={styles.heartComment}>
 					<HeartCommentAndReview isCommentLiked={isLiked} commentId={id} heartsCount={hearts} />
@@ -37,5 +36,6 @@ const CommentItem: React.FC<Comment> = ({ id, user, text, created_at, hearts, is
     </div>
   );
 };
+
 
 export default CommentItem;

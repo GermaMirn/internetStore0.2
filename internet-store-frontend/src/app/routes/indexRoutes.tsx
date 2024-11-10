@@ -9,6 +9,7 @@ import ShoppingCart from '../../pages/shoppingCart/ui/ShoppingCart';
 import ProductDetail from '../../pages/infoAboutProductDetail/ui/ProductDetail';
 import LikedProductsPage from '../../pages/favorits/ui/FavoritsPage';
 import ProfilePage from '../../pages/profile/ui/ProfilePage';
+import NotFoundPage from '../../pages/errors/NotFoundPage';
 
 
 const IndexRoutes: React.FC = () => {
@@ -23,6 +24,7 @@ const IndexRoutes: React.FC = () => {
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/favorits" element={<LikedProductsPage />} />
       <Route path="/shoppingCart" element={<ShoppingCart />} />
+			<Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
