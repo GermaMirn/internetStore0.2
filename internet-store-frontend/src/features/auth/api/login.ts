@@ -1,10 +1,5 @@
 import axiosInstance from '../../../shared/api/axiosInstance';
-
-
-interface LoginData {
-  username: string;
-  password: string;
-}
+import { LoginData } from '../../../interfaces';
 
 
 export const loginUser = async (data: LoginData) => {

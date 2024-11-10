@@ -1,17 +1,7 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Input.module.css';
 import classNames from 'classnames';
-
-
-interface InputProps {
-  name: string;
-  value: string;
-  placeholder: string;
-  className?: string;
-  type?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
-}
+import { InputProps } from '../../../interfaces';
 
 
 const Input: React.FC<InputProps> = ({ name, value, placeholder, type = 'text', className, onChange, error }) => {

@@ -3,27 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './ProductCard.module.css';
 import Button from '../../../shared/ui/Button';
 import ProductActions from '../../../features/products/ui/ProductActions';
-
-
-export interface Product {
-  id: number;
-  mainImageUrl: string;
-  name: string;
-  description: string;
-  price: string;
-  isHearted: boolean;
-  isInCart: boolean;
-  cartQuantity: number;
-  cartItemId: number;
-}
-
-
-interface ProductCardProps {
-  product: Product;
-  onQuickViewOpen: () => void;
-	updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void;
-  updateHeartState: (isHearted: boolean) => void;
-}
+import { ProductCardProps } from '../../../interfaces'
 
 
 const ProductCard: React.FC<ProductCardProps> = ({

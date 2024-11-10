@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import styles from './ImagesCarousel.module.css';
+import { ImagesCarouselProps } from '../../../interfaces';
 
-interface ImagesCarouselProps {
-  imagesUrl: string[];
-  mainImage: string;
-  onImageSelect: (imageUrl: string) => void;
-}
 
 const ImagesCarousel: React.FC<ImagesCarouselProps> = ({ imagesUrl, mainImage, onImageSelect }) => {
   const baseURL = 'http://127.0.0.1:8000';
@@ -62,5 +58,6 @@ const ImagesCarousel: React.FC<ImagesCarouselProps> = ({ imagesUrl, mainImage, o
     </div>
   );
 };
+
 
 export default ImagesCarousel;

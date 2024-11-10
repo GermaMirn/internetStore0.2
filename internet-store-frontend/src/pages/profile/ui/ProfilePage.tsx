@@ -2,7 +2,8 @@ import styles from './ProfilePage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../app/context/AuthContext';
-import getProfileData, { Profile } from '../api/getProfileData';
+import getProfileData from '../api/getProfileData';
+import { Profile } from '../../../interfaces';
 import classNames from 'classnames';
 
 

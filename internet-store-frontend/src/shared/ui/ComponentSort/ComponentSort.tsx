@@ -1,22 +1,9 @@
 import React from 'react';
 import styles from './ComponentSort.module.css';
 import classNames from 'classnames';
-import { Review } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/Review/Review';
+import { ComponentSortProps } from '../../../interfaces';
 import SortIcon from './SortIcon';
 import { sortReviews } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/utils/sortReviews';
-
-
-
-interface ComponentSortProps {
-  reviews: Review[];
-  onSortChange: (sortedReviews: Review[]) => void;
-  currentSort: 'date' | 'likes';
-  isAscendingDate: boolean;
-  isAscendingLikes: boolean;
-  setCurrentSort: (sort: 'date' | 'likes') => void;
-  setIsAscendingDate: (isAscending: boolean) => void;
-  setIsAscendingLikes: (isAscending: boolean) => void;
-}
 
 
 const ComponentSort: React.FC<ComponentSortProps> = ({

@@ -6,10 +6,8 @@ import { useAuth } from '../../../app/context/AuthContext';
 import Button from '../../../shared/ui/Button';
 import Input from '../../../shared/ui/Input/Input';
 import styles from './Form.module.css';
+import { LoginFormProps } from '../../../interfaces';
 
-interface LoginFormProps {
-  username?: string;
-}
 
 const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
 	const { login } = useAuth();
@@ -115,5 +113,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
     </div>
   );
 };
+
 
 export default LoginForm;

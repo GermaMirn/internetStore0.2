@@ -3,16 +3,10 @@ import styles from './Heart.module.css';
 import classNames from 'classnames';
 import { addHeart } from '../../api/Heart/addHeart';
 import { removeHeart } from '../../api/Heart/removeHeart';
+import { HeartProductProps } from '../../../interfaces';
 
 
-interface HeartProps {
-  isProductLiked: boolean;
-  productId: number;
-  onToggleLike?: (newLikedState: boolean) => Promise<void>;
-}
-
-
-const DivForFullHeart: React.FC<HeartProps> = ({ isProductLiked = false, productId, onToggleLike }) => {
+const DivForFullHeart: React.FC<HeartProductProps> = ({ isProductLiked = false, productId, onToggleLike }) => {
   const [isLiked, setIsLiked] = useState(isProductLiked);
   const [isLoading, setIsLoading] = useState(false);
 

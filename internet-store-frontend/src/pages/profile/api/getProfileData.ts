@@ -1,11 +1,5 @@
 import axiosInstance from '../../../shared/api/axiosInstance';
-
-
-export interface Profile {
-	username: string;
-	fullname: string;
-	phoneNumber: string;
-}
+import { Profile } from '../../../interfaces';
 
 
 const getProfileData = async (): Promise<Profile> => {

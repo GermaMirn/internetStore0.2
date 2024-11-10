@@ -1,13 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './ProfileMenu.module.css';
-
-
-interface ProfileMenuProps {
-  onLogout: () => void;
-  visible: boolean;
-  toggleMenu: () => void;
-}
+import { ProfileMenuProps } from '../../../interfaces';
 
 
 const ProfileMenu: React.FC<ProfileMenuProps> = ({ onLogout, visible, toggleMenu }) => {

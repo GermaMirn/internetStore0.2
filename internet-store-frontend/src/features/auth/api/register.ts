@@ -1,13 +1,5 @@
 import axiosInstance from '../../../shared/api/axiosInstance';
-
-
-interface RegisterData {
-  username: string;
-  fio: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-}
+import { RegisterData } from '../../../interfaces';
 
 
 export const registerUser = async (data: RegisterData) => {

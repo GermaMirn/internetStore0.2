@@ -3,19 +3,7 @@ import { CartItem } from './CartItem';
 import { CartSummary } from './CartSummary';
 import getShoppingCartItems from '../api/getShoppingCartItems';
 import styles from './ShoppingCart.module.css';
-
-
-export interface CartItemType {
-  id: number;
-  price: number;
-  quantity: number;
-  productId: number;
-  productName: string;
-	productPrice: number;
-  image: string;
-  isHearted: boolean;
-  isActive?: boolean;
-}
+import { CartItemType } from '../../../interfaces';
 
 
 const ShoppingCart: React.FC = () => {

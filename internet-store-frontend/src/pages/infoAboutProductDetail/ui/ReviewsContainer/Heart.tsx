@@ -3,15 +3,8 @@ import styles from './Heart.module.css';
 import classNames from 'classnames';
 import { addHeartToComment, removeHeartFromComment } from '../../api/HeartCommentAndReview/commentHeart';
 import { addHeartToReview, removeHeartFromReview } from '../../api/HeartCommentAndReview/reviewHeart';
+import { HeartProps } from '../../../../interfaces';
 
-interface HeartProps {
-  isCommentLiked?: boolean;
-  commentId?: number;
-  isReviewLiked?: boolean;
-  reviewId?: number;
-  heartsCount: number;
-  onToggleLike?: (newLikedState: boolean, heartsCount: number) => Promise<void>;
-}
 
 const HeartCommentAndReview: React.FC<HeartProps> = ({
   isCommentLiked = false,
@@ -86,5 +79,6 @@ const HeartCommentAndReview: React.FC<HeartProps> = ({
 		</div>
   );
 };
+
 
 export default HeartCommentAndReview;

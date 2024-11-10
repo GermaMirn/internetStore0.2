@@ -1,16 +1,8 @@
 import React from 'react';
-import { Product } from './ProductCard';
+import { QuickViewProps } from '../../../interfaces';
 import styles from './QuickView.module.css';
 import Cross from '../../../shared/ui/Cross/Cross';
 import ProductActions from '../../../features/products/ui/ProductActions';
-
-
-interface QuickViewProps {
-  product: Product;
-  onClose: () => void;
-	updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void;
-  updateHeartState: (isHearted: boolean) => void;
-}
 
 
 const QuickView: React.FC<QuickViewProps> = ({

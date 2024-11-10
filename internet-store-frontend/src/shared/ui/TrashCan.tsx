@@ -1,11 +1,6 @@
 import styles from './TrashCan.module.css';
 import { removeProductToCart } from '../api/removeAddProductToCart/removeProductToCart'
-
-
-interface TrashCanProps {
-	itemId: number;
-}
-
+import { TrashCanProps } from '../../interfaces';
 
 const TrashCan: React.FC<TrashCanProps> = ({ itemId }) => {
 

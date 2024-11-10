@@ -3,14 +3,9 @@ import styles from './ReviewsContainer.module.css';
 import classNames from 'classnames';
 import ComponentSort from '../../../../../shared/ui/ComponentSort/ComponentSort';
 import ReviewItem from '../Review/Review';
-import { Review } from '../Review/Review';
+import { ReviewsProps } from '../../../../../interfaces';
+import { Review } from '../../../../../interfaces';
 import { sortReviews } from '../utils/sortReviews';
-
-
-interface ReviewsProps {
-  reviews: Review[];
-  hearts: number;
-}
 
 
 const ReviewsContainer: React.FC<ReviewsProps> = ({ reviews, hearts }) => {

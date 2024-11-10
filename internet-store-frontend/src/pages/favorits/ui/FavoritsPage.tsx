@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getLikedProducts } from '../api/getFavoritProducts';
-import { Product } from '../api/getFavoritProducts';
+import { Product } from '../../../interfaces';
 import styles from './FavoritsPage.module.css';
 import ProductContainer from '../../../entities/product/ui/ProductContainer';
 

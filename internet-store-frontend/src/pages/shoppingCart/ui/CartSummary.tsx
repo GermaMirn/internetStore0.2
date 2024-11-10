@@ -1,16 +1,8 @@
 import styles from './CartSummary.module.css';
 import Button from '../../../shared/ui/Button';
 import createOrder from '../api/createOrder';
-import { CartItemType } from './ShoppingCart';
+import { CartSummaryProps } from '../../../interfaces';
 import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
-
-
-interface CartSummaryProps {
-	totalAmount: number;
-	itemCount: number;
-	selectedItems: CartItemType[];
-	onOrderSuccess: (orderedItems: CartItemType[]) => void;
-}
 
 
 export const CartSummary: React.FC<CartSummaryProps> = ({ totalAmount, itemCount, selectedItems, onOrderSuccess }) => {

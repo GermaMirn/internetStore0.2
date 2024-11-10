@@ -1,20 +1,10 @@
 import React from 'react';
-import { CartItemType } from './ShoppingCart';
+import { CartItemProps } from '../../../interfaces';
 import styles from './CartItem.module.css';
 import AddRemoveQuantityOfProducts from '../../../shared/ui/AddRemoveQuantityOfProducts/AddRemoveQuantityOfProducts';
 import Heart from '../../../shared/ui/Heart/Heart';
 import TrashCan from '../../../shared/ui/TrashCan';
 import { useNavigate } from 'react-router-dom';
-
-
-interface CartItemProps {
-	item: CartItemType;
-	productId: number;
-	onToggle: () => void;
-	onIncrease: () => void;
-	onDecrease: () => void;
-	onRemove: () => void;
-}
 
 
 export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, onIncrease, onDecrease, onRemove }) => {

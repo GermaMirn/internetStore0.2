@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import ProductCard from './ProductCard';
 import QuickView from './QuickView';
-import { Product } from './ProductCard';
+import { ProductContainerProps } from '../../../interfaces';
 
-interface ProductContainerProps {
-  product: Product;
-	onRemoveLike?: (productId: number) => void;
-}
 
 const ProductContainer: React.FC<ProductContainerProps> = ({ product, onRemoveLike }) => {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);

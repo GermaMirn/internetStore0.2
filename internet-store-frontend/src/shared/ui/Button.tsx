@@ -2,17 +2,7 @@ import React from 'react';
 import styles from './Button.module.css';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-
-
-interface ButtonProps {
-  text?: string;
-	icon?: string;
-	disabled?: boolean;
-	username?: string;
-  color?: 'notColor' | 'color';
-	navigateTo?: string;
-	size?: 'small' | 'medium' | 'large';
-}
+import { ButtonProps } from '../../interfaces';
 
 
 const Button: React.FC<ButtonProps> = ({ text, icon, username = '', color = 'notColor', navigateTo, disabled = false, size = 'medium' }) => {

@@ -1,13 +1,7 @@
 import React from 'react';
 import styles from './SortIcon.module.css';
 import classNames from 'classnames';
-
-
-interface SortIconProps {
-  isAscending: boolean;
-  onClick: () => void;
-  active: boolean;
-}
+import { SortIconProps } from '../../../interfaces';
 
 
 const SortIcon: React.FC<SortIconProps> = ({ isAscending, onClick, active }) => (

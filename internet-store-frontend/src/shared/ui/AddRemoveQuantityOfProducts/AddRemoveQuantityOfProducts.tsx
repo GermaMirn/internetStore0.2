@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './AddRemoveQuantityOfProducts.module.css';
 import { addUnitToCartProduct } from '../../api/updateCartProductQuantity/addUnitToCartProduct';
 import { removeUnitToCartProduct } from '../../api/updateCartProductQuantity/removeUnitToCartProduct';
-
-
-interface AddRemoveQuantityOfProductsProps {
-  countOfProduct: number;
-  cartItemId: number;
-  onIncrease?: () => void;
-  onDecrease?: () => void;
-}
+import { AddRemoveQuantityOfProductsProps } from '../../../interfaces';
 
 
 const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = ({

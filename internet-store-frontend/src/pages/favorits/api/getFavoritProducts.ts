@@ -1,20 +1,5 @@
 import axiosInstance from "../../../shared/api/axiosInstance";
-
-
-export interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  categories: string[];
-  imagesURL: string[];
-  mainImageUrl: string;
-  hearts: number;
-  isHearted: boolean;
-  isInCart: boolean;
-  cartQuantity: number;
-  cartItemId: number;
-}
+import { Product } from "../../../interfaces";
 
 
 export const getLikedProducts = async (isLiked: boolean): Promise<Product[]> => {

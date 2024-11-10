@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
 import styles from './ReviewCommentData.module.css';
 import { formatDate } from './utils/dateUtils';
-import { Comment } from './Comment/Comment';
 import ImageModal from './ImageModal';
+import { ReviewDataProps } from '../../../../interfaces';
 
-
-interface ReviewDataProps {
-  isReview: boolean;
-  user: string;
-  created_at: string;
-  text: string;
-  mainImage?: string | null;
-  imagesUrl?: string[];
-  comments?: Comment[];
-  showComments?: boolean;
-  toggleComments?: () => void;
-}
 
 
 const ReviewData: React.FC<ReviewDataProps> = ({ isReview, user, created_at, text, mainImage = '', imagesUrl = [], comments = [], showComments = false, toggleComments = () => {} }) => {

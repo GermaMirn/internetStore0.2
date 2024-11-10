@@ -5,25 +5,10 @@ import ProductActions from '../../../features/products/ui/ProductActions';
 import ImagesCarousel from './ImagesCarousel';
 import ReviewsContainer from './ReviewsContainer/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetail.module.css';
+import { ProductDetail } from '../../../interfaces';
 
 
-interface ProductDetail {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  imagesUrl: string[];
-  mainImage: string;
-  isHearted: boolean;
-  hearts: number;
-  isInCart: boolean;
-  cartQuantity: number;
-  cartItemId: number;
-  reviews: Array<any>;
-}
-
-
-const ProductDetail = () => {
+const ProductDetailPage = () => {
   const baseURL = 'http://127.0.0.1:8000';
   const { id } = useParams<{ id?: string }>();
   const [product, setProduct] = useState<ProductDetail | null>(null);
@@ -118,4 +103,4 @@ const ProductDetail = () => {
 };
 
 
-export default ProductDetail;
+export default ProductDetailPage;

@@ -3,22 +3,7 @@ import { fetchSearchProducts } from '../api/getProducts';
 import ProductContainer from '../../../entities/product/ui/ProductContainer';
 import Paginator from '../../../features/pagination/ui/Paginator';
 import styles from './SearchProductsPage.module.css';
-
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  categories: string[];
-  imagesURL: string[];
-  mainImageUrl: string;
-  hearts: number;
-  isHearted: boolean;
-  isInCart: boolean;
-  cartQuantity: number;
-  cartItemId: number;
-}
+import { Product } from '../../../interfaces';
 
 
 const SearchProductsPage: React.FC = () => {

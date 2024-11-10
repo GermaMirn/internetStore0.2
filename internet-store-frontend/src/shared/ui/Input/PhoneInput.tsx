@@ -1,16 +1,7 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Input.module.css';
-
-
-interface PhoneInputProps {
-	name: string;
-	value: string;
-	placeholder: string;
-	className?: string;
-	onChange: (value: string) => void;
-	error?: string;
-}
+import { PhoneInputProps } from '../../../interfaces';
 
 
 const PhoneInput: React.FC<PhoneInputProps> = ({

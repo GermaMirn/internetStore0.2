@@ -1,21 +1,19 @@
 import React from 'react';
 import styles from './ImageModal.module.css';
 import { formatDate } from './utils/dateUtils';
+import { ImageModalProps } from '../../../../interfaces';
 
 
-interface ImageModalProps {
-  images: string[];
-  currentIndex: number;
-	created_at: string;
-  user: string;
-  text: string;
-  onClose: () => void;
-  onNext: () => void;
-  onPrev: () => void;
-}
-
-
-const ImageModal: React.FC<ImageModalProps> = ({ images, user, created_at, text, currentIndex, onNext, onPrev, onClose }) => {
+const ImageModal: React.FC<ImageModalProps> = ({
+	images,
+	user,
+	created_at,
+	text,
+	currentIndex,
+	onNext,
+	onPrev,
+	onClose
+}) => {
   const baseUrl = "http://127.0.0.1:8000/";
   const currentImage = images[currentIndex];
 
@@ -40,5 +38,6 @@ const ImageModal: React.FC<ImageModalProps> = ({ images, user, created_at, text,
     </div>
   );
 };
+
 
 export default ImageModal;

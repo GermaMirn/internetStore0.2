@@ -1,25 +1,10 @@
 import React, { useState } from 'react';
 import styles from './Review.module.css';
-import CommentItem, { Comment } from '../Comment/Comment';
+import CommentItem from '../Comment/Comment';
 import HeartCommentAndReview from '../Heart';
 import ReviewData from '../ReviewCommentData';
+import { ReviewItemProps } from '../../../../../interfaces';
 
-export interface Review {
-  id: number;
-  user: string;
-  text: string;
-  created_at: string;
-  hearts: number;
-  isLiked: boolean;
-  imagesUrl: string[];
-  mainImage: string | null;
-  comments: Comment[];
-}
-
-interface ReviewItemProps extends Review {
-  updateReviewLikes: (id: number, newLikes: number) => void;
-  setIsLiked: (id: number, isLiked: boolean) => void;
-}
 
 const ReviewItem: React.FC<ReviewItemProps> = ({
   id,
@@ -77,5 +62,6 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
     </div>
   );
 };
+
 
 export default ReviewItem;

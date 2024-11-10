@@ -1,21 +1,8 @@
 import axiosInstance from "../../../shared/api/axiosInstance";
+import { ProductDetail } from "../../../interfaces";
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  imagesUrl: string[];
-  mainImage: string;
-  isHearted: boolean;
-  hearts: number;
-	isInCart: boolean;
-	cartQuantity: number;
-	cartItemId: number;
-  reviews: Array<any>;
-}
 
-export const getProductDetail = async (productId: string): Promise<Product> => {
+export const getProductDetail = async (productId: string): Promise<ProductDetail> => {
   try {
     const response = await axiosInstance.get(`/store/infoAboutproductDetail/${productId}/`);
     return response.data.product;

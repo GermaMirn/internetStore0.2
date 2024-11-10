@@ -4,16 +4,8 @@ import Button from '../../../shared/ui/Button';
 import Heart from '../../../shared/ui/Heart/Heart';
 import styles from './ProductActions.module.css';
 import { addProductToCart } from '../../../shared/api/removeAddProductToCart/addProductToCart';
+import { ProductActionsProps } from '../../../interfaces';
 
-interface ProductActionsProps {
-  productId: number;
-  isInCart: boolean;
-  cartQuantity: number;
-  itemId: number;
-  isHearted: boolean;
-  updateCartState?: (isInCart: boolean, quantity: number, itemId: number) => void;
-  updateHeartState?: (newHearts: boolean) => void;
-}
 
 const ProductActions: React.FC<ProductActionsProps> = ({
   productId,
