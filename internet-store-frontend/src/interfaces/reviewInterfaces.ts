@@ -6,11 +6,13 @@ export interface ReviewDataProps {
   user: string;
   created_at: string;
   text: string;
+	reviewId: number;
   mainImage?: string | null;
   imagesUrl?: string[];
   comments?: Comment[];
   showComments?: boolean;
   toggleComments?: () => void;
+	onNewComment?: (newComment: Comment) => void;
 }
 
 export interface Review {
@@ -27,8 +29,13 @@ export interface Review {
 
 
 export interface ReviewsProps {
+	productImg: string;
+	productName: string;
   reviews: Review[];
   hearts: number;
+	isReviewFormOpen: boolean;
+	openFormAddReview: () => void;
+	handleSubmitReview: (commentText: string, images: File[]) => void;
 }
 
 

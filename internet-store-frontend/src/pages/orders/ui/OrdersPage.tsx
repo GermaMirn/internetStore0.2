@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getUserOrders } from '../api/getOrders';
 import { Order } from '../../../interfaces';
+import styles from './OrdersPage.module.css';
+import OrderCard from '../../../entities/order/ui/OrderCard';
+
 
 const UserOrders: React.FC = () => {
+	const baseUrl = 'http://127.0.0.1:8000/'
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,46 +30,28 @@ const UserOrders: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div>Загрузка заказов...</div>;
+    return <div className={styles.loading}>Загрузка заказов...</div>;
   }
 
   if (error) {
-    return <div style={{ color: 'red' }}>{error}</div>;
+    return <div className={styles.error}>{error}</div>;
   }
 
   return (
     <div>
-      <h2>Мои заказы</h2>
       {orders.length === 0 ? (
-        <p>У вас пока нет заказов.</p>
+        <h2 className={styles.emptyShoppingCart}>У вас пока нет заказов.</h2>
       ) : (
-        <ul>
-          {orders.map((order) => (
-            <li key={order.id}>
-              <h3>Заказ #{order.id}</h3>
-              <p>Дата создания: {new Date(order.created_at).toLocaleDateString()}</p>
-              <p>Сумма заказа: {order.totalPrice} руб.</p>
-              <p>Статус доставки: {order.isDelivered ? 'Доставлен' : 'В пути'}</p>
-              {order.items.length > 0 && (
-                <div>
-                  <h4>Товары в заказе:</h4>
-                  <ul>
-                    {order.items.map((item) => (
-                      <li key={item.id}>
-                        <p>Товар: {item.product.name}</p>
-                        <p>Количество: {item.quantity}</p>
-                        <p>Цена: {item.price} руб.</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+        <div>
+					<h2>Ваши Заказы</h2>
+					{orders.map((order) => (
+						<OrderCard key={order.id} order={order} baseUrl={baseUrl} />
+					))}
+        </div>
       )}
     </div>
   );
 };
+
 
 export default UserOrders;

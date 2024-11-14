@@ -1,5 +1,6 @@
 export interface Comment {
   id: number;
+	reviewId: number;
   user: string;
   text: string;
   created_at: string;
@@ -7,4 +8,5 @@ export interface Comment {
 	isLiked: boolean;
   imagesUrl: string[];
   mainImage: string | null;
+	onNewComment?: (newComment: Comment) => void;
 }

@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
+    categories,
     searchPageProducts,
     heartProduct,
     infoAboutproductDetail,
@@ -24,6 +25,7 @@ router = DefaultRouter()
 urlpatterns = [
     path('searchPageProducts/', searchPageProducts, name='searchPageProducts'),
     path('heartProduct/<int:productId>/', heartProduct, name='heartProduct'),
+    path('categories/', categories, name='categories'),
 
     path('infoAboutproductDetail/<int:productId>/', infoAboutproductDetail, name='infoAboutproductDetail/'),
     path('product/<int:productId>/fastviews/', addFastView, name='addFastViews'),

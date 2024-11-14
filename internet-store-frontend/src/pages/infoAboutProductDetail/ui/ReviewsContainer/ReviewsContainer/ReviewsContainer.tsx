@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ReviewsProps } from '../../../../../interfaces';
+import { Review } from '../../../../../interfaces';
+import { sortReviews } from '../utils/sortReviews';
 import styles from './ReviewsContainer.module.css';
 import classNames from 'classnames';
 import ComponentSort from '../../../../../shared/ui/ComponentSort/ComponentSort';
 import ReviewItem from '../Review/Review';
-import { ReviewsProps } from '../../../../../interfaces';
-import { Review } from '../../../../../interfaces';
-import { sortReviews } from '../utils/sortReviews';
+import FormForSendNewReview from '../Review/FormForSendNewReview';
 
 
-const ReviewsContainer: React.FC<ReviewsProps> = ({ reviews, hearts }) => {
+const ReviewsContainer: React.FC<ReviewsProps> = ({ productImg, productName, reviews, hearts, isReviewFormOpen, openFormAddReview, handleSubmitReview }) => {
+	const token = localStorage.getItem('token');
   const [sortedReviews, setSortedReviews] = useState<Review[]>(reviews);
-	const [currentSort, setCurrentSort] = useState<'date' | 'likes'>('date');
-	const [likesState, setLikesState] = useState<{ [key: number]: boolean }>({});
-	const [isAscendingDate, setIsAscendingDate] = useState(true);
-	const [isAscendingLikes, setIsAscendingLikes] = useState(true);
+  const [currentSort, setCurrentSort] = useState<'date' | 'likes'>('date');
+  const [likesState, setLikesState] = useState<{ [key: number]: boolean }>({});
+  const [isAscendingDate, setIsAscendingDate] = useState(true);
+  const [isAscendingLikes, setIsAscendingLikes] = useState(true);
+
+	useEffect(() => {
+		setSortedReviews(sortReviews(reviews, currentSort, currentSort === 'likes' ? isAscendingLikes : isAscendingDate));
+	}, [reviews, currentSort, isAscendingDate, isAscendingLikes]);
+
 
   const handleSortChange = (newSortedReviews: Review[]) => {
     setSortedReviews(newSortedReviews);
@@ -27,30 +34,37 @@ const ReviewsContainer: React.FC<ReviewsProps> = ({ reviews, hearts }) => {
 
       return sortReviews(updatedReviews, currentSort, currentSort === 'likes' ? isAscendingLikes : isAscendingDate);
     });
-	};
+  };
 
-	const toggleLike = (id: number, isLiked: boolean) => {
-		setLikesState((prev) => ({ ...prev, [id]: isLiked }));
-	};
+  const toggleLike = (id: number, isLiked: boolean) => {
+    setLikesState(prev => ({ ...prev, [id]: isLiked }));
+  };
 
   return (
     <div className={classNames(styles.divReviews)}>
       <div className={styles.headerReviews}>
-        <h2 className={styles.textHeaderReviews}>Отзовы</h2>
+        <h2 className={styles.textHeaderReviews}>Отзывы</h2>
         <p className={classNames(styles.sortTextHeaderReviews, styles.underline)}>Сортировать по:</p>
 
-        <ComponentSort
-          reviews={sortedReviews}
-          onSortChange={handleSortChange}
-          currentSort={currentSort}
-          isAscendingDate={isAscendingDate}
-          isAscendingLikes={isAscendingLikes}
-          setCurrentSort={setCurrentSort}
-          setIsAscendingDate={setIsAscendingDate}
-          setIsAscendingLikes={setIsAscendingLikes}
-        />
+        <div className={styles.divForSort}>
+          <ComponentSort
+            reviews={sortedReviews}
+            onSortChange={handleSortChange}
+            currentSort={currentSort}
+            isAscendingDate={isAscendingDate}
+            isAscendingLikes={isAscendingLikes}
+            setCurrentSort={setCurrentSort}
+            setIsAscendingDate={setIsAscendingDate}
+            setIsAscendingLikes={setIsAscendingLikes}
+          />
+        </div>
 
         <div className={styles.divForHeart}>
+					{ token && (
+						<button className={styles.openCloseFormForSendNewReview} onClick={openFormAddReview}>
+							Оставить отзыв
+						</button>
+					)}
           <h2 className={styles.countHearts}>{hearts}</h2>
           <img src="/product/fullHeart.svg" alt="" />
         </div>
@@ -62,17 +76,28 @@ const ReviewsContainer: React.FC<ReviewsProps> = ({ reviews, hearts }) => {
         {sortedReviews.length > 0 ? (
           sortedReviews.map((review) => (
             <ReviewItem
-							key={review.id}
-							{...review}
-							updateReviewLikes={updateReviewLikes}
-							isLiked={likesState[review.id] ?? review.isLiked}
-							setIsLiked={toggleLike}
-						/>
+              key={review.id}
+              {...review}
+              updateReviewLikes={updateReviewLikes}
+              isLiked={likesState[review.id] ?? review.isLiked}
+              setIsLiked={toggleLike}
+            />
           ))
         ) : (
           <div>Нет отзывов</div>
         )}
       </div>
+
+      {isReviewFormOpen && (
+        <div className={styles.reviewForm}>
+					<FormForSendNewReview
+						productImg={productImg}
+						productName={productName}
+						onClose={openFormAddReview}
+						handleSubmitReview={handleSubmitReview}
+					/>
+        </div>
+      )}
     </div>
   );
 };

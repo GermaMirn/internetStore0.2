@@ -1,0 +1,14 @@
+.emptyShoppingCart{
+	margin-left: 37%;
+}
+
+
+.error {
+  color: red;
+}
+
+
+.loading {
+  font-size: 18px;
+  font-weight: bold;
+}

@@ -1,0 +1,51 @@
+.mainDivForAddReviewForm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.formAddReview{
+	padding: 30px;
+	background-color: #E3E3E3;
+	width: 850px;
+	height: 753px;
+	border-radius: 30px;
+}
+
+
+.divForProduct{
+	padding: 20px;
+	width: 810px;
+	display: flex;
+	background-color: white;
+	border-radius: 20px;
+	margin-bottom: 40px;
+}
+
+
+.productImg{
+	border-radius: 20px;
+	width: 170px;
+	height: 155px;
+}
+
+
+.productName{
+	margin-left: 20px;
+	color: #5d3ae9;
+	margin-top: -1px;
+}
+
+
+.divForForm{
+	margin-top: 40px;
+}

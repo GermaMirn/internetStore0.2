@@ -1,21 +1,34 @@
 import React from 'react';
 import styles from './Comment.module.css';
 import HeartCommentAndReview from '../Heart';
-import ReviewData from '../ReviewCommentData';
+import ReviewCommentData from '../ReviewCommentData';
 import { Comment } from '../../../../../interfaces';
 
 
-const CommentItem: React.FC<Comment> = ({ id, user, text, created_at, hearts, isLiked, mainImage, imagesUrl}) => {
+const CommentItem: React.FC<Comment> = ({
+	id,
+	reviewId,
+	user,
+	text,
+	created_at,
+	hearts,
+	isLiked,
+	mainImage,
+	imagesUrl,
+	onNewComment
+}) => {
   return (
     <div className={styles.mainDivComment}>
       <div className={styles.comment}>
-				<ReviewData
+				<ReviewCommentData
 					isReview={false}
+					reviewId={reviewId}
           user={user}
           created_at={created_at}
           text={text}
 					mainImage={mainImage}
 					imagesUrl={imagesUrl}
+					onNewComment={onNewComment}
         />
 
         <div className={styles.heartComment}>

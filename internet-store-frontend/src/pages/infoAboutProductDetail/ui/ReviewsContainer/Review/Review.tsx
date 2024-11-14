@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import styles from './Review.module.css';
 import CommentItem from '../Comment/Comment';
 import HeartCommentAndReview from '../Heart';
-import ReviewData from '../ReviewCommentData';
+import ReviewCommentData from '../ReviewCommentData';
 import { ReviewItemProps } from '../../../../../interfaces';
+import { Comment } from '../../../../../interfaces';
 
 
 const ReviewItem: React.FC<ReviewItemProps> = ({
@@ -20,6 +21,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
   setIsLiked,
 }) => {
   const [showComments, setShowComments] = useState(false);
+	const [updatedComments, setUpdatedComments] = useState(comments);
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
@@ -31,19 +33,25 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
     setIsLiked(id, !isLiked);
   };
 
+	const handleNewComment = (newComment: Comment) => {
+    setUpdatedComments((prevComments) => [...prevComments, newComment]);
+  };
+
   return (
     <div className={styles.mainDivReview}>
       <div className={styles.review}>
-        <ReviewData
+        <ReviewCommentData
           isReview={true}
           user={user}
           created_at={created_at}
           text={text}
+					reviewId={id}
 					mainImage={mainImage}
           imagesUrl={imagesUrl}
-          comments={comments}
+          comments={updatedComments}
           showComments={showComments}
           toggleComments={toggleComments}
+					onNewComment={handleNewComment}
         />
 
         <div className={styles.heartReview} onClick={handleLikeToggle}>
@@ -51,10 +59,10 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
         </div>
       </div>
 
-      {showComments && comments.length > 0 && (
+      {showComments && updatedComments.length > 0 && (
         <div className={styles.divForComments}>
-          {comments.map((comment) => (
-            <CommentItem key={comment.id} {...comment} />
+          {updatedComments.map((comment) => (
+            <CommentItem key={comment.id} {...comment} reviewId={id} onNewComment={handleNewComment} />
           ))}
         </div>
       )}

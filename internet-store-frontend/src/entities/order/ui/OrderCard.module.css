@@ -1,0 +1,83 @@
+.orderCard {
+  border: 1px solid #ddd;
+	padding-left: 27px;
+	padding-right: 27px;
+	padding-top: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+	border-radius: 20px;
+	margin-bottom: 40px;
+}
+
+
+.orderCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+.orderCardHeader {
+	width: auto;
+	height: 40px;
+	display: flex;
+	justify-content: space-between;
+  font-weight: bold;
+}
+
+
+.sumText{
+	font-weight: 400;
+}
+
+
+.orderCardDetails{
+	font-size: 15px;
+	font-weight: 550;
+	margin-bottom: 30px;
+}
+
+
+.orderCardImages{
+	display: flex;
+}
+
+
+.productImageContainer {
+	position: relative;
+	display: inline-block;
+}
+
+
+.productImg {
+	cursor: pointer;
+	margin-right: 15px;
+	margin-bottom: 18px;
+	width: 125px;
+	height: 110px;
+	border-radius: 15px;
+}
+
+.hoverText {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 90%;
+	height: 84%;
+	border-radius: 15px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	transition: opacity 0.3s;
+	pointer-events: none;
+}
+
+
+.productImageContainer:hover .hoverText {
+	opacity: 1;
+}
+
+
+.hoverTextP{
+	margin-left: 27px;
+	margin-top: 50px;
+}

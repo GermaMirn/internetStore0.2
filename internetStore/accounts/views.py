@@ -10,6 +10,8 @@ from .models import Profile
 from django.forms import ValidationError
 from django.middleware.csrf import get_token
 from .serializers import UserProfileSerializer
+from internetStore.utils import delete_cache_patterns
+
 
 class CreateAccountView(APIView):
 	permission_classes = [AllowAny]
@@ -93,10 +95,7 @@ class GetUserInfo(APIView):
 		user = request.user
 
 		if user.is_authenticated:
-			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
-			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
-			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+			delete_cache_patterns(request.user.id)
 
 			serializedProfile = UserProfileSerializer(user).data
 			return Response({'success': True, 'profile': serializedProfile}, status=status.HTTP_200_OK)

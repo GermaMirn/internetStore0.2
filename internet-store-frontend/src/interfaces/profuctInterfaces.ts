@@ -73,3 +73,9 @@ export interface ProductActionsProps {
   updateCartState?: (isInCart: boolean, quantity: number, itemId: number) => void;
   updateHeartState?: (newHearts: boolean) => void;
 }
+
+
+export interface CategoriesMenuProps{
+	visible: boolean;
+	toggleCategoriesMenu: () => void;
+}

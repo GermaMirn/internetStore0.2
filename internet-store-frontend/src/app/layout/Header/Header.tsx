@@ -4,16 +4,22 @@ import { useAuth } from '../../context/AuthContext';
 import ProfileMenu from '../../../shared/ui/ProfileMenu/ProfileMenu';
 import styles from './Header.module.css';
 import classNames from 'classnames';
+import CategoriesMenu from '../../../shared/ui/CategoriesMenu/CategoriesMenu';
 
 
 export function Header() {
   const navigate = useNavigate();
   const { username, logout } = useAuth();
+	const [menuCategoriesVisible, setMenuCategoriesVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
 
   const toggleMenu = () => {
     setMenuVisible((prev) => !prev);
   };
+
+	const toggleCategoriesMenu = () => {
+		setMenuCategoriesVisible((prev) => !prev);
+	}
 
   const handleLogout = () => {
     logout();
@@ -28,9 +34,10 @@ export function Header() {
         </div>
 
         <div className={styles.searchBar}>
-          <div className={styles.categories}>
+          <div className={styles.categories} onClick={toggleCategoriesMenu}>
             <img className={styles.categoriesSvg} src="/header/categories.svg" alt="" />
             <p className={styles.categoriesText}>Категории</p>
+						<CategoriesMenu visible={menuCategoriesVisible} toggleCategoriesMenu={toggleCategoriesMenu} />
           </div>
           <div className={styles.searchButton}>
             <img src="/header/search.svg" alt="" />

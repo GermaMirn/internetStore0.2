@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProductDetail } from '../api/getProductDetail';
+import { ProductDetail } from '../../../interfaces';
+import { addReview } from '../api/addCommentReview/addReview';
 import ProductActions from '../../../features/products/ui/ProductActions';
 import ImagesCarousel from './ImagesCarousel';
 import ReviewsContainer from './ReviewsContainer/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetail.module.css';
-import { ProductDetail } from '../../../interfaces';
 
 
 const ProductDetailPage = () => {
   const baseURL = 'http://127.0.0.1:8000';
   const { id } = useParams<{ id?: string }>();
   const [product, setProduct] = useState<ProductDetail | null>(null);
+	const [reviews, setReviews] = useState(product?.reviews || []);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentImage, setCurrentImage] = useState<string>('');
 	const [hearts, setHearts] = useState<number>(0);
+	const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 
   useEffect(() => {
     const loadProductDetail = async () => {
@@ -24,6 +27,7 @@ const ProductDetailPage = () => {
           setProduct(fetchedProduct);
           setCurrentImage(fetchedProduct.mainImage);
 					setHearts(fetchedProduct.hearts);
+					setReviews(fetchedProduct.reviews);
         } catch (err) {
           console.log('Error fetching product detail:', err);
         } finally {
@@ -49,6 +53,31 @@ const ProductDetailPage = () => {
 			cartItemId: itemId,
 		}));
 	};
+
+	const toggleReviewForm = () => {
+    setIsReviewFormOpen(prevState => !prevState);
+  };
+
+	const handleSubmitReview = async (commentText: string, images: File[]) => {
+    try {
+      const formData = new FormData();
+      formData.append('review', commentText);
+      images.forEach((image) => {
+        formData.append('image', image);
+      });
+
+      const newReview = await addReview(String(id), formData);
+			setReviews(prevReviews => {
+				const updatedReviews = [...prevReviews, newReview];
+				return updatedReviews;
+			});
+
+
+      setIsReviewFormOpen(false);
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -97,7 +126,15 @@ const ProductDetailPage = () => {
         </div>
       </div>
 
-      <ReviewsContainer reviews={product.reviews} hearts={hearts} />
+      <ReviewsContainer
+				productImg={product.mainImage}
+				productName={product.name}
+        reviews={reviews}
+        hearts={hearts}
+        isReviewFormOpen={isReviewFormOpen}
+				openFormAddReview={toggleReviewForm}
+				handleSubmitReview={handleSubmitReview}
+      />
     </div>
   );
 };

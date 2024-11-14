@@ -1,5 +1,6 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from django.core.cache import cache
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 from accounts.models import Profile
@@ -37,6 +38,20 @@ from django.core.paginator import EmptyPage
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from internetStore.utils import (
+	generate_cache_key,
+	get_cached_data,
+	set_cache_data,
+	delete_cache_patterns,
+	delete_cache_for_product_detail
+)
+
+
+@api_view(['GET'])
+def categories(request):
+	categories = Category.objects.all()
+	serializer = CategorySerializer(categories, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -46,17 +61,8 @@ def searchPageProducts(request):
 	searchField = request.GET.get("searchInput", "")
 	isLiked = request.GET.get("isLiked", "false") == "true"
 
-
-	if isLiked:
-		if request.user.is_authenticated:
-			cache_key = f'favorite_page_auth_{request.user.id}_{pageNumber}_{tags}_{searchField}'
-	else:
-		if request.user.is_authenticated:
-			cache_key = f'search_page_products_auth_{request.user.id}_{pageNumber}_{tags}_{searchField}'
-		else:
-			cache_key = f'search_page_products_guest_{pageNumber}_{tags}_{searchField}'
-
-	cached_data = cache.get(cache_key)
+	cache_key = generate_cache_key('favorite_page' if isLiked else 'search_page_products', request.user, pageNumber, tags, searchField)
+	cached_data = get_cached_data(cache_key)
 	if cached_data:
 		return Response(cached_data)
 
@@ -135,7 +141,7 @@ def searchPageProducts(request):
 		"products": productsData,
 	}
 
-	cache.set(cache_key, response_data, timeout=60 * 60)
+	set_cache_data(cache_key, response_data, timeout=60 * 60)
 
 	return Response(response_data)
 
@@ -153,10 +159,7 @@ def heartProduct(request, productId):
 
 	if request.method == 'POST':
 		heart, created = ProductHeart.objects.get_or_create(product=product, user=profile)
-		cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
-		cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-		cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
-		cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+		delete_cache_patterns(request.user.id)
 
 		updated_product = Product.objects.get(id=productId)
 		return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
@@ -165,11 +168,7 @@ def heartProduct(request, productId):
 		try:
 			heart = ProductHeart.objects.get(product=product, user=profile)
 			heart.delete()
-			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
-			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
-			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
-
+			delete_cache_patterns(request.user.id)
 
 			updated_product = Product.objects.get(id=productId)
 			return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
@@ -184,12 +183,8 @@ def infoAboutproductDetail(request, productId):
 	product.detailViews += 1
 	product.save()
 
-	if request.user.is_authenticated:
-		cache_key = f'product_detail_auth_{request.user.id}_{productId}'
-	else:
-		cache_key = f'product_detail_guest_{productId}'
-
-	cached_data = cache.get(cache_key)
+	cache_key = generate_cache_key('product_detail', request.user, productId)
+	cached_data = get_cached_data(cache_key)
 	if cached_data:
 		return Response(cached_data)
 
@@ -281,7 +276,7 @@ def infoAboutproductDetail(request, productId):
 		'likedComment': likedComment,
 	}
 
-	cache.set(cache_key, response_data, timeout=60 * 15)
+	set_cache_data(cache_key, response_data, timeout=60 * 15)
 
 	return Response(response_data)
 
@@ -297,37 +292,47 @@ def addFastView(request, productId):
 
 
 @api_view(['POST'])
-@login_required
+@parser_classes([MultiPartParser])
 def addReview(request, productId):
-  product = get_object_or_404(Product, id=productId)
-  reviewText = request.data.get('review')
+	product = get_object_or_404(Product, id=productId)
+	reviewText = request.data.get('review')
+	files = request.FILES.getlist('image')
 
-  if reviewText:
-    review = Review.objects.create(product=product, user=request.user.profile, text=reviewText)
+	if reviewText:
+		review = Review.objects.create(product=product, user=request.user.profile, text=reviewText)
 
-    imagesUrl = []
-    if 'image' in request.FILES:
-      images = request.FILES.getlist('image')
-      for img in images:
-        review_img = ReviewImage.objects.create(review=review, image=img)
-        imagesUrl.append(review_img.image.url)
+		main_image_url = None
+		image_urls = []
 
-    response_data = {
-      'status': 'success',
-      'review': {
-        'id': review.id,
-        'created_at': review.created_at.strftime("%Y-%m-%d %H:%M"),
-        'user': {
-          'id': review.user.user.id,
-          'username': review.user.user.username,
-        },
-        'text': review.text,
-        'images': imagesUrl,
-      }
-    }
-    return Response(response_data, status=201)
+		if files:
+			main_image = files[0]
+			main_image_obj = ReviewImage.objects.create(review=review, image=main_image)
+			main_image_url = main_image_obj.image.url
 
-  return Response({'status': 'error'}, status=400)
+			image_urls.append(main_image_url)
+			for img in files[1:]:
+				comment_img = ReviewImage.objects.create(review=review, image=img)
+				image_urls.append(comment_img.image.url)
+
+		response_data = {
+			'status': 'success',
+			'review': {
+				'id': review.id,
+				'created_at': review.created_at.strftime("%Y-%m-%d %H:%M"),
+				'hearts': 0,
+				'user': review.user.user.username,
+				'text': review.text,
+				'imagesUrl': image_urls,
+				'mainImage': main_image_url,
+				'comments': [],
+				"isLiked": False,
+			}
+		}
+		delete_cache_for_product_detail(request.user)
+
+		return Response(response_data, status=201)
+
+	return Response({'status': 'error'}, status=400)
 
 
 @api_view(['POST', 'DELETE'])
@@ -338,7 +343,7 @@ def heartReview(request, reviewId):
 
 	if request.method == 'POST':
 		heart, created = ReviewHeart.objects.get_or_create(review=review, user=profile)
-		cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+		delete_cache_for_product_detail(request.user)
 
 		return Response({
 			'success': True,
@@ -350,7 +355,7 @@ def heartReview(request, reviewId):
 		try:
 			heart = ReviewHeart.objects.get(review=review, user=profile)
 			heart.delete()
-			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+			delete_cache_for_product_detail(request.user)
 
 			return Response({
 				'success': True,
@@ -363,38 +368,47 @@ def heartReview(request, reviewId):
 
 
 @api_view(['POST'])
-@login_required
+@parser_classes([MultiPartParser])
 def addComment(request, reviewId):
 	review = get_object_or_404(Review, id=reviewId)
 	commentText = request.data.get('comment')
-
+	files = request.FILES.getlist('image')
 
 	if commentText:
 		comment = Comment.objects.create(review=review, user=request.user.profile, text=commentText)
 
-		imagesUrl = []
-		if 'image' in request.FILES:
-			images = request.FILES.getlist('image')
-			for img in images:
+		main_image_url = None
+		image_urls = []
+
+		if files:
+			main_image = files[0]
+			main_image_obj = CommentImage.objects.create(comment=comment, image=main_image)
+			main_image_url = main_image_obj.image.url
+
+			image_urls.append(main_image_url)
+			for img in files[1:]:
 				comment_img = CommentImage.objects.create(comment=comment, image=img)
-				imagesUrl.append(comment_img.image.url)
+				image_urls.append(comment_img.image.url)
 
 		response_data = {
 			'status': 'success',
 			'comment': {
 				'id': comment.id,
 				'created_at': comment.created_at.strftime("%Y-%m-%d %H:%M"),
-				'user': {
-					'id': comment.user.user.id,
-					'username': comment.user.user.username,
-				},
+				'hearts': 0,
+				'isLiked': False,
+				'user': comment.user.user.username,
 				'text': comment.text,
-				'images': imagesUrl,
+				'mainImage': main_image_url,
+				'imagesUrl': image_urls,
 			}
 		}
+		delete_cache_for_product_detail(request.user)
+
 		return Response(response_data, status=201)
 
 	return Response({'status': 'error'}, status=400)
+
 
 
 @api_view(['POST', 'DELETE'])
@@ -405,7 +419,7 @@ def heartComment(request, commentId):
 
 	if request.method == 'POST':
 		heart, created = CommentHeart.objects.get_or_create(comment=comment, user=profile)
-		cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+		delete_cache_for_product_detail(request.user)
 
 		return Response({
 				'success': True,
@@ -417,7 +431,7 @@ def heartComment(request, commentId):
 		try:
 			heart = CommentHeart.objects.get(comment=comment, user=profile)
 			heart.delete()
-			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
+			delete_cache_for_product_detail(request.user)
 
 			return Response({
 					'success': True,
@@ -432,8 +446,8 @@ def heartComment(request, commentId):
 @api_view(['GET'])
 @login_required
 def getShoppingCartItems(request):
-	cache_key = f'shopping_cart_auth_{request.user.id}'
-	cached_data = cache.get(cache_key)
+	cache_key = generate_cache_key('shopping_cart', request.user)
+	cached_data = get_cached_data(cache_key)
 
 	if cached_data:
 		return Response({'cartItems': cached_data}, status=200)
@@ -446,7 +460,7 @@ def getShoppingCartItems(request):
 
 	serializer = CartItemSerializer(cart_items, many=True, context={'user_hearts': list(user_hearts)})
 
-	cache.set(cache_key, serializer.data, timeout=60 * 60)
+	set_cache_data(cache_key, serializer.data, timeout=60 * 60)
 
 	return Response({'cartItems': serializer.data}, status=200)
 
@@ -464,10 +478,7 @@ def removeAddProductToCart(request, productId=None):
 				cart_item.quantity = 1
 				cart_item.save()
 				serializer = CartItemSerializer(cart_item).data
-				cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
-				cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-				cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
-				cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+				delete_cache_patterns(request.user.id)
 
 				return Response({'success': True, 'message': 'Товар добавлен в корзину.', 'item': serializer}, status=201)
 			else:
@@ -479,10 +490,7 @@ def removeAddProductToCart(request, productId=None):
 		cart_item = get_object_or_404(CartItem, id=productId)
 		try:
 			cart_item.delete()
-			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
-			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
-			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+			delete_cache_patterns(request.user.id)
 
 			return Response({'success': True}, status=200)
 		except Exception as e:
@@ -498,10 +506,7 @@ def updateCartProductQuantity(request, ItemId):
 		if request.method == 'POST':
 			cart_item.quantity += 1
 			cart_item.save()
-			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
-			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
-			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+			delete_cache_patterns(request.user.id)
 
 			return Response({
 					'success': True,
@@ -514,10 +519,7 @@ def updateCartProductQuantity(request, ItemId):
 			if cart_item.quantity > 1:
 				cart_item.quantity -= 1
 				cart_item.save()
-			cache.delete_pattern(f'search_page_products_auth_{request.user.id}_*')
-			cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-			cache.delete_pattern(f'product_detail_auth_{request.user.id}_*')
-			cache.delete_pattern(f'favorite_page_auth_{request.user.id}_*')
+			delete_cache_patterns(request.user.id)
 
 			return Response({
 				'success': True,

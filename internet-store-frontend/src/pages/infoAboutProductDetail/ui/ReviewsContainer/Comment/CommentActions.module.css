@@ -1,0 +1,49 @@
+.divReviewCommentActions{
+	display: flex;
+	align-items: center;
+}
+
+
+.openReviewForm{
+	display: flex;
+	align-items: center;
+}
+
+
+.divCommentText{
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+.imgOfReviewForm{
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+
+.divComment{
+	margin-left: 12px;
+	display: flex;
+	align-items: center;
+}
+
+
+.divCommentText{
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+.openComments{
+	cursor: pointer;
+	margin-left: 5px;
+	width: 13.2px;
+	height: 7.18px;
+	transition: transform 0.3s ease;
+}
+
+
+.openComments.rotate {
+  transform: rotate(180deg);
+}

@@ -4,9 +4,16 @@ from store.models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    mainImageUrl = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'categories', 'mainImage', 'hearts']
+        fields = ['id', 'name', 'description', 'price', 'categories', 'mainImageUrl', 'hearts']
+
+    def get_mainImageUrl(self, obj):
+        if obj.mainImage:
+            return obj.mainImage.url
+        return None
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
