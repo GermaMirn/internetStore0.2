@@ -1,5 +1,6 @@
 .review{
 	display: flex;
+	overflow: hidden;
 }
 
 

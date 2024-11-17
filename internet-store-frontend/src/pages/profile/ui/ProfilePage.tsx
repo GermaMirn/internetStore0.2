@@ -33,7 +33,7 @@ function ProfilePage() {
 	if (!profile) {
 		return <p>Загрузка...</p>;
 	}
-	console.log(profile);
+
 	return (
 		<div className={styles.mainDivProfile}>
 			<h1>Личный Кабинет</h1>

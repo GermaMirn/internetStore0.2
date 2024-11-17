@@ -1,4 +1,4 @@
-import { Review } from "../../../../../interfaces";
+import { Review } from "../../interfaces";
 
 
 type SortType = 'date' | 'likes';

@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Comment.module.css';
-import HeartCommentAndReview from '../Heart';
-import ReviewCommentData from '../ReviewCommentData';
-import { Comment } from '../../../../../interfaces';
+import HeartCommentAndReview from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/Heart';
+import ReviewCommentData from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/ReviewCommentData';
+import { Comment } from '../../interfaces';
 
 
 const CommentItem: React.FC<Comment> = ({

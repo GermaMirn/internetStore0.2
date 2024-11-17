@@ -13,10 +13,12 @@ interface FormForSendNewCommentReviewProps {
 
 
 const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = ({ onClose, onSubmit, isReplyToComment, username, isReview }) => {
+	const MAX_COMMENT_LENGTH = isReview ? 1550 : 600;
   const [commentText, setCommentText] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textAreaRef = useRef<HTMLDivElement | null>(null);
+	const [isKeyDownAllowed, setIsKeyDownAllowed] = useState(false);
 
   useEffect(() => {
     if (isReplyToComment && username && textAreaRef.current) {
@@ -26,14 +28,25 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
 
   const handleChange = () => {
     if (textAreaRef.current) {
-      let currentText = textAreaRef.current.innerHTML;
-      if (isReplyToComment && username && !currentText.includes(username)) {
-        currentText = `<span class="${styles.answerUsername}" contentEditable="false">${username}</span>: ` + currentText;
-      }
+			let currentText = textAreaRef.current.innerHTML;
 
-      setCommentText(currentText);
-    }
+			if (currentText.length > MAX_COMMENT_LENGTH) {
+				currentText = currentText.slice(0, MAX_COMMENT_LENGTH);
+				textAreaRef.current.innerHTML = currentText;
+			}
+
+			setIsKeyDownAllowed(currentText.length === MAX_COMMENT_LENGTH);
+			setCommentText(currentText);
+		}
   };
+
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		const allowedKeys = ['Backspace', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+
+    if (!allowedKeys.includes(event.key) && (event.key.length === 1 || /[a-zA-Z0-9]/.test(event.key))) {
+			event.preventDefault();
+    }
+	};
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -70,14 +83,15 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
   return (
     <div className={styles.replyForm}>
       <div
-        ref={textAreaRef}
-        className={classNames(
-          styles.commentTextArea,
-          { [styles.commentTextAreaReview]: isReview }
-        )}
-        contentEditable
-        onInput={handleChange}
-      />
+				ref={textAreaRef}
+				className={classNames(
+					styles.commentTextArea,
+					{ [styles.commentTextAreaReview]: isReview }
+				)}
+				contentEditable
+				onInput={handleChange}
+				onKeyDown={isKeyDownAllowed ? handleKeyDown : undefined}
+			/>
 
       <div className={styles.imageUpload}>
         <img
@@ -115,26 +129,25 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
 
       <div className={styles.buttons}>
         <button
-					className={classNames(
-						styles.cancelButton,
-						styles.button,
-						{ [styles.buttonReview]: isReview }
-					)}
-					onClick={onClose}
-					>
-						Отмена
-					</button>
+          className={classNames(
+            styles.submitButton,
+            styles.button,
+            { [styles.buttonReview]: isReview }
+          )}
+          onClick={handleSubmit}
+        >
+          Отправить
+        </button>
 
         <button
-					className={classNames(
-						styles.submitButton,
-						styles.button,
-						{[styles.buttonReview]: isReview}
-					)}
-					onClick={handleSubmit}
-				>
-					Отправить
-				</button>
+          className={classNames(
+            styles.cancelButton,
+            { [styles.cancelButtonReview]: isReview }
+          )}
+          onClick={onClose}
+        >
+          Отмена
+        </button>
       </div>
     </div>
   );

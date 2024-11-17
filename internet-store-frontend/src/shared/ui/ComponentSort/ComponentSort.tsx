@@ -3,7 +3,7 @@ import styles from './ComponentSort.module.css';
 import classNames from 'classnames';
 import { ComponentSortProps } from '../../../interfaces';
 import SortIcon from './SortIcon';
-import { sortReviews } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/utils/sortReviews';
+import { sortReviews } from '../../utils/sort';
 
 
 const ComponentSort: React.FC<ComponentSortProps> = ({

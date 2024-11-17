@@ -4,10 +4,10 @@ import { ReviewDataProps } from '../../../../interfaces';
 import { addComment } from '../../api/addCommentReview/addComment';
 import { formatCommentText } from './utils/formatCommentText';
 import styles from './ReviewCommentData.module.css';
-import ImageModal from './ImageModal';
-import FormForSendNewCommentReview from './Comment/FormForSendNewCommentReview';
+import ImageModal from './ImageModalReviewComment';
+import FormForSendNewCommentReview from '../../../../entities/Comment/FormForSendNewCommentReview';
 import ImageViewer from './ImageViewer';
-import CommentActions from './Comment/CommentActions';
+import CommentActions from '../../../../entities/Comment/CommentActions';
 
 
 const ReviewCommentData: React.FC<ReviewDataProps> = ({

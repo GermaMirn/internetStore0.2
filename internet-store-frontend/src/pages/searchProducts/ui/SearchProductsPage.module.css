@@ -4,3 +4,8 @@
   grid-template-rows: repeat(2, auto);
   gap: 16px;
 }
+
+
+.searchField{
+	color: #492DBB;
+}

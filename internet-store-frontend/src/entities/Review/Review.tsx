@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styles from './Review.module.css';
 import CommentItem from '../Comment/Comment';
-import HeartCommentAndReview from '../Heart';
-import ReviewCommentData from '../ReviewCommentData';
-import { ReviewItemProps } from '../../../../../interfaces';
-import { Comment } from '../../../../../interfaces';
+import HeartCommentAndReview from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/Heart';
+import ReviewCommentData from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/ReviewCommentData';
+import { ReviewItemProps } from '../../interfaces';
+import { Comment } from '../../interfaces';
 
 
 const ReviewItem: React.FC<ReviewItemProps> = ({

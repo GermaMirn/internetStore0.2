@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from './ImagesCarousel.module.css';
-import { ImagesCarouselProps } from '../../../interfaces';
+import styles from './ImagesCarouselReviewComment.module.css';
+import { ImagesCarouselProps } from '../../interfaces';
 
 
 const ImagesCarousel: React.FC<ImagesCarouselProps> = ({ imagesUrl, mainImage, onImageSelect }) => {

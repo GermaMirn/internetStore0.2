@@ -51,6 +51,7 @@ export interface ProductDetail {
 
 export interface SearchProductsResponse {
   page: number;
+	searchField?: string;
   total_pages: number;
   products: Product[];
 }
@@ -75,7 +76,9 @@ export interface ProductActionsProps {
 }
 
 
-export interface CategoriesMenuProps{
-	visible: boolean;
-	toggleCategoriesMenu: () => void;
+export interface CategoriesMenuProps {
+  visible: boolean;
+  toggleCategoriesMenu: () => void;
+  selectedCategories: string[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
 }

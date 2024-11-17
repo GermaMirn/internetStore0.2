@@ -1,0 +1,49 @@
+.personActivities{
+	display: flex;
+	margin-top: 1rem;
+	margin-left: 4.3rem;
+}
+
+
+.svgOfPersonActivities{
+	margin-top: -3rem;
+}
+
+
+.divForSvgOfPersonActivities{
+	margin-bottom: -80px;
+	height: 40px;
+	width: 40px;
+}
+
+
+.svgOfFavorites{
+	margin-left: 8px;
+}
+
+
+.svgOfShoppingCart{
+	margin-right: 8px;
+}
+
+
+.svgOfProfile{
+	margin-right: -11px;
+}
+
+
+.shoppingCart{
+	margin-left: 2rem;
+	margin-right: 2.2rem;
+	margin-top: -54px;
+}
+
+
+.textOfPersonActivities{
+	margin-top: 5rem;
+}
+
+
+.testForShoppingCart{
+	margin-top: 86px;
+}

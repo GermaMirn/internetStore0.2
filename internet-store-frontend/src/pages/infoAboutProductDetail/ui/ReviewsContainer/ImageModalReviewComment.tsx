@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styles from './ImageModal.module.css';
+import React, { useState, useEffect } from 'react';
+import styles from './ImageModalReviewComment.module.css';
 import { formatDate } from './utils/dateUtils';
 import { ImageModalProps } from '../../../../interfaces';
 import { formatCommentText } from './utils/formatCommentText';
@@ -23,10 +23,13 @@ const ImageModal: React.FC<ImageModalProps> = ({
 
   const displayedText = isExpanded ? text : `${(text as string).slice(0, maxLength)}`;
 
-
   const toggleText = () => {
     setIsExpanded(!isExpanded);
   };
+
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [currentIndex]);
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -47,6 +50,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
             {formatCommentText(displayedText)}
             { !isExpanded && text.length > maxLength && (
               <span onClick={toggleText} className={styles.expandText}> ....</span>
+            )}
+            { isExpanded && (
+              <span onClick={toggleText} className={styles.expandText}> Закрыть</span>
             )}
           </p>
         </div>

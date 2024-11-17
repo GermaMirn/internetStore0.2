@@ -57,7 +57,7 @@ def categories(request):
 @api_view(['GET'])
 def searchPageProducts(request):
 	pageNumber = int(request.GET.get("page", 1))
-	tags = request.GET.get("tags", "")
+	tags = request.GET.get("tags")
 	searchField = request.GET.get("searchInput", "")
 	isLiked = request.GET.get("isLiked", "false") == "true"
 

@@ -1,25 +1,37 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import ProfileMenu from '../../../shared/ui/ProfileMenu/ProfileMenu';
 import styles from './Header.module.css';
-import classNames from 'classnames';
-import CategoriesMenu from '../../../shared/ui/CategoriesMenu/CategoriesMenu';
+import CategoriesMenu from '../../../entities/headerComponents/ui/CategoriesMenu/CategoriesMenu';
+import SearchInput from '../../../entities/headerComponents/ui/SearchInputHeader/SearchInputHeader';
+import PersonActivities from '../../../entities/headerComponents/ui/PersonActivities/PersonActivities';
 
 
 export function Header() {
   const navigate = useNavigate();
   const { username, logout } = useAuth();
-	const [menuCategoriesVisible, setMenuCategoriesVisible] = useState(false);
+  const [menuCategoriesVisible, setMenuCategoriesVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const handleSearch = () => {
+    navigate('/catalog', { state: { searchQuery, selectedCategories } });
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const toggleMenu = () => {
     setMenuVisible((prev) => !prev);
   };
 
-	const toggleCategoriesMenu = () => {
-		setMenuCategoriesVisible((prev) => !prev);
-	}
+  const toggleCategoriesMenu = () => {
+    setMenuCategoriesVisible((prev) => !prev);
+  };
 
   const handleLogout = () => {
     logout();
@@ -37,37 +49,34 @@ export function Header() {
           <div className={styles.categories} onClick={toggleCategoriesMenu}>
             <img className={styles.categoriesSvg} src="/header/categories.svg" alt="" />
             <p className={styles.categoriesText}>Категории</p>
-						<CategoriesMenu visible={menuCategoriesVisible} toggleCategoriesMenu={toggleCategoriesMenu} />
+            <CategoriesMenu
+              visible={menuCategoriesVisible}
+              toggleCategoriesMenu={toggleCategoriesMenu}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+            />
           </div>
-          <div className={styles.searchButton}>
-            <img src="/header/search.svg" alt="" />
+
+          <div className={styles.divSearchInput}>
+            <SearchInput
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+
+          <div className={styles.searchButton} onClick={handleSearch}>
+          <img src="/header/search.svg" alt="" />
           </div>
         </div>
 
-        <div className={styles.personActivities}>
-          <div className={classNames(styles.favorites, styles.svgOfPersonActivities)}>
-            <img className={classNames(styles.divForSvgOfPersonActivities, styles.svgOfFavorites)} src="/header/favorites.svg" alt="" onClick={() => navigate('/favorits')} />
-            <p className={styles.textOfPersonActivities}>Избранные</p>
-          </div>
-          <div className={classNames(styles.shoppingCart, styles.svgOfPersonActivities)}>
-            <img className={classNames(styles.divForSvgOfPersonActivities, styles.svgOfShoppingCart)} src="/header/shoppingCart.svg" alt="shopping cart" onClick={() => navigate('/shoppingCart')} />
-            <p className={classNames(styles.textOfPersonActivities, styles.testForShoppingCart)}>Корзина</p>
-          </div>
-
-          {username ? (
-            <div className={classNames(styles.profile, styles.svgOfPersonActivities)} onClick={toggleMenu}>
-              <img className={classNames(styles.divForSvgOfPersonActivities, styles.svgOfProfile)} src="/header/profile.svg" alt="" />
-              <p className={styles.textOfPersonActivities}>{username}</p>
-            </div>
-          ) : (
-            <div className={classNames(styles.profile, styles.svgOfPersonActivities)} onClick={() => navigate('/enter')}>
-              <img className={classNames(styles.divForSvgOfPersonActivities, styles.svgOfProfile)} src="/header/profile.svg" alt="" />
-              <p className={styles.textOfPersonActivities}>Войти</p>
-            </div>
-          )}
-
-          <ProfileMenu onLogout={handleLogout} visible={menuVisible} toggleMenu={toggleMenu} />
-        </div>
+        <PersonActivities
+          username={username}
+          onLogout={handleLogout}
+          toggleMenu={toggleMenu}
+          menuVisible={menuVisible}
+          navigate={navigate}
+        />
       </div>
     </header>
   );

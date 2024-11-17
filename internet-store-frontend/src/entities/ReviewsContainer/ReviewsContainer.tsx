@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ReviewsProps } from '../../../../../interfaces';
-import { Review } from '../../../../../interfaces';
-import { sortReviews } from '../utils/sortReviews';
+import { ReviewsProps } from '../../interfaces';
+import { Review } from '../../interfaces';
+import { sortReviews } from '../../shared/utils/sort';
 import styles from './ReviewsContainer.module.css';
 import classNames from 'classnames';
-import ComponentSort from '../../../../../shared/ui/ComponentSort/ComponentSort';
+import ComponentSort from '../../shared/ui/ComponentSort/ComponentSort';
 import ReviewItem from '../Review/Review';
 import FormForSendNewReview from '../Review/FormForSendNewReview';
 

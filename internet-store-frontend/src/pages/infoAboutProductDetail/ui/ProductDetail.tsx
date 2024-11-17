@@ -4,8 +4,8 @@ import { getProductDetail } from '../api/getProductDetail';
 import { ProductDetail } from '../../../interfaces';
 import { addReview } from '../api/addCommentReview/addReview';
 import ProductActions from '../../../features/products/ui/ProductActions';
-import ImagesCarousel from './ImagesCarousel';
-import ReviewsContainer from './ReviewsContainer/ReviewsContainer/ReviewsContainer';
+import ImagesCarousel from '../../../entities/ImagesCarouselReviewComment/ImagesCarouselReviewComment';
+import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetail.module.css';
 
 
