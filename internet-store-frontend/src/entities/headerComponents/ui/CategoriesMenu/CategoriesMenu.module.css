@@ -1,17 +1,82 @@
-.dropdownMenu{
+.dropdownMenu {
+	margin-top: 441px;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.97);
+  border-radius: 10px;
+  color: black;
+  padding-left: 26px;
+  padding-right: 26px;
+	padding-bottom: 10px;
+	height: 500px;
+}
+
+
+.categoriesHeader{
+	align-items: center;
+	display: flex;
+}
+
+.nameHeader{
 	margin-left: 10px;
-	margin-top: 330px;
-	position: absolute;
-	background-color: rgba(255, 255, 255, 0.95);
-	border-radius: 20px;
-	color: black;
-	text-align: left;
-	padding-left: 20px;
-	padding-right: 20px;
-	z-index: 1;
+	color: #796DE2;
 }
 
 
-.active{
-	background-color: red;
+.countCategories{
+	font-weight: 400;
 }
+
+
+.closeButton{
+	cursor: pointer;
+}
+
+
+.countCategories{
+	margin-left: 46px;
+}
+
+
+.divForCategories {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  width: 100%;
+	height: 370px;
+	overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+.divForCategories p {
+	height: max-content;
+	padding: 10px;
+	cursor: pointer;
+}
+
+
+.divForCategories p.active {
+  background-color: #9e93ff;
+	border-radius: 30px;
+}
+
+
+.buttonContainer {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+
+.resetButton {
+	width: 196px;
+	font-size: 15px;
+	padding: 10px;
+	background-color: #796DE2;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+

@@ -49,13 +49,14 @@ export function Header() {
           <div className={styles.categories} onClick={toggleCategoriesMenu}>
             <img className={styles.categoriesSvg} src="/header/categories.svg" alt="" />
             <p className={styles.categoriesText}>Категории</p>
-            <CategoriesMenu
-              visible={menuCategoriesVisible}
-              toggleCategoriesMenu={toggleCategoriesMenu}
-              selectedCategories={selectedCategories}
-              setSelectedCategories={setSelectedCategories}
-            />
           </div>
+					<CategoriesMenu
+						visible={menuCategoriesVisible}
+						selectedCategories={selectedCategories}
+						handleSearch={handleSearch}
+						toggleCategoriesMenu={toggleCategoriesMenu}
+						setSelectedCategories={setSelectedCategories}
+					/>
 
           <div className={styles.divSearchInput}>
             <SearchInput

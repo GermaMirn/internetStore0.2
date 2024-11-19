@@ -78,7 +78,27 @@ export interface ProductActionsProps {
 
 export interface CategoriesMenuProps {
   visible: boolean;
-  toggleCategoriesMenu: () => void;
   selectedCategories: string[];
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
+	toggleCategoriesMenu: () => void;
+	handleSearch: () => void;
+}
+
+
+export interface CategoriesHeaderProps {
+  toggleCategoriesMenu: () => void;
+  selectedCategories: string[];
+}
+
+
+export interface CategoriesListProps {
+  categories: { id: number, name: string }[];
+  selectedCategories: string[];
+  handleCategoryClick: (category: { id: number, name: string }) => void;
+}
+
+
+export interface CategoriesButtonsProps {
+  handleSearch: () => void;
+  handleResetCategories: () => void;
 }

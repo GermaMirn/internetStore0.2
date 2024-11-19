@@ -37,6 +37,12 @@
 }
 
 
+.divForImgAndActions{
+	display: flex;
+	justify-content: space-between;
+}
+
+
 .orderCardImages{
 	display: flex;
 }
@@ -80,4 +86,38 @@
 .hoverTextP{
 	margin-left: 27px;
 	margin-top: 50px;
+}
+
+
+.divForActions{
+	margin-top: 55px;
+}
+
+
+.orderButton{
+	z-index: 90;
+	color: white;
+	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+	font-size: 16px;
+	border: none;
+	height: 55px;
+	border-radius: 20px;
+}
+
+
+.orderButtonChat{
+	position: absolute;
+	margin-left: -80px;
+	width: 55px;
+}
+
+
+.orderButtonMore{
+	width: 180px;
+}
+
+
+
+.orderChatImg{
+	margin-top: 10px;
 }

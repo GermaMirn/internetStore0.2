@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Order } from '../../../interfaces';
 import styles from './OrderCard.module.css';
+import classNames from 'classnames';
 
 
 interface OrderCardProps {
@@ -29,21 +30,31 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
       {order.items.length > 0 && (
         <div>
           <h3>Товары в заказе:</h3>
-          <div className={styles.orderCardImages}>
-            {order.items.map((item, index) => (
-              <div key={index} className={styles.productImageContainer}>
-                <img
-                  className={styles.productImg}
-                  src={baseUrl + item.product.mainImageUrl}
-                  alt="img"
-                  onClick={() => navigate(`/product/${item.product.id}`)}
-                />
-                <div className={styles.hoverText} onClick={() => navigate(`/product/${item.product.id}`)}>
-                  <p className={styles.hoverTextP}>См. товар</p>
-                </div>
-              </div>
-            ))}
-          </div>
+					<div className={styles.divForImgAndActions}>
+						<div className={styles.orderCardImages}>
+							{order.items.map((item, index) => (
+								<div key={index} className={styles.productImageContainer}>
+									<img
+										className={styles.productImg}
+										src={baseUrl + item.product.mainImageUrl}
+										alt="img"
+										onClick={() => navigate(`/product/${item.product.id}`)}
+									/>
+									<div className={styles.hoverText} onClick={() => navigate(`/product/${item.product.id}`)}>
+										<p className={styles.hoverTextP}>См. товар</p>
+									</div>
+								</div>
+							))}
+						</div>
+
+						<div className={styles.divForActions}>
+							<button className={classNames(styles.orderButton, styles.orderButtonChat)}>
+								<img className={styles.orderChatImg} src="/product/orderChat.svg" alt="" />
+							</button>
+							<button className={classNames(styles.orderButton, styles.orderButtonMore)}>Подробнее</button>
+						</div>
+
+					</div>
         </div>
       )}
     </div>
