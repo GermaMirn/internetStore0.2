@@ -36,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'fullname', 'phone_number']
+        fields = ['id', 'user', 'fullname', 'phoneNumber']
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()

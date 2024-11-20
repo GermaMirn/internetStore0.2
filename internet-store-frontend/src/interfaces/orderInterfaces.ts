@@ -1,4 +1,4 @@
-import { Product } from ".";
+import { Product, Chat } from ".";
 
 
 export interface OrderItem {
@@ -16,4 +16,5 @@ export interface Order {
   totalPrice: string;
   isDelivered: boolean;
   items: OrderItem[];
+	chat: Chat;
 }

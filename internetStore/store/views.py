@@ -3,6 +3,7 @@ from django.core.cache import cache
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
+from orders.models import Chat
 from accounts.models import Profile
 from .models import (
   Category,
@@ -540,6 +541,17 @@ def createOrder(request):
 
 	order = Order.objects.create(user=request.user.profile, totalPrice=total_price)
 
+	chat = Chat.objects.create()
+	chat.participants.add(request.user.profile)
+
+	admins = Profile.objects.filter(user__is_staff=True)
+	chat.participants.add(*admins)
+
+	chat.save()
+
+	order.chat = chat
+	order.save()
+
 	for item in items:
 		cart_item_id = item['id']
 		quantity = item['quantity']
@@ -557,4 +569,5 @@ def createOrder(request):
 			return Response({'success': False, 'message': f'Элемент корзины {item["product"]} не найден.'}, status=404)
 
 	cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
-	return Response({'success': True, 'message': 'Заказ успешно создан'}, status=201)
+
+	return Response({'success': True, 'message': 'Заказ успешно создан и чат открыт.'}, status=201)

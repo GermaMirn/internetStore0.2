@@ -20,15 +20,29 @@ def getUserOrders(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_chat_messages(request, chat_id):
-    try:
-        chat = Chat.objects.get(id=chat_id)
-    except Chat.DoesNotExist:
-        return Response({"detail": "Chat not found."}, status=status.HTTP_404_NOT_FOUND)
+def get_user_chats(request):
+	user_profile = request.user.profile
+	chats = Chat.objects.filter(participants=user_profile)
 
-    messages = Message.objects.filter(chat=chat).order_by('created_at')
-    serializer = MessageSerializer(messages, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+	serializer = ChatSerializer(chats, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_chat_messages(request, chat_id):
+	try:
+		chat = Chat.objects.get(id=chat_id)
+	except Chat.DoesNotExist:
+		return Response({"detail": "Chat not found."}, status=status.HTTP_404_NOT_FOUND)
+
+	user_profile = request.user.profile
+	if user_profile not in chat.participants.all():
+		return Response({"detail": "You are not a participant of this chat."}, status=status.HTTP_403_FORBIDDEN)
+
+	messages = Message.objects.filter(chat=chat).order_by('created_at')
+	serializer = MessageSerializer(messages, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
