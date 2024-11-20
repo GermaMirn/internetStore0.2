@@ -47,6 +47,10 @@
   overflow-x: hidden;
 }
 
+.divForCategories::-webkit-scrollbar {
+  display: none;
+}
+
 
 .divForCategories p {
 	height: max-content;

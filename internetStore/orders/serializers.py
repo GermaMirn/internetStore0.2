@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from store.models import Order, OrderItem
-from store.models import Product
+from accounts.models import Profile
+from store.models import Product, Order, OrderItem
+from .models import Chat, Message
+
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -29,3 +31,23 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id', 'user', 'fullname', 'phone_number']
+
+class MessageSerializer(serializers.ModelSerializer):
+    sender = ProfileSerializer()
+
+    class Meta:
+        model = Message
+        fields = ['id', 'chat', 'sender', 'text', 'image', 'created_at', 'is_read']
+
+class ChatSerializer(serializers.ModelSerializer):
+    participants = ProfileSerializer(many=True)
+
+    class Meta:
+        model = Chat
+        fields = ['id', 'participants', 'created_at']

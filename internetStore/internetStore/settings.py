@@ -18,6 +18,7 @@ INSTALLED_APPS = [
 	'rest_framework',
   	'rest_framework.authtoken',
     'corsheaders',
+    'channels',
     'accounts',
     'store',
     'orders',
@@ -85,6 +86,16 @@ CACHES = {
             'db': '1',
         }
     }
+}
+
+
+CHANNEL_LAYERS = {
+    'default': {
+		'BACKEND': 'channels_redis.core.RedisChannelLayer',
+		'CONFIG': {
+			"hosts": [('127.0.0.1', 6379)],
+		},
+    },
 }
 
 

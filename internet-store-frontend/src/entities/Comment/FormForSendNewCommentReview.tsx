@@ -14,6 +14,7 @@ interface FormForSendNewCommentReviewProps {
 
 const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = ({ onClose, onSubmit, isReplyToComment, username, isReview }) => {
 	const MAX_COMMENT_LENGTH = isReview ? 1550 : 600;
+	const MAX_HEIGHT = 10;
   const [commentText, setCommentText] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -37,6 +38,12 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
 
 			setIsKeyDownAllowed(currentText.length === MAX_COMMENT_LENGTH);
 			setCommentText(currentText);
+
+			if (textAreaRef.current.scrollHeight > MAX_HEIGHT) {
+        textAreaRef.current.style.overflowY = 'auto';
+      } else {
+        textAreaRef.current.style.overflowY = 'hidden';
+      }
 		}
   };
 
@@ -45,6 +52,16 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
 
     if (!allowedKeys.includes(event.key) && (event.key.length === 1 || /[a-zA-Z0-9]/.test(event.key))) {
 			event.preventDefault();
+    }
+
+		if (event.key === 'Enter' && textAreaRef.current) {
+      const lineHeight = parseInt(window.getComputedStyle(textAreaRef.current).lineHeight, 10);
+      const maxLines = Math.floor(MAX_HEIGHT / lineHeight);
+      const currentLines = Math.floor(textAreaRef.current.scrollHeight / lineHeight);
+
+      if (currentLines >= maxLines) {
+        event.preventDefault();
+      }
     }
 	};
 

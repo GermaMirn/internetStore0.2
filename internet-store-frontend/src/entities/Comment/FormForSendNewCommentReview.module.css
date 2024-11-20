@@ -6,6 +6,7 @@
 .commentTextArea {
   font-size: 14px;
   padding: 10px;
+	padding-bottom: 70px;
   width: 97%;
   height: 190px;
   resize: none;
@@ -19,7 +20,13 @@
 }
 
 
+.commentTextArea::-webkit-scrollbar {
+  display: none;
+}
+
+
 .commentTextAreaReview{
+	padding-bottom: 70px;
 	font-size: 16px;
   padding: 20px;
   width: 95%;
