@@ -47,7 +47,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:5173',
-    'ws://localhost:8000',
+    'ws://127.0.0.1:8000',
 ]
 
 
@@ -103,6 +103,9 @@ CHANNEL_LAYERS = {
 WSGI_APPLICATION = 'internetStore.wsgi.application'
 
 
+ASGI_APPLICATION = "internetStore.asgi.application"
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -144,6 +147,7 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 MEDIA_URL = '/media/'

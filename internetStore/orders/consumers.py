@@ -6,14 +6,24 @@ from .serializers import MessageSerializer
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+
 	async def connect(self):
 		self.chat_id = self.scope['url_route']['kwargs']['chat_id']
 		self.chat_group_name = f'chat_{self.chat_id}'
 
-		chat = await database_sync_to_async(Chat.objects.get)(id=self.chat_id)
-		user = self.scope['user']
+		user = self.scope.get('user')
+		if not user or not user.is_authenticated:
+			await self.close()
+			return
 
-		if user.profile not in chat.participants.all():
+		chat = await self.get_chat(self.chat_id)
+		if not chat:
+			await self.send(text_data=json.dumps({
+				'error': 'Chat not found.'
+			}))
+			return
+
+		if not await self.is_participant(user, chat):
 			await self.close()
 			return
 
@@ -21,6 +31,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			self.chat_group_name,
 			self.channel_name
 		)
+
 		await self.accept()
 
 	async def disconnect(self, close_code):
@@ -35,15 +46,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 		image = text_data_json.get('image', None)
 		user = self.scope['user']
 
-		try:
-			chat = await database_sync_to_async(Chat.objects.get)(id=self.chat_id)
-		except Chat.DoesNotExist:
+		chat = await self.get_chat(self.chat_id)
+		if not chat:
 			await self.send(text_data=json.dumps({
 				'error': 'Chat not found.'
 			}))
 			return
 
-		if user.profile not in chat.participants.all():
+		if not await self.is_participant(user, chat):
 			await self.send(text_data=json.dumps({
 				'error': 'You are not a participant of this chat.'
 			}))
@@ -55,12 +65,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			}))
 			return
 
-		message = await database_sync_to_async(Message.objects.create)(
-			chat=chat,
-			sender=user.profile,
-			text=text if text else None,
-			image=image if image else None
-		)
+		message = await self.create_message(chat, user, text, image)
 
 		await self.channel_layer.group_send(
 			self.chat_group_name,
@@ -72,7 +77,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 	async def chat_message(self, event):
 		message = event['message']
-
 		await self.send(text_data=json.dumps({
 			'message': message
 		}))
+
+	@database_sync_to_async
+	def get_chat(self, chat_id):
+		try:
+			return Chat.objects.get(id=chat_id)
+		except Chat.DoesNotExist:
+			return None
+
+	@database_sync_to_async
+	def is_participant(self, user, chat):
+		return user.profile in chat.participants.all()
+
+	@database_sync_to_async
+	def create_message(self, chat, user, text, image):
+		return Message.objects.create(
+			chat=chat,
+			sender=user.profile,
+			text=text if text else None,
+			image=image if image else None
+		)

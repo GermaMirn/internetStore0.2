@@ -1,24 +1,23 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { getChatMessages } from "../api/getChatMessages";
-import { addMessage } from "../api/addMessage"; // Импортируем функцию для добавления сообщения на сервер
 import { Message } from "../../../interfaces";
 import styles from "./ChatMessages.module.css";
 
+
 const ChatMessages = () => {
-  const { chatId } = useParams(); // Получаем chatId из URL параметров
+  const { chatId } = useParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const ws = useRef<WebSocket | null>(null); // Ссылка на WebSocket
-  const messageEndRef = useRef<HTMLDivElement | null>(null); // Для автоматической прокрутки в самый низ
+  const ws = useRef<WebSocket | null>(null);
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Загружаем старые сообщения
   useEffect(() => {
     const fetchMessages = async () => {
       if (chatId) {
         try {
-          const messages = await getChatMessages(Number(chatId)); // Преобразуем chatId в число
+          const messages = await getChatMessages(Number(chatId));
           setMessages(messages);
         } catch (error) {
           console.error("Failed to fetch messages:", error);
@@ -31,62 +30,68 @@ const ChatMessages = () => {
     fetchMessages();
   }, [chatId]);
 
-  // Устанавливаем WebSocket-соединение
-  useEffect(() => {
-    if (chatId) {
-      ws.current = new WebSocket(`ws://localhost:8000/ws/chat/${chatId}/`);
-
-      ws.current.onopen = () => {
-        console.log("WebSocket connection established.");
-      };
-
-      ws.current.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.message) {
-          // Если получили сообщение через WebSocket, добавляем его в чат
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            data.message
-          ]);
-        }
-      };
-
-      ws.current.onclose = () => {
-        console.log("WebSocket connection closed.");
-      };
-
-      return () => {
-        // Закрываем WebSocket соединение при размонтировании компонента
-        ws.current?.close();
-      };
-    }
-  }, [chatId]);
-
-  // Отправка нового сообщения
-  const sendMessage = async () => {
-    if (newMessage.trim() && ws.current) {
-      const messageData = {
-        text: newMessage,
-        image: null, // Вы можете добавить логику для отправки изображения
-      };
-
-      // Отправляем сообщение через WebSocket
-      ws.current.send(JSON.stringify(messageData));
-
-      // Сохраняем сообщение через API
-      try {
-        const savedMessage = await addMessage(Number(chatId), newMessage, null); // Отправка сообщения на сервер
-        setMessages((prevMessages) => [...prevMessages, savedMessage]); // Добавляем сообщение в список
-      } catch (error) {
-        console.error("Failed to add message:", error);
-      }
-
-      // Очищаем поле ввода
-      setNewMessage("");
+  const getToken = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      return token;
+    } catch (error) {
+      console.error("Failed to get token:", error);
+      throw new Error("Token retrieval failed");
     }
   };
 
-  // Автоматическая прокрутка сообщений вниз
+  useEffect(() => {
+    const establishWebSocketConnection = async () => {
+      if (chatId) {
+        try {
+          const token = await getToken();
+          const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`;
+
+          ws.current = new WebSocket(wsUrl);
+
+          ws.current.onopen = () => {
+            console.log("WebSocket connection established.");
+          };
+
+          ws.current.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.message) {
+              setMessages((prevMessages) => {
+								if (prevMessages.find(msg => msg.id === data.message.id)) return prevMessages;
+								return [...prevMessages, data.message];
+							});
+            }
+          };
+
+          ws.current.onclose = () => {
+            console.log("WebSocket connection closed.");
+          };
+        } catch (error) {
+          console.error("WebSocket connection error:", error);
+        }
+      }
+    };
+
+    establishWebSocketConnection();
+
+    return () => {
+      ws.current?.close();
+    };
+  }, [chatId]);
+
+  const sendMessage = async () => {
+		if (newMessage.trim() && ws.current) {
+			const messageData = {
+				text: newMessage,
+				image: null,
+			};
+
+			ws.current.send(JSON.stringify(messageData));
+
+			setNewMessage("");
+		}
+	};
+
   useEffect(() => {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -101,13 +106,13 @@ const ChatMessages = () => {
     <div className={styles.chatMessagesContainer}>
       <h2>Messages for Chat {chatId}</h2>
       <div className={styles.messagesWrapper}>
-        {messages.map((message) => (
-          <div key={message.id} className={styles.messageItem}>
-            <span className={styles.messageSender}>{message.sender.username}</span>
-            <p className={styles.messageText}>{message.text}</p>
-            <span className={styles.messageTime}>{message.created_at}</span>
-          </div>
-        ))}
+				{messages.map((message, index) => (
+					<div key={`${message.id}-${index}`} className={styles.messageItem}>
+						<span className={styles.messageSender}>{message.sender.username}</span>
+						<p className={styles.messageText}>{message.text}</p>
+						<span className={styles.messageTime}>{message.created_at}</span>
+					</div>
+				))}
         <div ref={messageEndRef} />
       </div>
 
@@ -123,5 +128,6 @@ const ChatMessages = () => {
     </div>
   );
 };
+
 
 export default ChatMessages;

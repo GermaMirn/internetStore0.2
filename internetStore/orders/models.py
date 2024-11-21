@@ -1,5 +1,5 @@
-from accounts.models import Profile
 from django.db import models
+from accounts.models import Profile
 
 
 class Chat(models.Model):
