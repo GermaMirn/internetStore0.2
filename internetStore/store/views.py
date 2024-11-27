@@ -546,11 +546,10 @@ def createOrder(request):
 
 	admins = Profile.objects.filter(user__is_staff=True)
 	chat.participants.add(*admins)
-
 	chat.save()
 
-	order.chat = chat
-	order.save()
+	chat.order = order
+	chat.save()
 
 	for item in items:
 		cart_item_id = item['id']
@@ -558,7 +557,7 @@ def createOrder(request):
 
 		try:
 			cart_item = CartItem.objects.get(id=cart_item_id)
-			OrderItem.objects.create(
+			order_item = OrderItem.objects.create(
 				order=order,
 				product=cart_item.product,
 				quantity=quantity,

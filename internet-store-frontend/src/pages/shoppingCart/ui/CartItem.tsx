@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, onIncrease, onDecrease, onRemove }) => {
-	const baseUrl = 'http://127.0.0.1:8000/';
+	const baseUrl = 'http://127.0.0.1:8000';
 	const navigate = useNavigate();
 
 	return (

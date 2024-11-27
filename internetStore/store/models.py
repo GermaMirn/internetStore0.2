@@ -4,7 +4,6 @@ from accounts.models import Profile
 import os
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
-from orders.models import Chat
 
 
 class Category(models.Model):
@@ -276,7 +275,6 @@ class OrderItem(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE)
   quantity = models.PositiveIntegerField(default=1)
   price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-  chat = models.OneToOneField(Chat, null=True, blank=True, on_delete=models.SET_NULL, related_name='order')
 
   def __str__(self) -> str:
     return f"Продукт: {self.product} заказа {self.order.id}"

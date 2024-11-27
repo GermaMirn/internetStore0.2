@@ -6,7 +6,7 @@ import OrderCard from '../../../entities/order/ui/OrderCard';
 
 
 const UserOrders: React.FC = () => {
-	const baseUrl = 'http://127.0.0.1:8000/'
+	const baseUrl = 'http://127.0.0.1:8000'
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

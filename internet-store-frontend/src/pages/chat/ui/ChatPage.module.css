@@ -1,0 +1,9 @@
+.chatPage {
+  display: flex;
+  height: 100vh;
+}
+
+
+.chatMessages{
+	width: 80%;
+}

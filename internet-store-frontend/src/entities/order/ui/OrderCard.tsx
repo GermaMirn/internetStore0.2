@@ -13,7 +13,11 @@ interface OrderCardProps {
 
 
 const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
-	const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showMoreImages, setShowMoreImages] = useState(false);
+
+  const visibleImages = order.items.slice(0, 5);
+  const hiddenImages = order.items.slice(5);
 
   return (
     <div className={styles.orderCard}>
@@ -31,31 +35,54 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
       {order.items.length > 0 && (
         <div>
           <h3>Товары в заказе:</h3>
-					<div className={styles.divForImgAndActions}>
-						<div className={styles.orderCardImages}>
-							{order.items.map((item, index) => (
-								<ProductImage
-									key={index}
-									productId={item.product.id}
-									imageUrl={baseUrl + item.product.mainImageUrl}
-								/>
-							))}
-						</div>
+          <div className={styles.divForImgAndActions}>
+            <div className={styles.orderCardImages}>
+              {visibleImages.map((item, index) => (
+                <ProductImage
+                  key={index}
+                  productId={item.product.id}
+                  imageUrl={baseUrl + item.product.mainImageUrl}
+                />
+              ))}
 
-						<div className={styles.divForActions}>
-							<button className={classNames(styles.orderButton, styles.orderButtonChat)}>
-								<img className={styles.orderChatImg} src="/product/orderChat.svg" alt="" />
-							</button>
-							<button className={classNames(styles.orderButton, styles.orderButtonMore)} onClick={() => setShowDetails(true)}>
-								Подробнее
-							</button>
-						</div>
+              {showMoreImages && hiddenImages.length > 0 && (
+                hiddenImages.map((item, index) => (
+                  <ProductImage
+                    key={index + visibleImages.length}
+                    productId={item.product.id}
+                    imageUrl={baseUrl + item.product.mainImageUrl}
+                  />
+                ))
+              )}
+            </div>
 
-					</div>
+            <div className={styles.divForActions}>
+              <button className={classNames(styles.orderButton, styles.orderButtonChat)}>
+                <img className={styles.orderChatImg} src="/product/orderChat.svg" alt="" />
+              </button>
+              <button
+                className={classNames(styles.orderButton, styles.orderButtonMore)}
+                onClick={() => setShowDetails(true)}
+              >
+                Подробнее
+              </button>
+            </div>
+          </div>
+
+          {hiddenImages.length > 0 && (
+            <div className={styles.moreImagesContainer}>
+              <button
+                className={styles.moreImagesButton}
+                onClick={() => setShowMoreImages(!showMoreImages)}
+              >
+                {showMoreImages ? 'Скрыть' : 'См. ещё'}
+              </button>
+            </div>
+          )}
         </div>
       )}
 
-			{showDetails && (
+      {showDetails && (
         <OrderDetail
           order={order}
           baseUrl={baseUrl}

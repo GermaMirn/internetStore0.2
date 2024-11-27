@@ -3,8 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { NotificationProvider } from './providers/notifications/NotificationProvider';
 import { AuthProvider } from './context/AuthContext';
 import { fetchCsrfToken } from '../shared/api/csrf';
-import MainLayout from './layout/MainLayout';
-import IndexRoutes from './routes/indexRoutes';
+import MainLayoutWithPadding from './layout/MainLayoutWithPadding';
 
 
 const App: React.FC = () => {
@@ -16,9 +15,7 @@ const App: React.FC = () => {
     <AuthProvider>
       <NotificationProvider>
         <Router>
-          <MainLayout>
-            <IndexRoutes />
-          </MainLayout>
+					<MainLayoutWithPadding />
         </Router>
       </NotificationProvider>
     </AuthProvider>

@@ -1,0 +1,46 @@
+.chatListContainer {
+  max-height: 100vh; /* Ограничиваем высоту контейнера */
+  overflow-y: scroll; /* Включаем вертикальный скролл */
+  box-sizing: border-box;
+  padding-right: 17px;
+  scrollbar-width: none;
+}
+
+.chat {
+  background-color: #e6e6e6;
+  width: 300px;
+  height: 100px;
+  padding-left: 23px;
+  padding-right: 23px;
+  border: 1px solid #cacaca;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chatListContainer {
+  max-height: 100vh;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding-right: 0px;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.chatListContainer::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.chatListContainer::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.chatListContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+

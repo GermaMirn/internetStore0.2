@@ -22,21 +22,35 @@ class CreateAccountView(APIView):
 		fullname = request.data.get('fullname')
 		phone_number = request.data.get('phone')
 
+		if not all([username, password, fullname, phone_number]):
+			return Response({'message': 'Все поля обязательны.'}, status=status.HTTP_400_BAD_REQUEST)
+
 		if User.objects.filter(username=username).exists():
 			return Response({'message': 'Имя пользователя уже занято', 'errorType': 'username', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
 
 		try:
 			user = User.objects.create_user(username=username, password=password)
-			profile = Profile(user=user, fullname=fullname, phoneNumber=phone_number)
-			profile.save()
+
+			profile, created = Profile.objects.get_or_create(user=user)
+
+			if not created:
+				profile.fullname = fullname
+				profile.phoneNumber = phone_number
+				profile.save()
 
 			token, created = Token.objects.get_or_create(user=user)
 			token_key = f'token_{user.id}'
 			cache.set(token_key, token.key, timeout=3600)
 
 			return Response({'message': 'Аккаунт успешно создан!', 'success': True})
-		except (ValidationError, Exception) as e:
+
+		except (ValueError) as e:
+			print(e)
+			return Response({'message': 'Ошибка при создании профиля.', 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+		except Exception as e:
+			print(e)
 			return Response({'message': 'Ошибка при создании аккаунта.', 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LoginUserView(APIView):
 	permission_classes = [AllowAny]
@@ -73,6 +87,7 @@ class LoginUserView(APIView):
 				'profile': serializedProfile
 			}, status=status.HTTP_200_OK
 		)
+
 
 class LogoutUserView(APIView):
 	permission_classes = [AllowAny]

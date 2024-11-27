@@ -34,9 +34,10 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'fullname', 'phoneNumber']
+        fields = ['id', 'user', 'fullname', 'phoneNumber', 'username']
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()
@@ -47,7 +48,8 @@ class MessageSerializer(serializers.ModelSerializer):
 
 class ChatSerializer(serializers.ModelSerializer):
     participants = ProfileSerializer(many=True)
+    order = OrderSerializer(read_only=True)
 
     class Meta:
         model = Chat
-        fields = ['id', 'participants', 'created_at']
+        fields = ['id', 'participants', 'created_at', 'order']

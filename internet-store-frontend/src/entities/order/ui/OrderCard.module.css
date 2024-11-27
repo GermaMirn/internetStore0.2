@@ -1,13 +1,13 @@
 .orderCard {
   border: 1px solid #ddd;
-	padding-left: 27px;
-	padding-right: 27px;
-	padding-top: 5px;
+  padding-left: 27px;
+  padding-right: 27px;
+  padding-top: 5px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
-	border-radius: 20px;
-	margin-bottom: 40px;
+  border-radius: 20px;
+  margin-bottom: 40px;
 }
 
 
@@ -17,107 +17,130 @@
 
 
 .orderCardHeader {
-	width: auto;
-	height: 40px;
-	display: flex;
-	justify-content: space-between;
+  width: auto;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
   font-weight: bold;
 }
 
 
-.sumText{
-	font-weight: 400;
+.sumText {
+  font-weight: 400;
 }
 
 
-.orderCardDetails{
-	font-size: 15px;
-	font-weight: 550;
-	margin-bottom: 30px;
+.orderCardDetails {
+  font-size: 15px;
+  font-weight: 550;
+  margin-bottom: 30px;
 }
 
 
-.divForImgAndActions{
-	display: flex;
-	justify-content: space-between;
+.divForImgAndActions {
+  display: flex;
+  justify-content: space-between;
 }
 
 
-.orderCardImages{
-	display: flex;
+.orderCardImages {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 
 .productImageContainer {
-	position: relative;
-	display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 
 .productImg {
-	cursor: pointer;
-	margin-right: 15px;
-	margin-bottom: 18px;
-	width: 125px;
-	height: 110px;
-	border-radius: 15px;
+  cursor: pointer;
+  margin-right: 15px;
+  margin-bottom: 18px;
+  width: 125px;
+  height: 110px;
+  border-radius: 15px;
 }
 
+
 .hoverText {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 90%;
-	height: 84%;
-	border-radius: 15px;
-	color: white;
-	background-color: rgba(0, 0, 0, 0.5);
-	opacity: 0;
-	transition: opacity 0.3s;
-	pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 84%;
+  border-radius: 15px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
 }
 
 
 .productImageContainer:hover .hoverText {
-	opacity: 1;
+  opacity: 1;
 }
 
 
-.hoverTextP{
-	margin-left: 27px;
-	margin-top: 50px;
+.hoverTextP {
+  margin-left: 27px;
+  margin-top: 50px;
 }
 
 
-.divForActions{
-	margin-top: 55px;
+.divForActions {
+  margin-top: 55px;
 }
 
 
-.orderButton{
-	z-index: 90;
-	color: white;
-	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
-	font-size: 16px;
-	border: none;
-	height: 55px;
-	border-radius: 20px;
+.orderButton {
+  z-index: 90;
+  color: white;
+  background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+  font-size: 16px;
+  border: none;
+  height: 55px;
+  border-radius: 20px;
 }
 
 
-.orderButtonChat{
-	position: absolute;
-	margin-left: -73px;
-	width: 55px;
+.orderButtonChat {
+  position: absolute;
+  margin-left: -73px;
+  width: 55px;
 }
 
 
-.orderButtonMore{
-	width: 180px;
+.orderButtonMore {
+  width: 180px;
 }
 
 
+.orderChatImg {
+  margin-top: 10px;
+}
 
-.orderChatImg{
-	margin-top: 10px;
+
+.moreImagesContainer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+
+.moreImagesButton {
+  background-color: #5A3DE6;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+
+.moreImagesButton:hover {
+  background-color: #3F6AC9;
 }

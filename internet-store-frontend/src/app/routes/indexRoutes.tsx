@@ -11,7 +11,8 @@ import LikedProductsPage from '../../pages/favorits/ui/FavoritsPage';
 import ProfilePage from '../../pages/profile/ui/ProfilePage';
 import NotFoundPage from '../../pages/errors/NotFoundPage';
 import OrdersPage from '../../pages/orders/ui/OrdersPage';
-import ChatMessages from '../../pages/chat/ui/ChatMessages';
+import ChatMessages from '../../features/chatMessages/ui/ChatMessages';
+import ChatPage from '../../pages/chat/ui/ChatPage';
 
 
 const IndexRoutes: React.FC = () => {
@@ -27,6 +28,7 @@ const IndexRoutes: React.FC = () => {
       <Route path="/favorits" element={<LikedProductsPage />} />
       <Route path="/shoppingCart" element={<ShoppingCart />} />
 			<Route path="/orders" element={<OrdersPage />} />
+			<Route path="/chats" element={<ChatPage />} />
 			<Route path="/chat/:chatId" element={<ChatMessages />} />
 			<Route path="*" element={<NotFoundPage />} />
     </Routes>

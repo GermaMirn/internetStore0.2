@@ -1,10 +1,12 @@
 from django.db import models
 from accounts.models import Profile
+from store.models import Order
 
 
 class Chat(models.Model):
 	participants = models.ManyToManyField(Profile, related_name='chats')
 	created_at = models.DateTimeField(auto_now_add=True)
+	order = models.OneToOneField(Order, null=True, blank=True, on_delete=models.SET_NULL, related_name='chat')
 
 	def __str__(self):
 		return f"{self.id} между {' и '.join([p.user.username for p in self.participants.all()])}"

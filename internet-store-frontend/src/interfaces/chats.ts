@@ -1,4 +1,5 @@
 import { Profile } from ".";
+import { Order } from ".";
 
 
 export interface Chat {
@@ -6,6 +7,7 @@ export interface Chat {
   participants: Profile[];
   created_at: string;
   messages: Message[];
+	order: Order;
 }
 
 

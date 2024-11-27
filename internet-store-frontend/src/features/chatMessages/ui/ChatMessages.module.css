@@ -1,0 +1,96 @@
+.chatMessagesContainer {
+  background-color: #f4f6f9;
+  border: 1px solid black;
+  height: 100vh;
+  width: 90%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+
+.messagesWrapper {
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageInput {
+  padding-left: 17px;
+  padding-right: 17px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 63px;
+  display: flex;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  background-color: #796DE2;
+	box-sizing: border-box;
+}
+
+
+.messageInput input {
+  margin-left: 14px;
+  margin-right: 14px;
+  height: 25px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ffffff;
+  border-radius: 35px;
+}
+
+
+.messageItem {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+	margin-left: 20px;
+	margin-right: 20px;
+	box-sizing: border-box;
+}
+
+
+.messageText {
+  background-color: #ddd;
+  border-radius: 20px;
+  padding: 10px;
+  max-width: 100%;
+  word-wrap: break-word;
+	white-space: normal;
+	overflow-wrap: break-word;
+}
+
+
+.myMessage {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.myMessage .messageText {
+  background-color: #5a3de6;
+  color: white;
+}
+
+.otherMessage {
+  justify-content: flex-start;
+}
+
+.otherMessage .messageText {
+  background-color: #ddd;
+  color: black;
+}
+
+.messageRight {
+	width: 70%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.messageLeft {
+	width: 70%;
+  display: flex;
+  justify-content: flex-start;
+}

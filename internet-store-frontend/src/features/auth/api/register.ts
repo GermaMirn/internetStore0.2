@@ -12,7 +12,6 @@ export const registerUser = async (data: RegisterData) => {
     }, {
       withCredentials: true,
     });
-
     return response.data;
   } catch (error: any) {
 		if (error.response) {
