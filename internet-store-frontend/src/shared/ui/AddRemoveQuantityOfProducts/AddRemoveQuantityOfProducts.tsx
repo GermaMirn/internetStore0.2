@@ -3,6 +3,7 @@ import styles from './AddRemoveQuantityOfProducts.module.css';
 import { addUnitToCartProduct } from '../../api/updateCartProductQuantity/addUnitToCartProduct';
 import { removeUnitToCartProduct } from '../../api/updateCartProductQuantity/removeUnitToCartProduct';
 import { AddRemoveQuantityOfProductsProps } from '../../../interfaces';
+import classNames from 'classnames';
 
 
 const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = ({
@@ -56,7 +57,7 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
   return (
     <div className={styles.divOfaddRemoveQuantityOfProducts}>
       <button className={styles.countButton} onClick={handleRemove} disabled={loading}>
-        <img className={styles.icon} src={'/product/minus.svg'} alt="Minus" />
+        <img className={classNames(styles.icon, styles.minus)} src={'/product/minus.svg'} alt="Minus" />
       </button>
 
       <h2 className={styles.count}>{count}</h2>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/login';
 import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
 import { useAuth } from '../../../app/context/AuthContext';
+import { loginUser } from '../api/login';
+import { useForm } from '../../../hooks/useForm';
 import Button from '../../../shared/ui/Button';
 import Input from '../../../shared/ui/Input/Input';
 import styles from './Form.module.css';
@@ -10,49 +11,20 @@ import { LoginFormProps } from '../../../interfaces';
 
 
 const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
-	const { login } = useAuth();
+  const { login } = useAuth();
   const { showNotification } = useNotification();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+
+  const { formData, errors, handleChange, validateForm, setIsLoading, isLoading } = useForm({
     username: username,
     password: '',
   });
 
-  const [errors, setErrors] = useState({
-    username: { message: '', className: '' },
-    password: { message: '', className: '' },
-  });
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: { message: '', className: '' },
-    }));
-  };
-
   const validate = () => {
-    let valid = true;
-    const newErrors = {
-      username: { message: '', className: '' },
-      password: { message: '', className: '' },
-    };
-
-    if (!formData.username) {
-      newErrors.username = { message: 'Имя пользователя обязательно', className: styles.errorField };
-      valid = false;
-    }
-
-    if (formData.password.length < 6) {
-      newErrors.password = { message: 'Пароль должен содержать не менее 6 символов', className: styles.errorField };
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
+    return validateForm({
+      username: (value) => (value ? '' : 'Имя пользователя обязательно'),
+      password: (value) => (value.length >= 6 ? '' : 'Пароль должен содержать не менее 6 символов'),
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -63,24 +35,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
         const response = await loginUser(formData);
 
         if (response.success) {
-          navigate("/");
-					login(response.profile.username);
+          navigate('/');
+          login(response.profile.username);
           showNotification('Добро пожаловать!', 'success');
         } else {
-          if (response.errorType === 'username') {
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              username: { message: response.message, className: styles.errorField },
-            }));
-          } else if (response.errorType === 'password') {
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              password: { message: response.message, className: styles.errorField },
-            }));
-          }
+          showNotification(response.message || 'Ошибка при входе. Попробуйте снова.', 'error');
         }
       } catch (error) {
-        console.error('Ошибка при входе:', error);
         showNotification('Ошибка при входе. Попробуйте снова.', 'error');
       } finally {
         setIsLoading(false);
@@ -96,18 +57,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
           name="username"
           value={formData.username}
           onChange={handleChange}
-          error={errors.username.message}
-          className={errors.username.className}
+          error={errors.username?.message || ''}
+          className={errors.username?.className || ''}
         />
+
         <Input
           placeholder="Пароль"
           name="password"
           type="password"
           value={formData.password}
           onChange={handleChange}
-          error={errors.password.message}
-          className={errors.password.className}
+          error={errors.password?.message || ''}
+          className={errors.password?.className || ''}
         />
+
         <Button text={isLoading ? 'Загрузка...' : 'Войти'} color="color" disabled={isLoading} />
       </form>
     </div>

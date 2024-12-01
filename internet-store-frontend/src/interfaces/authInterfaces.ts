@@ -16,3 +16,17 @@ export interface RegisterData {
 export interface LoginFormProps {
   username?: string;
 }
+
+
+export interface UpdateUserData {
+	username?: string;
+	password?: string;
+	currentPassword?: string;
+	fullname?: string;
+	phoneNumber?: string;
+}
+
+
+export interface EditProfileProps {
+  handleClose: () => void;
+}

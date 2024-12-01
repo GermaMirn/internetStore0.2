@@ -1,12 +1,13 @@
 from django.core.cache import cache
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from rest_framework.authtoken.models import Token
 from .models import Profile
+from django.contrib.auth import update_session_auth_hash
 from django.forms import ValidationError
 from django.middleware.csrf import get_token
 from .serializers import UserProfileSerializer
@@ -20,9 +21,9 @@ class CreateAccountView(APIView):
 		username = request.data.get('username')
 		password = request.data.get('password')
 		fullname = request.data.get('fullname')
-		phone_number = request.data.get('phone')
+		phoneNumber = request.data.get('phone')
 
-		if not all([username, password, fullname, phone_number]):
+		if not all([username, password, fullname, phoneNumber]):
 			return Response({'message': 'Все поля обязательны.'}, status=status.HTTP_400_BAD_REQUEST)
 
 		if User.objects.filter(username=username).exists():
@@ -35,7 +36,7 @@ class CreateAccountView(APIView):
 
 			if not created:
 				profile.fullname = fullname
-				profile.phoneNumber = phone_number
+				profile.phoneNumber = phoneNumber
 				profile.save()
 
 			token, created = Token.objects.get_or_create(user=user)
@@ -116,6 +117,56 @@ class GetUserInfo(APIView):
 			return Response({'success': True, 'profile': serializedProfile}, status=status.HTTP_200_OK)
 
 		return Response({'success': False, 'message': 'Пользователь не аутентифицирован.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UpdateUserInfoView(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def post(self, request):
+		user = request.user
+		profile = user.profile
+
+		username = request.data.get('username')
+		password = request.data.get('password')
+		fullname = request.data.get('fullname')
+		phoneNumber = request.data.get('phoneNumber')
+
+		if username:
+			if User.objects.filter(username=username).exists() and username != user.username:
+				return Response({'message': 'Имя пользователя уже занято.', 'errorType': 'username'}, status=status.HTTP_400_BAD_REQUEST)
+			user.username = username
+
+		if fullname:
+			profile.fullname = fullname
+
+		if phoneNumber:
+			profile.phoneNumber = phoneNumber
+
+		if password:
+			if not request.data.get('current_password'):
+				return Response({'message': 'Текущий пароль обязателен для изменения пароля.'}, status=status.HTTP_400_BAD_REQUEST)
+
+			current_password = request.data.get('current_password')
+			if not user.check_password(current_password):
+				return Response({'message': 'Неверный текущий пароль.'}, status=status.HTTP_400_BAD_REQUEST)
+
+			user.set_password(password)
+			update_session_auth_hash(request, user)
+
+		try:
+			user.save()
+			profile.save()
+
+			serialized_profile = UserProfileSerializer(user).data
+
+			return Response({
+				'success': True,
+				'message': 'Данные пользователя успешно обновлены.',
+				'profile': serialized_profile
+			}, status=status.HTTP_200_OK)
+
+		except Exception as e:
+			return Response({'message': 'Ошибка при обновлении данных.', 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetCsrfToken(APIView):

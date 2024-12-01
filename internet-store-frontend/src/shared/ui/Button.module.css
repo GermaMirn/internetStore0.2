@@ -1,7 +1,7 @@
 .textButton {
   margin-top: 1rem;
   border-radius: 35px;
-	font-size: large;
+	font-size: larger;
 }
 
 
@@ -51,8 +51,8 @@
 
 
 .medium {
-  width: 290px;
-  height: 60px;
+  width: 310px;
+	height: 65px;
 }
 
 

@@ -39,15 +39,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <p className={styles.nameOfProduct}>{product.name}</p>
       <h2>{product.price} ₽</h2>
 
-      <ProductActions
-        isInCart={product.isInCart}
-        cartQuantity={product.cartQuantity}
-        itemId={product.cartItemId}
-        productId={product.id}
-        isHearted={product.isHearted}
-				updateCartState={updateCartState}
-        updateHeartState={updateHeartState}
-      />
+			<div className={styles.actions}>
+				<ProductActions
+					isInCart={product.isInCart}
+					cartQuantity={product.cartQuantity}
+					itemId={product.cartItemId}
+					productId={product.id}
+					isHearted={product.isHearted}
+					updateCartState={updateCartState}
+					updateHeartState={updateHeartState}
+				/>
+			</div>
     </div>
   );
 };

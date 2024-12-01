@@ -1,0 +1,92 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+.modalContent {
+  background-color: white;
+  padding-top: 5px;
+	padding-bottom: 15px;
+	padding-left: 23px;
+	padding-right: 23px;
+  border-radius: 20px;
+  width: 370px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+	height: 4px;
+}
+
+
+.inputGroup {
+	margin-top: -15px;
+  display: flex;
+  flex-direction: column;
+	text-align: center;
+}
+
+
+button {
+	width: 139px;
+	height: 42px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+
+.cancelButton {
+	width: 139px;
+	height: 42px;
+  background: linear-gradient(90deg, #5A3DE6 100%, #322280 100%);
+  color: white;
+}
+
+
+.cancelButton:hover {
+  background: linear-gradient(90deg, #6242ff 100%, #3b26a6 100%);
+}
+
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+
+.saveButton.active {
+  background: linear-gradient(90deg, #5A3DE6 100%, #322280 100%);
+  color: white;
+}
+
+
+.saveButton.active:hover {
+  background: linear-gradient(90deg, #6242ff 100%, #3b26a6 100%);
+  color: white;
+}
+
+
+.saveButton:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}

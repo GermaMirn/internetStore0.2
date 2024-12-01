@@ -44,7 +44,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({ totalAmount, itemCount
 				<h3 className={styles.totalAmount}>{totalAmount} ₽</h3>
 			</div>
 
-			<div onClick={handleOrder}>
+			<div className={styles.button} onClick={handleOrder}>
 				<Button text={'Перейти к Оформлению'} color={'color'} />
 			</div>
 		</div>

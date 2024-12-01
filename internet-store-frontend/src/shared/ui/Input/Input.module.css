@@ -9,6 +9,12 @@
 }
 
 
+.input:focus {
+  border: 1px solid #3F6AC9;
+  outline: none;
+}
+
+
 .inputError {
 	width: 290px;
 	height: 60px;
@@ -36,6 +42,6 @@
 .errorText{
 	color: red;
 	position: absolute;
-	margin-top: 80px;
-	margin-left: -318px;
+	margin-top: 70px;
+	margin-left: -290px;
 }

@@ -45,11 +45,11 @@
 }
 
 .leftButton {
-  left: 10px;
+  left: -35px;
 }
 
 .rightButton {
-  right: 10px;
+  right: -35px;
 }
 
 .navButton:disabled {

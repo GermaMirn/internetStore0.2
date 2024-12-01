@@ -19,4 +19,16 @@
 .count{
 	text-align: center;
 	width: 73px;
+	margin-top: -1px;
+}
+
+
+.icon{
+	margin-top: 4px;
+	margin-left: -2px;
+}
+
+
+.minus{
+	margin-bottom: 2px;
 }

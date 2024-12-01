@@ -12,6 +12,7 @@
 
 
 .textHeaderReviews{
+	margin-top: -5px;
 	margin-right: 50px;
 }
 
@@ -30,6 +31,7 @@
 
 .openCloseFormForSendNewReview{
 	height: 34px;
+	width: 150px;
 	padding-top: 4px;
 	padding-bottom: 7px;
 	padding-left: 13px;
@@ -44,6 +46,12 @@
 }
 
 
+.openCloseFormForSendNewReview:hover {
+	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
+	border: 1px solid #ffffffb8;
+}
+
+
 .divForHeart{
 	align-items: center;
 	margin-left: auto;
@@ -53,4 +61,5 @@
 
 .countHearts{
 	margin-right: 5px;
+	margin-top: 0px;
 }

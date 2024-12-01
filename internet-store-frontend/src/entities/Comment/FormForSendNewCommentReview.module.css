@@ -20,6 +20,12 @@
 }
 
 
+.commentTextArea:focus{
+	border: 1px solid #3F6AC9;
+  outline: none;
+}
+
+
 .commentTextArea::-webkit-scrollbar {
   display: none;
 }
@@ -120,6 +126,13 @@
   background: linear-gradient(90deg, #5A3DE6 100%, #322280 100%);
   border-radius: 10px;
   border: 1px solid;
+	padding-top: 7.5px;
+}
+
+
+.button:hover{
+	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
+	border: 1px solid #ffffffb8;
 }
 
 
@@ -134,6 +147,12 @@
 	border: 1px solid #777777;
   border-radius: 10px;
   border: 1px solid;
+	padding-top: 7.5px;
+}
+
+
+.cancelButton:hover {
+	background: #999999;
 }
 
 
@@ -147,6 +166,11 @@
   border-radius: 30px;
   border: 1px solid #777777;
 	color: rgb(255, 255, 255);
+}
+
+
+.cancelButtonReview:hover {
+	background: #999999;
 }
 
 

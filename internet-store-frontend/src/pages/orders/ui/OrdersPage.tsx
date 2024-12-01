@@ -43,7 +43,7 @@ const UserOrders: React.FC = () => {
         <h2 className={styles.emptyShoppingCart}>У вас пока нет заказов.</h2>
       ) : (
         <div>
-					<h2>Ваши Заказы</h2>
+					<h2 className={styles.mainText}>Ваши Заказы</h2>
 					{orders.map((order) => (
 						<OrderCard key={order.id} order={order} baseUrl={baseUrl} />
 					))}

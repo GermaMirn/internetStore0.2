@@ -4,7 +4,16 @@ import classNames from 'classnames';
 import { InputProps } from '../../../interfaces';
 
 
-const Input: React.FC<InputProps> = ({ name, value, placeholder, type = 'text', className, onChange, error }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  value,
+  placeholder,
+  type = 'text',
+  className,
+  onChange,
+  error,
+  isEdit = false,
+}) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const showPlaceholder = !isFocused && value === '';
 
@@ -16,9 +25,17 @@ const Input: React.FC<InputProps> = ({ name, value, placeholder, type = 'text', 
     setIsFocused(false);
   };
 
+  const placeholderStyle = {
+    marginLeft: isEdit ? '40px' : '105px',
+  };
+
   return (
     <div className={styles.inputWrapper}>
-      {showPlaceholder && <p className={styles.placeholder}>{placeholder}</p>}
+      {showPlaceholder && (
+        <p className={styles.placeholder} style={placeholderStyle}>
+          {placeholder}
+        </p>
+      )}
       <input
         className={classNames(styles.input, className, { [styles.inputError]: !!error })}
         type={type}

@@ -3,7 +3,12 @@
 	padding: 8px;
 	border: 1px solid rgb(255, 255, 255);
 	border-radius: 4px;
-	flex-grow: 1; /* Занимает всё доступное пространство */
+	flex-grow: 1;
 	min-width: 90%;
 	margin: 0 15px;
+}
+
+.searchInput:focus {
+	border: 1px solid #3F6AC9;
+  outline: none;
 }
