@@ -25,6 +25,18 @@
 }
 
 
+.nameAndStatus{
+	display: flex;
+	align-items: center;
+}
+
+
+.status{
+	margin-top: -5px;
+	margin-left: 27px;
+}
+
+
 .sumText {
   font-weight: 400;
 }
@@ -46,6 +58,7 @@
 .orderCardImages {
   display: flex;
   flex-wrap: wrap;
+	align-items: center;
 }
 
 
@@ -92,7 +105,8 @@
 
 
 .divForActions {
-  margin-top: 55px;
+  margin-top: auto;
+	margin-bottom: 20px;
 }
 
 
@@ -126,22 +140,14 @@
 
 
 .moreImagesContainer {
-  margin-top: 10px;
   text-align: center;
 }
 
 
 .moreImagesButton {
-  background-color: #5A3DE6;
-  color: white;
+	width: max-content;
+  color: #989898;
   font-size: 16px;
-  border: none;
-  padding: 10px 20px;
   border-radius: 20px;
   cursor: pointer;
-}
-
-
-.moreImagesButton:hover {
-  background-color: #3F6AC9;
 }

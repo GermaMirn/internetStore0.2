@@ -257,17 +257,27 @@ class CartItem(models.Model):
 
 
 class Order(models.Model):
-  user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders')
-  created_at = models.DateTimeField(auto_now_add=True)
-  totalPrice = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-  isDelivered = models.BooleanField(default=False)
+	user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders')
+	created_at = models.DateTimeField(auto_now_add=True)
+	totalPrice = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
-  def __str__(self):
-    return f'Заказ пользователя: {self.id}. ФИО: {self.user.fullname}'
+	ORDER_STATUS = [
+		('preparing', 'Собирается'),
+		('in_transit', 'В пути'),
+		('ready_for_pickup', 'Готово к выдаче'),
+	]
+	status = models.CharField(
+		max_length=20,
+		choices=ORDER_STATUS,
+		default='preparing',
+	)
 
-  class Meta:
-    verbose_name = "Заказ"
-    verbose_name_plural = "Заказы"
+	def __str__(self):
+		return f'Заказ пользователя: {self.id}. ФИО: {self.user.fullname}'
+
+	class Meta:
+		verbose_name = "Заказ"
+		verbose_name_plural = "Заказы"
 
 
 class OrderItem(models.Model):

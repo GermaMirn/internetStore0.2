@@ -14,7 +14,7 @@ export interface Order {
   userId: number;
   created_at: string;
   totalPrice: string;
-  isDelivered: boolean;
+  status: string;
   items: OrderItem[];
 	chat: Chat;
 }

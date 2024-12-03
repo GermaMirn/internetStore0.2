@@ -175,10 +175,11 @@ class OrderAdmin(admin.ModelAdmin):
 	list_display = (
 		"user",
 		"created_at",
-		"totalPrice"
+		"totalPrice",
+		"status",
 	)
 
-	ordering = ("created_at", )
+	ordering = ("created_at",)
 	inlines = [OrderItemInline]
 
 

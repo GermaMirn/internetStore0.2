@@ -4,9 +4,11 @@ import { Message } from "../../../interfaces";
 import { formatTimeToHoursMinutes } from "../utils/formatTimeToHoursMinutes";
 import styles from "./ChatMessages.module.css";
 
+
 interface ChatMessagesProps {
   chatId: number;
 }
+
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -148,5 +150,6 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
 		</div>
 	);
 };
+
 
 export default ChatMessages;

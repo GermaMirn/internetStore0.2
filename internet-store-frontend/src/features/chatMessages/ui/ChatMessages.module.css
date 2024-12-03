@@ -1,8 +1,8 @@
 .chatMessagesContainer {
   background-color: #f4f6f9;
   border: 1px solid black;
-  height: 100vh;
-  width: 90%;
+  height: 86.6vh;
+  width: 95%;
   position: relative;
   box-sizing: border-box;
 }

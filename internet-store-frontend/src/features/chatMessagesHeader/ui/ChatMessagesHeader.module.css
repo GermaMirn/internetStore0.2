@@ -1,0 +1,18 @@
+.chatMessagesHeader{
+	padding-top: 5px;
+	padding-bottom: 19px;
+	padding-left: 28px;
+	padding-right: 28px;
+	height: 100px;
+	width: auto;
+}
+
+
+.date{
+	margin-top: 30px;
+}
+
+
+.id{
+	margin-top: 30px;
+}

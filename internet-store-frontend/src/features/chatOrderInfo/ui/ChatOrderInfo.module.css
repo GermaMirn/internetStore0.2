@@ -1,0 +1,12 @@
+.chatInfo{
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+
+.orderItems{
+	margin-top: 55px;
+	overflow-y: auto;
+	max-height: 87.2vh;
+}

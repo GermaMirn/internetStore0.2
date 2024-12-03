@@ -1,0 +1,27 @@
+.orderItems {
+	margin-top: -5px;
+	height: calc(100% - 150px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+
+.orderItem {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+
+.img{
+	width: 120px;
+	height: 100px;
+	border-radius: 15px;
+	margin-right: 10px;
+}
+
+
+.itemData{
+	width: 100%;
+}

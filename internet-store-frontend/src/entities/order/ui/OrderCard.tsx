@@ -4,6 +4,8 @@ import styles from './OrderCard.module.css';
 import classNames from 'classnames';
 import OrderDetail from './OrderDetail';
 import ProductImage from './ProductImage';
+import OrderStatus from '../../../shared/ui/OrderStatus/OrderStatus';
+import { useNavigate } from 'react-router-dom';
 
 
 interface OrderCardProps {
@@ -15,21 +17,31 @@ interface OrderCardProps {
 const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [showMoreImages, setShowMoreImages] = useState(false);
+	const navigate = useNavigate();
 
   const visibleImages = order.items.slice(0, 5);
   const hiddenImages = order.items.slice(5);
 
+	const handleChatClick = () => {
+    navigate(`/chats?orderId=${order.id}`);
+  };
+
   return (
     <div className={styles.orderCard}>
       <div className={styles.orderCardHeader}>
-        <h3>Заказ от {new Date(order.created_at).toLocaleDateString()}</h3>
+				<div className={styles.nameAndStatus}>
+					<h2>Заказ от {new Date(order.created_at).toLocaleDateString()}</h2>
+
+					<div className={styles.status}>
+						<OrderStatus status={order.status} />
+					</div>
+				</div>
         <h3>
           <span className={styles.sumText}>Сумма заказа:</span> <span>{order.totalPrice} ₽</span>
         </h3>
       </div>
       <div className={styles.orderCardDetails}>
         <p className={styles.orderId}>#{order.id}</p>
-        <p>Статус доставки: {order.isDelivered ? 'Доставлен' : 'В пути'}</p>
       </div>
 
       {order.items.length > 0 && (
@@ -54,10 +66,21 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
                   />
                 ))
               )}
+
+							{hiddenImages.length > 0 && (
+								<div>
+									<p
+										className={styles.moreImagesButton}
+										onClick={() => setShowMoreImages(!showMoreImages)}
+									>
+										{showMoreImages ? 'Скрыть' : 'См. ещё'}
+									</p>
+								</div>
+							)}
             </div>
 
             <div className={styles.divForActions}>
-              <button className={classNames(styles.orderButton, styles.orderButtonChat)}>
+              <button onClick={handleChatClick} className={classNames(styles.orderButton, styles.orderButtonChat)}>
                 <img className={styles.orderChatImg} src="/product/orderChat.svg" alt="" />
               </button>
               <button
@@ -68,17 +91,6 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
               </button>
             </div>
           </div>
-
-          {hiddenImages.length > 0 && (
-            <div className={styles.moreImagesContainer}>
-              <button
-                className={styles.moreImagesButton}
-                onClick={() => setShowMoreImages(!showMoreImages)}
-              >
-                {showMoreImages ? 'Скрыть' : 'См. ещё'}
-              </button>
-            </div>
-          )}
         </div>
       )}
 
