@@ -1,16 +1,6 @@
 import React from 'react';
 import styles from './CommentActions.module.css';
-
-
-interface CommentActionsProps {
-  commentsCount: number;
-  showComments: boolean;
-  isReplyFormOpen: boolean;
-  token: string | null;
-	isReview?: boolean;
-	onToggleComments: () => void;
-	onReplyClick: () => void;
-}
+import { CommentActionsProps } from "../../interfaces"
 
 
 const CommentActions: React.FC<CommentActionsProps> = ({

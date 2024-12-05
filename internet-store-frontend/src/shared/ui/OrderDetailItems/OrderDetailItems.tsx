@@ -1,13 +1,7 @@
 import React from 'react';
-import { Order } from '../../../interfaces';
 import styles from './OrderDetailItems.module.css';
 import ProductImage from '../../../entities/order/ui/ProductImage';
-
-
-interface OrderDetailItemsProps {
-  items: Order['items'];
-  baseUrl: string;
-}
+import { OrderDetailItemsProps } from '../../../interfaces';
 
 
 const OrderDetailItems: React.FC<OrderDetailItemsProps> = ({ items, baseUrl }) => {
@@ -25,7 +19,7 @@ const OrderDetailItems: React.FC<OrderDetailItemsProps> = ({ items, baseUrl }) =
             <div className={styles.itemData}>
               <p>{item.product.name}</p>
               <p>{item.quantity} шт.</p>
-              <h4>{item.product.price} ₽</h4>
+              <h4>{Number(item.product.price) * item.quantity} ₽</h4>
             </div>
           </div>
         ))}

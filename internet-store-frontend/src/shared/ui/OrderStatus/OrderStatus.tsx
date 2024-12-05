@@ -1,9 +1,5 @@
 import styles from './OrderStatus.module.css'
-
-
-interface OrderStatusProps {
-	status: string;
-}
+import { OrderStatusProps } from '../../../interfaces';
 
 
 const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
@@ -36,5 +32,6 @@ const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
     </div>
   );
 };
+
 
 export default OrderStatus;

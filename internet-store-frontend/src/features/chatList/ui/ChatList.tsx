@@ -3,15 +3,7 @@ import { getUserChats } from "../api/getChats";
 import { Chat } from "../../../interfaces";
 import styles from "./ChatList.module.css";
 import { dateFormattingForChats } from "../utils/dateFormattingForChats";
-import { Order } from "../../../interfaces";
-
-
-interface ChatListProps {
-  onSelectChat: (chatId: number) => void;
-	onSelectChatOrder: (order: Order) => void;
-  selectedChatId?: number | null;
-  orderId?: number | null;
-}
+import { ChatListProps } from "../../../interfaces";
 
 
 const ChatList: React.FC<ChatListProps> = ({ onSelectChat, onSelectChatOrder, selectedChatId, orderId }) => {
@@ -23,7 +15,6 @@ const ChatList: React.FC<ChatListProps> = ({ onSelectChat, onSelectChatOrder, se
     const fetchChats = async () => {
       try {
         const chats = await getUserChats();
-				console.log(chats)
         setChats(chats);
       } catch (error) {
         console.error("Failed to fetch chats:", error);

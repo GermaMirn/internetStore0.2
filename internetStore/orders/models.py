@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import Profile
 from store.models import Order
+from channels.db import database_sync_to_async
 
 
 class Chat(models.Model):
@@ -22,3 +23,7 @@ class Message(models.Model):
 
 	def __str__(self):
 		return f"Сообщение {self.id} от {self.sender.user.username}"
+
+	@database_sync_to_async
+	def get_sender_username(self):
+			return self.sender.user.username if self.sender else 'Unknown'

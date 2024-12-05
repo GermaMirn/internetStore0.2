@@ -1,12 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './OrderCard.module.css';
-
-
-interface ProductImageProps {
-  productId: number;
-  imageUrl: string;
-}
+import { ProductImageProps } from '../../../interfaces';
 
 
 const ProductImage: React.FC<ProductImageProps> = ({ productId, imageUrl }) => {

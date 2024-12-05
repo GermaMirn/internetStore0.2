@@ -1,19 +1,14 @@
 import styles from "./ChatOrderInfo.module.css";
-import { Order } from "../../../interfaces";
 import OrderStatus from "../../../shared/ui/OrderStatus/OrderStatus";
 import OrderDetailItems from "../../../shared/ui/OrderDetailItems/OrderDetailItems";
+import { ChatMessagesOrderProps } from "../../../interfaces";
 
 
-interface ChatOrderInfoProps {
-  order: Order;
-}
-
-
-const ChatOrderInfo: React.FC<ChatOrderInfoProps> = ({ order }) => {
+const ChatOrderInfo: React.FC<ChatMessagesOrderProps> = ({ order }) => {
 
   return (
     <div className={styles.chatInfo}>
-			<p>{<OrderStatus status={order.status} />}</p>
+			<OrderStatus status={order.status} />
 
 
 			<div className={styles.orderItems}>

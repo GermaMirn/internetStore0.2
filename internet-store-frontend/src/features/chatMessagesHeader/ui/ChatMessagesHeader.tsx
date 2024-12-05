@@ -1,14 +1,9 @@
 import styles from "./ChatMessagesHeader.module.css";
 import { dateFormattingForChats } from "../../chatList/utils/dateFormattingForChats";
-import { Order } from "../../../interfaces";
+import { ChatMessagesOrderProps } from "../../../interfaces";
 
 
-interface ChatListProps {
-  order: Order;
-}
-
-
-const ChatMessagesHeader: React.FC<ChatListProps> = ({ order }) => {
+const ChatMessagesHeader: React.FC<ChatMessagesOrderProps> = ({ order }) => {
 
 
   return (

@@ -20,3 +20,21 @@ export interface Message {
   created_at: string;
   is_read: boolean;
 }
+
+
+export interface ChatListProps {
+  onSelectChat: (chatId: number) => void;
+	onSelectChatOrder: (order: Order) => void;
+  selectedChatId?: number | null;
+  orderId?: number | null;
+}
+
+
+export interface ChatMessagesProps {
+  chatId: number;
+}
+
+
+export interface ChatMessagesOrderProps {
+  order: Order;
+}

@@ -2,15 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import ProfileMenu from '../ProfileMenu/ProfileMenu';
 import styles from './PersonActivities.module.css';
-
-
-interface PersonActivitiesProps {
-  username: string | null;
-  onLogout: () => void;
-  toggleMenu: () => void;
-  menuVisible: boolean;
-  navigate: (path: string) => void;
-}
+import { PersonActivitiesProps } from '../../../../interfaces';
 
 
 const PersonActivities: React.FC<PersonActivitiesProps> = ({ username, onLogout, toggleMenu, menuVisible, navigate }) => {

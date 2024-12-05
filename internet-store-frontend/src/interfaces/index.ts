@@ -1,4 +1,4 @@
-export * from './profuctInterfaces'
+export * from './productInterfaces'
 export * from './reviewInterfaces'
 export * from './commentInterfaces'
 export * from './imageInterfaces'

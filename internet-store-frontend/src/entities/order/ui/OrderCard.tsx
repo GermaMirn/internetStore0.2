@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
-import { Order } from '../../../interfaces';
 import styles from './OrderCard.module.css';
 import classNames from 'classnames';
 import OrderDetail from './OrderDetail';
 import ProductImage from './ProductImage';
 import OrderStatus from '../../../shared/ui/OrderStatus/OrderStatus';
 import { useNavigate } from 'react-router-dom';
-
-
-interface OrderCardProps {
-  order: Order;
-  baseUrl: string;
-}
+import { OrderCardProps } from '../../../interfaces';
 
 
 const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [showMoreImages, setShowMoreImages] = useState(false);
 	const navigate = useNavigate();
 
   const visibleImages = order.items.slice(0, 5);
@@ -57,23 +50,13 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
                 />
               ))}
 
-              {showMoreImages && hiddenImages.length > 0 && (
-                hiddenImages.map((item, index) => (
-                  <ProductImage
-                    key={index + visibleImages.length}
-                    productId={item.product.id}
-                    imageUrl={baseUrl + item.product.mainImageUrl}
-                  />
-                ))
-              )}
-
 							{hiddenImages.length > 0 && (
 								<div>
 									<p
 										className={styles.moreImagesButton}
-										onClick={() => setShowMoreImages(!showMoreImages)}
+										onClick={() => setShowDetails(true)}
 									>
-										{showMoreImages ? 'Скрыть' : 'См. ещё'}
+										См. ещё
 									</p>
 								</div>
 							)}

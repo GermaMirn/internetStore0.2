@@ -15,3 +15,16 @@ export interface ImagesCarouselProps {
   mainImage: string;
   onImageSelect: (imageUrl: string) => void;
 }
+
+
+export interface ProductImageProps {
+  productId: number;
+  imageUrl: string;
+}
+
+
+export interface ImageViewerProps {
+  images: string[];
+  onOpenModal: (index: number) => void;
+  baseUrl: string;
+}

@@ -42,6 +42,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 	async def receive(self, text_data):
 		text_data_json = json.loads(text_data)
+		print(text_data_json)
+		if text_data_json.get('type') == 'mark_as_read':
+			message_id = text_data_json.get('message_id')
+			await self.mark_as_read({
+				'message_id': message_id
+			})
+			return
+
 		text = text_data_json.get('text', None)
 		image = text_data_json.get('image', None)
 		user = self.scope['user']
@@ -81,6 +89,46 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			'message': message
 		}))
 
+	async def mark_as_read(self, event):
+		message_id = event['message_id']
+		user = self.scope['user']
+
+		message = await self.get_message_by_id(message_id)
+		if message:
+			sender_username = await message.get_sender_username()
+
+			if user.profile != message.sender:
+				await self.update_message_read_status(message, user)
+				message_data = await self.get_message_data(message)
+
+				await self.send(text_data=json.dumps({
+					'message': message_data,
+					'status': 'read'
+				}))
+			else:
+				await self.send(text_data=json.dumps({
+					'error': 'You cannot mark your own message as read.'
+				}))
+		else:
+			await self.send(text_data=json.dumps({
+				'error': f'Message with ID {message_id} not found.'
+			}))
+
+	async def delete_message(self, event):
+		message_id = event['message_id']
+		message = await self.get_message_by_id(message_id)
+
+		if message and message.sender.user == self.scope['user']:
+			await self.delete_message_from_db(message)
+			await self.send(text_data=json.dumps({
+				'status': 'deleted',
+				'message_id': message.id
+			}))
+		else:
+			await self.send(text_data=json.dumps({
+				'error': 'You can only delete your own messages.'
+			}))
+
 	@database_sync_to_async
 	def get_chat(self, chat_id):
 		try:
@@ -100,3 +148,27 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			text=text if text else None,
 			image=image if image else None
 		)
+
+	@database_sync_to_async
+	def get_message_by_id(self, message_id):
+		try:
+			return Message.objects.get(id=message_id)
+		except Message.DoesNotExist:
+			return None
+
+	@database_sync_to_async
+	def update_message_read_status(self, message, user):
+		if not message.is_read:
+			message.is_read = True
+			message.save()
+
+			# Можете добавить логику для записи, кто именно прочитал это сообщение (если нужно)
+			# Например, создавая запись в другой модели, которая хранит информацию о прочтении
+
+	@database_sync_to_async
+	def get_message_data(self, message):
+		return MessageSerializer(message).data
+
+	@database_sync_to_async
+	def delete_message_from_db(self, message):
+		message.delete()

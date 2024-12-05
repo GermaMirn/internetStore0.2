@@ -1,14 +1,9 @@
 import React from 'react';
-import { Order } from '../../../interfaces';
+import { OrderDetailProps } from '../../../interfaces';
 import { formatDate } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/utils/dateUtils';
 import styles from './OrderDetail.module.css';
 import OrderDetailItems from '../../../shared/ui/OrderDetailItems/OrderDetailItems';
 
-interface OrderDetailProps {
-  order: Order;
-  baseUrl: string;
-  onClose: () => void;
-}
 
 const OrderDetail: React.FC<OrderDetailProps> = ({ order, baseUrl, onClose }) => {
 
@@ -28,5 +23,6 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order, baseUrl, onClose }) =>
     </div>
   );
 };
+
 
 export default OrderDetail;

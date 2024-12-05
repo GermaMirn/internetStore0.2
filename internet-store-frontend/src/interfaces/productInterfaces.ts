@@ -102,3 +102,10 @@ export interface CategoriesButtonsProps {
   handleSearch: () => void;
   handleResetCategories: () => void;
 }
+
+
+export interface SearchInputProps {
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+	onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
+}

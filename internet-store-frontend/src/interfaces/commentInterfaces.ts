@@ -10,3 +10,23 @@ export interface Comment {
   mainImage: string | null;
 	onNewComment?: (newComment: Comment) => void;
 }
+
+
+export interface CommentActionsProps {
+  commentsCount: number;
+  showComments: boolean;
+  isReplyFormOpen: boolean;
+  token: string | null;
+	isReview?: boolean;
+	onToggleComments: () => void;
+	onReplyClick: () => void;
+}
+
+
+export interface FormForSendNewCommentReviewProps {
+  onClose: () => void;
+  onSubmit: (commentText: string, images: File[]) => void;
+  isReplyToComment?: boolean;
+  username?: string;
+  isReview?: boolean;
+}

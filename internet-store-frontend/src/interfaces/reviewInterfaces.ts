@@ -43,3 +43,11 @@ export interface ReviewItemProps extends Review {
   updateReviewLikes: (id: number, newLikes: number) => void;
   setIsLiked: (id: number, isLiked: boolean) => void;
 }
+
+
+export interface FormForSendNewReviewProps {
+	productImg: string;
+	productName: string;
+  onClose: () => void;
+	handleSubmitReview: (commentText: string, images: File[]) => void;
+}

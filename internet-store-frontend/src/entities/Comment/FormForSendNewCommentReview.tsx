@@ -1,15 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './FormForSendNewCommentReview.module.css';
 import classNames from 'classnames';
-
-
-interface FormForSendNewCommentReviewProps {
-  onClose: () => void;
-  onSubmit: (commentText: string, images: File[]) => void;
-  isReplyToComment?: boolean;
-  username?: string;
-  isReview?: boolean;
-}
+import { FormForSendNewCommentReviewProps } from '../../interfaces';
 
 
 const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = ({ onClose, onSubmit, isReplyToComment, username, isReview }) => {

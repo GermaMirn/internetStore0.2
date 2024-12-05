@@ -1,12 +1,6 @@
 import React from 'react';
 import styles from './SearchInputHeader.module.css';
-
-
-interface SearchInputProps {
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-	onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
-}
+import { SearchInputProps } from '../../../../interfaces';
 
 
 const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, onKeyDown }) => {

@@ -1,12 +1,6 @@
 import React from 'react';
 import styles from './ImageViewer.module.css';
-
-
-interface ImageViewerProps {
-  images: string[];
-  onOpenModal: (index: number) => void;
-  baseUrl: string;
-}
+import { ImageViewerProps } from '../../../../interfaces';
 
 
 const ImageViewer: React.FC<ImageViewerProps> = ({ images, onOpenModal, baseUrl }) => {

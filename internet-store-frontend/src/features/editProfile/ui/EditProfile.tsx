@@ -11,7 +11,7 @@ import { useNotification } from '../../../app/providers/notifications/Notificati
 
 const EditProfile: React.FC<EditProfileProps> = ({ handleClose }) => {
   const { updateUserData } = useAuth();
-  const { showNotification } = useNotification();  // Хук уведомлений
+  const { showNotification } = useNotification()
 
   const storedFullName = localStorage.getItem('fullname') || '';
   const storedPhoneNumber = localStorage.getItem('phoneNumber') || '';

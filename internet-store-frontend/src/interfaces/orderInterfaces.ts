@@ -18,3 +18,27 @@ export interface Order {
   items: OrderItem[];
 	chat: Chat;
 }
+
+
+export interface OrderCardProps {
+  order: Order;
+  baseUrl: string;
+}
+
+
+export interface OrderDetailProps {
+  order: Order;
+  baseUrl: string;
+  onClose: () => void;
+}
+
+
+export interface OrderDetailItemsProps {
+  items: Order['items'];
+  baseUrl: string;
+}
+
+
+export interface OrderStatusProps {
+	status: string;
+}

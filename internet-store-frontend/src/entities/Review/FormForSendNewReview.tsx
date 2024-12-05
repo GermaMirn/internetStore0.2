@@ -1,15 +1,7 @@
 import React from 'react';
 import styles from './FormForSendNewReview.module.css';
 import FormForSendNewComment from '../Comment/FormForSendNewCommentReview';
-
-
-
-interface FormForSendNewReviewProps {
-	productImg: string;
-	productName: string;
-  onClose: () => void;
-	handleSubmitReview: (commentText: string, images: File[]) => void;
-}
+import { FormForSendNewReviewProps } from '../../interfaces';
 
 
 const FormForSendNewReview: React.FC<FormForSendNewReviewProps> = ({ productImg, productName, onClose, handleSubmitReview }) => {

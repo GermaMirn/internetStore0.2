@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import styles from "./ChatPage.module.css";
 import ChatList from "../../../features/chatList/ui/ChatList";
 import ChatMessages from "../../../features/chatMessages/ui/ChatMessages";
@@ -13,9 +13,9 @@ const ChatPage = () => {
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
   const [orderId, setOrderId] = useState<number | null>(null);
   const [order, setOrder] = useState<Order | null>(null);
+	const [searchParams, setSearchParams] = useSearchParams(new URLSearchParams(location.search));
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
     const orderId = searchParams.get('orderId');
 
     if (orderId) {
@@ -23,13 +23,20 @@ const ChatPage = () => {
     }
   }, [location]);
 
+	const handleSelectChatOrder = (order: Order) => {
+		setOrder(order);
+		if (order) {
+			setSearchParams({ orderId: order.id.toString() });
+		}
+	};
+
   return (
     <div className={styles.chatPage}>
       <div className={styles.chatList}>
         <ChatList
           selectedChatId={selectedChatId}
           onSelectChat={setSelectedChatId}
-          onSelectChatOrder={setOrder}
+          onSelectChatOrder={handleSelectChatOrder}
           orderId={orderId}
         />
       </div>
