@@ -15,7 +15,9 @@ export interface CartSummaryProps {
 	totalAmount: number;
 	itemCount: number;
 	selectedItems: CartItemType[];
+	allSelected: boolean;
 	onOrderSuccess: (orderedItems: CartItemType[]) => void;
+	handleToggleAllItems: () => void;
 }
 
 

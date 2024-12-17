@@ -47,6 +47,11 @@
 
 
 .active{
-	background-color: rgb(238, 238, 238);
+	background-color: #e1e7ff;
 	border-radius: 30px;
+}
+
+
+.activeImg{
+	box-shadow: 3px 3px 16px 6px #475ED1;
 }

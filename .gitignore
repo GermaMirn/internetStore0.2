@@ -10,6 +10,7 @@ text.txt
 
 # virtual environment
 venv/
+.env
 
 # cached files
 *__pycache__

@@ -10,6 +10,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const ws = useRef<WebSocket | null>(null);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const messagesRef = useRef(messages);
@@ -47,73 +48,91 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
   };
 
   useEffect(() => {
-		const establishWebSocketConnection = async () => {
-			if (chatId) {
-				try {
-					const token = await getToken();
-					const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`;
+    const establishWebSocketConnection = async () => {
+      if (chatId) {
+        try {
+          const token = await getToken();
+          const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`;
 
-					ws.current = new WebSocket(wsUrl);
+          ws.current = new WebSocket(wsUrl);
 
-					ws.current.onopen = () => {
-						console.log("Соединение WebSocket установлено.");
-					};
+          ws.current.onopen = () => {
+            console.log("Соединение WebSocket установлено.");
+          };
 
-					ws.current.onmessage = (event) => {
-						const data = JSON.parse(event.data);
-						if (data.message) {
-							setMessages((prevMessages) => {
-								if (prevMessages.find((msg) => msg.id === data.message.id)) return prevMessages;
-								return [...prevMessages, data.message];
-							});
-							console.log("messages: ", messagesRef.current);
-						}
+          ws.current.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.message) {
+              setMessages((prevMessages) => {
+                if (prevMessages.find((msg) => msg.id === data.message.id)) return prevMessages;
+                return [...prevMessages, data.message];
+              });
+              console.log("messages: ", messagesRef.current);
+            }
 
-						if (data.status === "read") {
-							setMessages((prevMessages) => {
-								return prevMessages.map((msg) =>
-									msg.id === data.message.id ? { ...msg, is_read: true } : msg
-								);
-							});
-							console.log("messages read: ", messagesRef.current);
-						}
-					};
+            if (data.status === "read") {
+              setMessages((prevMessages) => {
+                return prevMessages.map((msg) =>
+                  msg.id === data.message.id ? { ...msg, is_read: true } : msg
+                );
+              });
+              console.log("messages read: ", messagesRef.current);
+            }
+          };
 
-					ws.current.onclose = () => {
-						console.log("Соединение WebSocket закрыто.");
-					};
+          ws.current.onclose = () => {
+            console.log("Соединение WebSocket закрыто.");
+          };
 
-					ws.current.onerror = (error) => {
-						console.error("Ошибка WebSocket:", error);
-					};
-				} catch (error) {
-					console.error("Ошибка при подключении WebSocket:", error);
-				}
-			}
-		};
+          ws.current.onerror = (error) => {
+            console.error("Ошибка WebSocket:", error);
+          };
+        } catch (error) {
+          console.error("Ошибка при подключении WebSocket:", error);
+        }
+      }
+    };
 
-		establishWebSocketConnection();
+    establishWebSocketConnection();
 
-		return () => {
-			if (ws.current) {
-				ws.current.close();
-			}
-		};
-	}, [chatId]);
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
+  }, [chatId]);
 
   const sendMessage = async () => {
-		if (newMessage.trim() && ws.current && ws.current.readyState === WebSocket.OPEN) {
-			const messageData = {
-				text: newMessage,
-				image: null,
-			};
+    if (newMessage.trim() || selectedImages.length > 0) {
+      if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+        const formData = new FormData();
+        formData.append("text", newMessage);
 
-			ws.current.send(JSON.stringify(messageData));
-			setNewMessage("");
-		} else {
-			console.error("WebSocket не открыт.");
-		}
-	};
+        // Добавляем изображения, если они есть
+        selectedImages.forEach((image) => {
+          formData.append("image", image);
+        });
+
+        const messageData = {
+          text: newMessage,
+          image: selectedImages.length > 0 ? selectedImages[0] : null,
+        };
+
+        // Отправляем через WebSocket
+        ws.current.send(JSON.stringify(messageData));
+        setNewMessage("");
+        setSelectedImages([]); // Очищаем выбранные изображения
+      } else {
+        console.error("WebSocket не открыт.");
+      }
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedImages(Array.from(e.target.files)); // Сохраняем выбранные файлы
+    }
+  };
 
   const markAsRead = (messageId: number) => {
     const message = messagesRef.current.find((msg) => msg.id === messageId);
@@ -182,6 +201,9 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
                 <div className={styles.messageTextWrapper}>
                   <p className={styles.messageText}>
                     {message.text} <br />
+                    {message.image && (
+                      <img src={message.image} alt="sent-image" className={styles.messageImage} />
+                    )}
                     <div className={styles.timeAndReadData}>
                       <span className={`${styles.messageTime} ${isCurrentUser ? styles.messageTimeRight : ""}`}>
                         {formatTimeToHoursMinutes(message.created_at)}
@@ -202,7 +224,17 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
       </div>
 
       <div className={styles.messageInput}>
-        <img src="/chat/addFile.svg" alt="" />
+        <label htmlFor="file-upload">
+          <img src="/chat/addFile.svg" alt="" />
+          <input
+            id="file-upload"
+            type="file"
+            multiple
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
+        </label>
         <input
           type="text"
           value={newMessage}

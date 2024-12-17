@@ -1,0 +1,70 @@
+services:
+
+  frontend:
+    build:
+      context: internet-store-frontend/
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+
+  postgres:
+    image: postgres
+    env_file:
+      - ./.env
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+
+
+
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+       - "8001:8001"
+       - "6379:6379"
+    volumes:
+      - redis_volume:/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "8002:80"
+    volumes:
+      - pgadmin_volume:/var/lib/pgadmin
+
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@example.com
+      - PGADMIN_DEFAULT_PASSWORD=12345
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+
+    depends_on:
+      - postgres
+
+
+  backend:
+    build:
+      context: ./internet-store-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+
+    depends_on:
+      redis:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+
+volumes:
+  redis_volume: {}
+  pgdata: {}
+  pgadmin_volume:

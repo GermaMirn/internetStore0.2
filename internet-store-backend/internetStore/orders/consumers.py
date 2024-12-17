@@ -3,6 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Chat, Message
 from .serializers import MessageSerializer
+from django.core.files.storage import default_storage
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -42,7 +43,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 	async def receive(self, text_data):
 		text_data_json = json.loads(text_data)
-		print(text_data_json)
+
 		if text_data_json.get('type') == 'mark_as_read':
 			message_id = text_data_json.get('message_id')
 			await self.mark_as_read({
@@ -55,6 +56,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 		user = self.scope['user']
 
 		chat = await self.get_chat(self.chat_id)
+		print(image)
 		if not chat:
 			await self.send(text_data=json.dumps({
 				'error': 'Chat not found.'
@@ -73,7 +75,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			}))
 			return
 
-		message = await self.create_message(chat, user, text, image)
+		if image:
+				image_path = await self.save_image(image)
+		else:
+				image_path = None
+
+		message = await self.create_message(chat, user, text, image_path)
 
 		await self.channel_layer.group_send(
 			self.chat_group_name,
@@ -135,6 +142,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			return Chat.objects.get(id=chat_id)
 		except Chat.DoesNotExist:
 			return None
+
+	@database_sync_to_async
+	def save_image(self, image):
+		image_name = f"chatImages/{image.name}"
+		image_path = default_storage.save(image_name, image)
+		return image_path
 
 	@database_sync_to_async
 	def is_participant(self, user, chat):

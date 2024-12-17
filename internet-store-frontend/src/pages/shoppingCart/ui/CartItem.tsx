@@ -17,7 +17,11 @@ export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, o
 				className={`${styles.divOfCartItems} ${item.isActive ? styles.active : ''}`}
 				onClick={onToggle}
 			>
-				<img className={styles.imgOfItem} src={baseUrl + item.image} alt="" />
+				<img
+					className={`${styles.imgOfItem}
+					${item.isActive ? styles.activeImg : ''}`}
+					src={baseUrl + item.image} alt=""
+				/>
 
 				<div>
 					<p

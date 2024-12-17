@@ -5,7 +5,7 @@ import { CartSummaryProps } from '../../../interfaces';
 import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
 
 
-export const CartSummary: React.FC<CartSummaryProps> = ({ totalAmount, itemCount, selectedItems, onOrderSuccess }) => {
+export const CartSummary: React.FC<CartSummaryProps> = ({ totalAmount, itemCount, selectedItems, allSelected, onOrderSuccess, handleToggleAllItems }) => {
 	const { showNotification } = useNotification();
 
   const handleOrder = async () => {
@@ -32,20 +32,29 @@ export const CartSummary: React.FC<CartSummaryProps> = ({ totalAmount, itemCount
 
 
 	return (
-		<div className={styles.divCartSummary}>
-			<h2>Ваша Корзина</h2>
-			<div className={styles.textOfCartSummary}>
-				<p>Товары:</p>
-				<h4 className={styles.itemCount}>{itemCount}</h4>
-			</div>
+		<div className={styles.divForCartSummaryAndButton}>
+			<div className={styles.divCartSummary}>
+				<h2>Ваша Корзина</h2>
+				<div className={styles.textOfCartSummary}>
+					<p>Товары:</p>
+					<h4 className={styles.itemCount}>{itemCount}</h4>
+				</div>
 
-			<div className={styles.textOfCartSummary}>
-				<p>Итого:</p>
-				<h3 className={styles.totalAmount}>{totalAmount} ₽</h3>
-			</div>
+				<div className={styles.textOfCartSummary}>
+					<p>Итого:</p>
+					<h3 className={styles.totalAmount}>{totalAmount} ₽</h3>
+				</div>
 
-			<div className={styles.button} onClick={handleOrder}>
-				<Button text={'Перейти к Оформлению'} color={'color'} />
+				<div className={styles.button} onClick={handleOrder}>
+					<Button text={'Перейти к Оформлению'} color={'color'} />
+				</div>
+			</div>
+			<div onClick={handleToggleAllItems} className={styles.buttonForItems}>
+				<Button
+					text={allSelected ? 'Отменить выделение' : 'Выбрать все товары'}
+					color={'notColor'}
+					size='medium'
+				/>
 			</div>
 		</div>
 	);
