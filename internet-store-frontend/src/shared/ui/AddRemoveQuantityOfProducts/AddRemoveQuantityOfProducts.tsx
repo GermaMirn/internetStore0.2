@@ -4,6 +4,7 @@ import { addUnitToCartProduct } from '../../api/updateCartProductQuantity/addUni
 import { removeUnitToCartProduct } from '../../api/updateCartProductQuantity/removeUnitToCartProduct';
 import { AddRemoveQuantityOfProductsProps } from '../../../interfaces';
 import classNames from 'classnames';
+import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
 
 
 const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = ({
@@ -14,6 +15,7 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
 }) => {
   const [count, setCount] = useState(countOfProduct);
   const [loading, setLoading] = useState(false);
+	const { showNotification } = useNotification();
 
   useEffect(() => {
     setCount(countOfProduct);
@@ -30,7 +32,7 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
       });
       if (onIncrease) onIncrease();
     } catch (err) {
-      console.error(err);
+      showNotification('Не получилось добавить к количеству', 'error');
     } finally {
       setLoading(false);
     }
@@ -48,7 +50,7 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
       });
       if (onDecrease) onDecrease();
     } catch (err) {
-      console.error(err);
+      showNotification('Не получилось убавить от количества', 'error');
     } finally {
       setLoading(false);
     }

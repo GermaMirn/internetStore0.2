@@ -4,11 +4,13 @@ import { Chat } from "../../../interfaces";
 import styles from "./ChatList.module.css";
 import { dateFormattingForChats } from "../utils/dateFormattingForChats";
 import { ChatListProps } from "../../../interfaces";
+import { useErrorRedirect } from "../../../hooks/errorHandler";
 
 
 const ChatList: React.FC<ChatListProps> = ({ onSelectChat, onSelectChatOrder, selectedChatId, orderId }) => {
   const [chats, setChats] = useState<Chat[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+	const handleError = useErrorRedirect();
 
   const effectiveOrderId = selectedChatId ? null : orderId;
   useEffect(() => {
@@ -17,7 +19,7 @@ const ChatList: React.FC<ChatListProps> = ({ onSelectChat, onSelectChatOrder, se
         const chats = await getUserChats();
         setChats(chats);
       } catch (error) {
-        console.error("Failed to fetch chats:", error);
+        handleError(error);
       } finally {
         setLoading(false);
       }

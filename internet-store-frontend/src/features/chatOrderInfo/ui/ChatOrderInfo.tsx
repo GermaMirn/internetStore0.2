@@ -12,7 +12,7 @@ const ChatOrderInfo: React.FC<ChatMessagesOrderProps> = ({ order }) => {
 
 
 			<div className={styles.orderItems}>
-				<OrderDetailItems items={order.items} baseUrl={"http://127.0.0.1:8000"} />
+				<OrderDetailItems items={order.items} />
 			</div>
 		</div>
   );

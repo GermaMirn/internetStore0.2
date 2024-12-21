@@ -7,6 +7,8 @@ const axiosInstance = axios.create({
 });
 
 
+export const baseURL = 'http://localhost:8000'
+
 
 const token = localStorage.getItem('token');
 if (token) {

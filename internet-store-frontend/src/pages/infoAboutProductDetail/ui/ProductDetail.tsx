@@ -7,10 +7,11 @@ import ProductActions from '../../../features/products/ui/ProductActions';
 import ImagesCarousel from '../../../entities/ImagesCarouselReviewComment/ImagesCarouselReviewComment';
 import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetail.module.css';
+import { baseURL } from '../../../shared/api/axiosInstance';
+import { useErrorRedirect } from '../../../hooks/errorHandler';
 
 
 const ProductDetailPage = () => {
-  const baseURL = 'http://127.0.0.1:8000';
   const { id } = useParams<{ id?: string }>();
   const [product, setProduct] = useState<ProductDetail | null>(null);
 	const [reviews, setReviews] = useState(product?.reviews || []);
@@ -18,6 +19,7 @@ const ProductDetailPage = () => {
   const [currentImage, setCurrentImage] = useState<string>('');
 	const [hearts, setHearts] = useState<number>(0);
 	const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+	const handleError = useErrorRedirect();
 
   useEffect(() => {
     const loadProductDetail = async () => {
@@ -28,8 +30,8 @@ const ProductDetailPage = () => {
           setCurrentImage(fetchedProduct.mainImage);
 					setHearts(fetchedProduct.hearts);
 					setReviews(fetchedProduct.reviews);
-        } catch (err) {
-          console.log('Error fetching product detail:', err);
+        } catch (error) {
+          handleError(error);
         } finally {
           setLoading(false);
         }

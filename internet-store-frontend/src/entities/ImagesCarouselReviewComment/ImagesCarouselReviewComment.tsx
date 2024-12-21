@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styles from './ImagesCarouselReviewComment.module.css';
 import { ImagesCarouselProps } from '../../interfaces';
+import { baseURL } from '../../shared/api/axiosInstance';
 
 
 const ImagesCarousel: React.FC<ImagesCarouselProps> = ({ imagesUrl, mainImage, onImageSelect }) => {
-  const baseURL = 'http://127.0.0.1:8000';
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const images = [mainImage, ...imagesUrl];

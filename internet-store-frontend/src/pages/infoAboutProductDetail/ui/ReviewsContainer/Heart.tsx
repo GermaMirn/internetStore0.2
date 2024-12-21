@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { addHeartToComment, removeHeartFromComment } from '../../api/HeartCommentAndReview/commentHeart';
 import { addHeartToReview, removeHeartFromReview } from '../../api/HeartCommentAndReview/reviewHeart';
 import { HeartProps } from '../../../../interfaces';
+import { useNotification } from '../../../../app/providers/notifications/NotificationProvider';
 
 
 const HeartCommentAndReview: React.FC<HeartProps> = ({
@@ -17,6 +18,7 @@ const HeartCommentAndReview: React.FC<HeartProps> = ({
   const [isLiked, setIsLiked] = useState(isCommentLiked || isReviewLiked);
   const [isLoading, setIsLoading] = useState(false);
   const [currentHeartsCount, setCurrentHeartsCount] = useState(heartsCount);
+	const { showNotification } = useNotification();
 
   useEffect(() => {
     setIsLiked(isCommentLiked || isReviewLiked);
@@ -51,7 +53,7 @@ const HeartCommentAndReview: React.FC<HeartProps> = ({
         setIsLiked(newLikedState);
       }
     } catch (error) {
-      console.error('Ошибка при изменении статуса лайка', error);
+      showNotification('Ошибка при изменении статуса лайка', 'error');
     } finally {
       setIsLoading(false);
     }

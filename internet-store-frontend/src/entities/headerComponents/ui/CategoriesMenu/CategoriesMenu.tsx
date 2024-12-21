@@ -5,12 +5,13 @@ import { getCategories } from '../../api/getCategories';
 import CategoriesHeader from './CategoriesHeader/CategoriesHeader';
 import CategoriesList from './CategoriesList/CategoriesList';
 import CategoriesActions from './CategoriesActions/CategoriesActions';
+import { useErrorRedirect } from '../../../../hooks/errorHandler';
 
 
 const CategoriesMenu: React.FC<CategoriesMenuProps> = ({ visible, selectedCategories, setSelectedCategories, toggleCategoriesMenu, handleSearch }) => {
+	const handleError = useErrorRedirect();
   const [categories, setCategories] = useState<{ id: number, name: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (visible) {
@@ -18,8 +19,8 @@ const CategoriesMenu: React.FC<CategoriesMenuProps> = ({ visible, selectedCatego
         try {
           const categoriesData = await getCategories();
           setCategories(categoriesData);
-        } catch (err) {
-          setError('Ошибка при загрузке категорий');
+        } catch (error) {
+          handleError(error)
         } finally {
           setLoading(false);
         }
@@ -46,9 +47,7 @@ const CategoriesMenu: React.FC<CategoriesMenuProps> = ({ visible, selectedCatego
   return (
     <div className={styles.dropdownMenu}>
       {loading && <p>Загрузка...</p>}
-      {error && <p>{error}</p>}
-      {!loading && !error && categories.length === 0 && <p>Категории не найдены</p>}
-      {!loading && !error && categories.length > 0 && (
+      {!loading && categories.length >= 0 && (
         <div>
           <CategoriesHeader
             toggleCategoriesMenu={toggleCategoriesMenu}

@@ -4,6 +4,7 @@ import styles from './ProductCard.module.css';
 import Button from '../../../shared/ui/Button';
 import ProductActions from '../../../features/products/ui/ProductActions';
 import { ProductCardProps } from '../../../interfaces'
+import { baseURL } from '../../../shared/api/axiosInstance';
 
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -12,7 +13,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	updateCartState,
   updateHeartState,
 }) => {
-	const baseUrl = 'http://127.0.0.1:8000';
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -24,7 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       >
         <img
           className={styles.imgOfProduct}
-          src={`${baseUrl}${product.mainImageUrl}`}
+          src={`${baseURL}${product.mainImageUrl}`}
           alt={product.name}
           onClick={() => navigate(`/product/${product.id}`)}
         />

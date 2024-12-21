@@ -54,7 +54,7 @@ const RegistrationForm: React.FC = () => {
           }
         }
       } catch (error) {
-        console.error('Ошибка при регистрации:', error);
+        showNotification('Ошибка при регистрации', 'error');
       } finally {
         setIsLoading(false);
       }

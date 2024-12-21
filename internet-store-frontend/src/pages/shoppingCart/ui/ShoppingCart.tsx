@@ -4,6 +4,7 @@ import { CartSummary } from './CartSummary';
 import getShoppingCartItems from '../api/getShoppingCartItems';
 import styles from './ShoppingCart.module.css';
 import { CartItemType } from '../../../interfaces';
+import { useErrorRedirect } from '../../../hooks/errorHandler';
 
 
 const ShoppingCart: React.FC = () => {
@@ -11,6 +12,7 @@ const ShoppingCart: React.FC = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedItemsCount, setSelectedItemsCount] = useState(0);
   const [allSelected, setAllSelected] = useState(false);
+	const handleError = useErrorRedirect();
 
 	useEffect(() => {
 	const fetchCartItems = async () => {
@@ -25,7 +27,7 @@ const ShoppingCart: React.FC = () => {
 					}))
 			);
 		} catch (error) {
-			console.error('Ошибка при загрузке товаров корзины:', error);
+			handleError(error);
 		}
 	};
 
@@ -112,7 +114,7 @@ const ShoppingCart: React.FC = () => {
 				</div>
 			) : (
 				<div className={styles.empty}>
-					<h1>Корзина пуста</h1>
+					<h2>Корзина пуста</h2>
 				</div>
 			)}
 		</div>

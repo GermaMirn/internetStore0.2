@@ -8,6 +8,7 @@ import ImageModal from './ImageModalReviewComment';
 import FormForSendNewCommentReview from '../../../../entities/Comment/FormForSendNewCommentReview';
 import ImageViewer from './ImageViewer';
 import CommentActions from '../../../../entities/Comment/CommentActions';
+import { useNotification } from '../../../../app/providers/notifications/NotificationProvider';
 
 
 const ReviewCommentData: React.FC<ReviewDataProps> = ({
@@ -22,13 +23,13 @@ const ReviewCommentData: React.FC<ReviewDataProps> = ({
   toggleComments = () => {},
 	onNewComment = () => {},
 }) => {
-  const baseUrl = 'http://127.0.0.1:8000';
   const token = localStorage.getItem('token');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const allImages = [...imagesUrl].filter(image => image);
   const [isReplyFormOpen, setIsReplyFormOpen] = useState(false);
 	const [commentsList, setCommentsList] = useState(comments);
+	const { showNotification } = useNotification();
 
   const openModal = (index: number) => {
     setSelectedImageIndex(index);
@@ -71,7 +72,7 @@ const ReviewCommentData: React.FC<ReviewDataProps> = ({
         console.error('Review ID is undefined');
       }
     } catch (error) {
-      console.error('Error submitting comment:', error);
+      showNotification('Не получилось добавить комментарий', 'error');
     }
   };
 
@@ -86,7 +87,7 @@ const ReviewCommentData: React.FC<ReviewDataProps> = ({
           <h3 className={styles.userNameReview}>{user}</h3>
 
           {imagesUrl.length > 0 && (
-            <ImageViewer images={imagesUrl} onOpenModal={openModal} baseUrl={baseUrl} />
+            <ImageViewer images={imagesUrl} onOpenModal={openModal} />
           )}
         </div>
         <h5 className={styles.dateReview}>{formatDate(created_at)}</h5>

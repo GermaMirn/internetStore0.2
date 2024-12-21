@@ -3,6 +3,7 @@ import { QuickViewProps } from '../../../interfaces';
 import styles from './QuickView.module.css';
 import Cross from '../../../shared/ui/Cross/Cross';
 import ProductActions from '../../../features/products/ui/ProductActions';
+import { baseURL } from '../../../shared/api/axiosInstance';
 
 
 const QuickView: React.FC<QuickViewProps> = ({
@@ -11,12 +12,10 @@ const QuickView: React.FC<QuickViewProps> = ({
 	updateCartState,
   updateHeartState,
 }) => {
-	const baseUrl = 'http://127.0.0.1:8000';
-
   return (
     <div className={styles.quickViewOverlay}>
       <div className={styles.quickView}>
-        <img className={styles.imgOfQuickView} src={`${baseUrl}${product.mainImageUrl}`} alt={product.name} />
+        <img className={styles.imgOfQuickView} src={`${baseURL}${product.mainImageUrl}`} alt={product.name} />
         <div className={styles.textOfQuickView}>
           <h2 className={styles.nameOfProduct}>{product.name}</h2>
           <h1 className={styles.priceOfQuickView}>{product.price} ₽</h1>

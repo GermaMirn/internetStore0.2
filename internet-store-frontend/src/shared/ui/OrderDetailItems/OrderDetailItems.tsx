@@ -2,9 +2,10 @@ import React from 'react';
 import styles from './OrderDetailItems.module.css';
 import ProductImage from '../../../entities/order/ui/ProductImage';
 import { OrderDetailItemsProps } from '../../../interfaces';
+import { baseURL } from '../../api/axiosInstance';
 
 
-const OrderDetailItems: React.FC<OrderDetailItemsProps> = ({ items, baseUrl }) => {
+const OrderDetailItems: React.FC<OrderDetailItemsProps> = ({ items }) => {
   return (
     <>
       <h3>Товары в заказе:</h3>
@@ -14,7 +15,7 @@ const OrderDetailItems: React.FC<OrderDetailItemsProps> = ({ items, baseUrl }) =
             <ProductImage
               key={index}
               productId={item.product.id}
-              imageUrl={baseUrl + item.product.mainImageUrl}
+              imageUrl={baseURL + item.product.mainImageUrl}
             />
             <div className={styles.itemData}>
               <p>{item.product.name}</p>

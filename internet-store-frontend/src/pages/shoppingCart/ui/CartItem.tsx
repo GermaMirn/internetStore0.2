@@ -5,10 +5,10 @@ import AddRemoveQuantityOfProducts from '../../../shared/ui/AddRemoveQuantityOfP
 import Heart from '../../../shared/ui/Heart/Heart';
 import TrashCan from '../../../shared/ui/TrashCan';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '../../../shared/api/axiosInstance';
 
 
 export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, onIncrease, onDecrease, onRemove }) => {
-	const baseUrl = 'http://127.0.0.1:8000';
 	const navigate = useNavigate();
 
 	return (
@@ -20,7 +20,7 @@ export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, o
 				<img
 					className={`${styles.imgOfItem}
 					${item.isActive ? styles.activeImg : ''}`}
-					src={baseUrl + item.image} alt=""
+					src={baseURL + item.image} alt=""
 				/>
 
 				<div>

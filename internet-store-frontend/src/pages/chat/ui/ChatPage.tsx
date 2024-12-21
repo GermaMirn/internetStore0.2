@@ -13,7 +13,7 @@ const ChatPage = () => {
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
   const [orderId, setOrderId] = useState<number | null>(null);
   const [order, setOrder] = useState<Order | null>(null);
-	const [searchParams, setSearchParams] = useSearchParams(new URLSearchParams(location.search));
+  const [searchParams, setSearchParams] = useSearchParams(new URLSearchParams(location.search));
 
   useEffect(() => {
     const orderId = searchParams.get('orderId');
@@ -23,14 +23,23 @@ const ChatPage = () => {
     }
   }, [location]);
 
-	const handleSelectChatOrder = (order: Order) => {
-		setOrder(order);
-		if (order) {
-			setSearchParams({ orderId: order.id.toString() });
-		}
-	};
+  const handleSelectChatOrder = (order: Order) => {
+    setOrder(order);
+    if (order) {
+      setSearchParams({ orderId: order.id.toString() });
+    }
+  };
 
+  const isChatSelected = selectedChatId !== null;
+  const isOrderAvailable = !!order;
   return (
+		<>
+		{!order && (
+			<div className={styles.noOrderMessage}>
+				<h2>Нет данных о заказе</h2>
+			</div>
+		)}
+
     <div className={styles.chatPage}>
       <div className={styles.chatList}>
         <ChatList
@@ -40,24 +49,34 @@ const ChatPage = () => {
           orderId={orderId}
         />
       </div>
+
       <div className={styles.chatMessages}>
-        {order ? (
-					<ChatMessagesHeader order={order} />
-        ) : (
-          <div>Нет данных о заказе</div>
+        {isOrderAvailable && <ChatMessagesHeader order={order} />}
+
+        {isOrderAvailable && !isChatSelected && (
+          <div className={styles.selectChatMessage}>
+            <h2>Выберите чат</h2>
+          </div>
         )}
 
-        {selectedChatId ? <ChatMessages chatId={selectedChatId} /> : <div>Чат не выбран</div>}
+        {isChatSelected ? (
+          <ChatMessages chatId={selectedChatId} />
+        ) : (
+					<></>
+        )}
       </div>
 
-			<div className={styles.orderInfo}>
-				{order ? (
-					<ChatOrderInfo order={order} />
+      <div className={styles.orderInfo}>
+        {isOrderAvailable ? (
+          <ChatOrderInfo order={order} />
         ) : (
-          <div>Нет данных о заказе</div>
+          <div className={styles.noOrderMessage}>
+            <></>
+          </div>
         )}
-			</div>
+      </div>
     </div>
+		</>
   );
 };
 

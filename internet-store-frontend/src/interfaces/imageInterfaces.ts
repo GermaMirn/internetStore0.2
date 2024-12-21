@@ -26,5 +26,4 @@ export interface ProductImageProps {
 export interface ImageViewerProps {
   images: string[];
   onOpenModal: (index: number) => void;
-  baseUrl: string;
 }

@@ -5,7 +5,7 @@ import styles from './OrderDetail.module.css';
 import OrderDetailItems from '../../../shared/ui/OrderDetailItems/OrderDetailItems';
 
 
-const OrderDetail: React.FC<OrderDetailProps> = ({ order, baseUrl, onClose }) => {
+const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
 
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.currentTarget === event.target) {
@@ -18,7 +18,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order, baseUrl, onClose }) =>
       <div className={styles.detailsContainer}>
         <h2>Заказа от {formatDate(order.created_at)}</h2>
         <p className={styles.orderId}>#{order.id}</p>
-        <OrderDetailItems items={order.items} baseUrl={baseUrl} />
+        <OrderDetailItems items={order.items} />
       </div>
     </div>
   );

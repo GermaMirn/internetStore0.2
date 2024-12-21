@@ -6,9 +6,10 @@ import ProductImage from './ProductImage';
 import OrderStatus from '../../../shared/ui/OrderStatus/OrderStatus';
 import { useNavigate } from 'react-router-dom';
 import { OrderCardProps } from '../../../interfaces';
+import { baseURL } from '../../../shared/api/axiosInstance';
 
 
-const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
+const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   const [showDetails, setShowDetails] = useState(false);
 	const navigate = useNavigate();
 
@@ -46,7 +47,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
                 <ProductImage
                   key={index}
                   productId={item.product.id}
-                  imageUrl={baseUrl + item.product.mainImageUrl}
+                  imageUrl={baseURL + item.product.mainImageUrl}
                 />
               ))}
 
@@ -80,7 +81,6 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, baseUrl }) => {
       {showDetails && (
         <OrderDetail
           order={order}
-          baseUrl={baseUrl}
           onClose={() => setShowDetails(false)}
         />
       )}

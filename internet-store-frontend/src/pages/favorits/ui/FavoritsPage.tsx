@@ -3,11 +3,13 @@ import { getLikedProducts } from '../api/getFavoritProducts';
 import { Product } from '../../../interfaces';
 import styles from './FavoritsPage.module.css';
 import ProductContainer from '../../../entities/product/ui/ProductContainer';
+import { useErrorRedirect } from '../../../hooks/errorHandler';
 
 
 const LikedProductsPage = () => {
   const [likedProducts, setLikedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+	const handleError = useErrorRedirect();
 
   useEffect(() => {
     const fetchLikedProducts = async () => {
@@ -15,7 +17,7 @@ const LikedProductsPage = () => {
         const products = await getLikedProducts(true);
         setLikedProducts(products);
       } catch (error) {
-        console.error('Ошибка при загрузке лайкнутых продуктов:', error);
+        handleError(error);
       } finally {
         setLoading(false);
       }

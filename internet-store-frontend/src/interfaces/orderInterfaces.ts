@@ -22,20 +22,17 @@ export interface Order {
 
 export interface OrderCardProps {
   order: Order;
-  baseUrl: string;
 }
 
 
 export interface OrderDetailProps {
   order: Order;
-  baseUrl: string;
   onClose: () => void;
 }
 
 
 export interface OrderDetailItemsProps {
   items: Order['items'];
-  baseUrl: string;
 }
 
 

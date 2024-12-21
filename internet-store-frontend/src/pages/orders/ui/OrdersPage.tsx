@@ -3,24 +3,23 @@ import { getUserOrders } from '../api/getOrders';
 import { Order } from '../../../interfaces';
 import styles from './OrdersPage.module.css';
 import OrderCard from '../../../entities/order/ui/OrderCard';
+import { useErrorRedirect } from '../../../hooks/errorHandler';
 
 
 const UserOrders: React.FC = () => {
-	const baseUrl = 'http://127.0.0.1:8000'
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+	const handleError = useErrorRedirect();
 
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
-      setError(null);
 
       try {
         const fetchedOrders = await getUserOrders();
         setOrders(fetchedOrders);
-      } catch (err) {
-        setError('Не удалось загрузить заказы. Попробуйте позже.');
+      } catch (error) {
+        handleError(error);
       } finally {
         setLoading(false);
       }
@@ -33,10 +32,6 @@ const UserOrders: React.FC = () => {
     return <div className={styles.loading}>Загрузка заказов...</div>;
   }
 
-  if (error) {
-    return <div className={styles.error}>{error}</div>;
-  }
-
   return (
     <div>
       {orders.length === 0 ? (
@@ -45,7 +40,7 @@ const UserOrders: React.FC = () => {
         <div>
 					<h2 className={styles.mainText}>Ваши Заказы</h2>
 					{orders.map((order) => (
-						<OrderCard key={order.id} order={order} baseUrl={baseUrl} />
+						<OrderCard key={order.id} order={order} />
 					))}
         </div>
       )}

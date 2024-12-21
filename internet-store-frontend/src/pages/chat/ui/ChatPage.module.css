@@ -1,3 +1,9 @@
+.noOrderMessage{
+	margin-top: 4.5%;
+	text-align: center;
+}
+
+
 .chatPage {
   display: flex;
   height: 100vh;

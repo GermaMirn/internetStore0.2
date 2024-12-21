@@ -3,19 +3,19 @@ import styles from './ImageModalReviewComment.module.css';
 import { formatDate } from './utils/dateUtils';
 import { ImageModalProps } from '../../../../interfaces';
 import { formatCommentText } from './utils/formatCommentText';
+import { baseURL } from '../../../../shared/api/axiosInstance';
 
 
 const ImageModal: React.FC<ImageModalProps> = ({
-    images,
-    user,
-    created_at,
-    text,
-    currentIndex,
-    onNext,
-    onPrev,
-    onClose
+	images,
+	user,
+	created_at,
+	text,
+	currentIndex,
+	onNext,
+	onPrev,
+	onClose
 }) => {
-  const baseUrl = "http://127.0.0.1:8000";
   const currentImage = images[currentIndex];
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -35,7 +35,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.imageContainer}>
-          <img src={baseUrl + currentImage} alt="Preview" className={styles.modalImage} />
+          <img src={baseURL + currentImage} alt="Preview" className={styles.modalImage} />
           <button onClick={onPrev} disabled={currentIndex === 0} className={`${styles.navButton} ${styles.leftButton}`}>←</button>
           <button onClick={onNext} disabled={currentIndex === images.length - 1} className={`${styles.navButton} ${styles.rightButton}`}>→</button>
         </div>

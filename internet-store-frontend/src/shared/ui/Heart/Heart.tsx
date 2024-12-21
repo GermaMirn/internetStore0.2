@@ -4,11 +4,13 @@ import classNames from 'classnames';
 import { addHeart } from '../../api/Heart/addHeart';
 import { removeHeart } from '../../api/Heart/removeHeart';
 import { HeartProductProps } from '../../../interfaces';
+import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
 
 
 const DivForFullHeart: React.FC<HeartProductProps> = ({ isProductLiked = false, productId, onToggleLike }) => {
   const [isLiked, setIsLiked] = useState(isProductLiked);
   const [isLoading, setIsLoading] = useState(false);
+	const { showNotification } = useNotification();
 
   useEffect(() => {
     setIsLiked(isProductLiked);
@@ -31,7 +33,7 @@ const DivForFullHeart: React.FC<HeartProductProps> = ({ isProductLiked = false, 
         setIsLiked(newLikedState);
       }
     } catch (error) {
-      console.error('Ошибка при изменении статуса лайка', error);
+      showNotification('Ошибка при изменении статуса лайка', 'error');
     } finally {
       setIsLoading(false);
     }

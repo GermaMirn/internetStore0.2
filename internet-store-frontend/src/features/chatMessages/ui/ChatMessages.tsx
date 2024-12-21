@@ -4,6 +4,7 @@ import { Message } from "../../../interfaces";
 import { formatTimeToHoursMinutes } from "../utils/formatTimeToHoursMinutes";
 import styles from "./ChatMessages.module.css";
 import { ChatMessagesProps } from "../../../interfaces";
+import { useErrorRedirect } from "../../../hooks/errorHandler";
 
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
@@ -15,6 +16,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const messagesRef = useRef(messages);
   const currentUser = localStorage.getItem("username") || "currentUser";
+	const handleError = useErrorRedirect();
 
   useEffect(() => {
     messagesRef.current = messages;
@@ -27,7 +29,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
           const messages = await getChatMessages(Number(chatId));
           setMessages(messages);
         } catch (error) {
-          console.error("Failed to fetch messages:", error);
+          handleError(error);
         } finally {
           setLoading(false);
         }
@@ -42,7 +44,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
       const token = localStorage.getItem("token");
       return token;
     } catch (error) {
-      console.error("Failed to get token:", error);
+      handleError(error);
       throw new Error("Token retrieval failed");
     }
   };
@@ -88,7 +90,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
             console.error("Ошибка WebSocket:", error);
           };
         } catch (error) {
-          console.error("Ошибка при подключении WebSocket:", error);
+          handleError(error);
         }
       }
     };

@@ -26,7 +26,6 @@ export const CartSummary: React.FC<CartSummaryProps> = ({ totalAmount, itemCount
 			onOrderSuccess(selectedItems);
     } catch (error) {
       showNotification('Ошибка при создании заказа. Пожалуйста, попробуйте снова.', 'error');
-      console.error(error);
     }
   };
 

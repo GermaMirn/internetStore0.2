@@ -4,6 +4,7 @@ from accounts.models import Profile
 import os
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from django.core.cache import cache
 
 
 class Category(models.Model):
@@ -46,20 +47,21 @@ class ProductImage(models.Model):
     verbose_name = "Изображение"
     verbose_name_plural = "Изображения"
 
+
 @receiver(post_delete, sender=Product)
 def autoProductDeleteFileOnDelete(sender, instance, **kwargs):
-  if instance.images:
-    if os.path.isfile(instance.images.path):
-      os.remove(instance.images.path)
+	if instance.mainImage:
+		if os.path.isfile(instance.mainImage.path):
+			os.remove(instance.mainImage.path)
 
-  for productImage in instance.productImages.all():
-    if os.path.isfile(productImage.image.path):
-      os.remove(productImage.image.path)
+	for productImage in instance.productImages.all():
+		if os.path.isfile(productImage.image.path):
+			os.remove(productImage.image.path)
 
 @receiver(post_delete, sender=ProductImage)
 def autoProductImageDeleteOnDelete(sender, instance, **kwargs):
-  if os.path.isfile(instance.image.path):
-    os.remove(instance.image.path)
+	if os.path.isfile(instance.image.path):
+		os.remove(instance.image.path)
 
 
 class ProductHeart(models.Model):
@@ -78,8 +80,8 @@ class ProductHeart(models.Model):
 
 @receiver(post_save, sender=ProductHeart)
 def increaseProductHearts(sender, instance, **kwargs):
-  instance.product.hearts += 1
-  instance.product.save()
+	instance.product.hearts += 1
+	instance.product.save()
 
 @receiver(post_delete, sender=ProductHeart)
 def decreaseProductHearts(sender, instance, **kwargs):

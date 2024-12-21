@@ -1,0 +1,21 @@
+.titleError{
+	display: flex;
+}
+
+
+.numberOfError{
+	color: #7761d1;
+	font-size: 12px;
+	margin-left: 2px;
+	margin-top: 20px;
+}
+
+
+.navigateTextStyles{
+	color: #656565;
+	cursor: pointer;
+}
+
+.navigateTextStyles:hover{
+	color: #989898;
+}

@@ -5,6 +5,12 @@ set -o allexport
 source ../../.env
 set +o allexport
 
+
+# Очистка базы данных (удаление всех данных)
+echo "Очистка базы данных..."
+python manage.py flush --no-input
+
+# Далее продолжаем выполнение миграций и других команд
 python manage.py makemigrations
 
 echo "Применение миграций"
@@ -34,7 +40,7 @@ except ObjectDoesNotExist:
 		print("Ошибка при создании суперпользователя:", e)
 EOF
 
-# Установите пароль суперпользователя через python shell, если он не был установлен
+# Установление пароля super user, если он не был установлен
 python manage.py shell <<EOF
 from django.contrib.auth import get_user_model
 User = get_user_model()
