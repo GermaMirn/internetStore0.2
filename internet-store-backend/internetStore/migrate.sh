@@ -10,11 +10,21 @@ set +o allexport
 echo "Очистка базы данных..."
 python manage.py flush --no-input
 
+# Очистка кэша Redis
+echo "Очистка кэша Redis..."
+python -c "
+import redis
+r = redis.StrictRedis(host='redis', port=6379, db=0)
+r.flushall()
+"
+
+
 # Далее продолжаем выполнение миграций и других команд
 python manage.py makemigrations
 
 echo "Применение миграций"
 python manage.py migrate
+
 
 python manage.py shell <<EOF
 from django.contrib.auth import get_user_model
@@ -24,9 +34,9 @@ from django.db import IntegrityError
 User = get_user_model()
 
 try:
-    # Попробуем найти суперпользователя
-    user = User.objects.get(username='$SUPERUSER_NAME')
-    print("Суперпользователь уже существует")
+	# Попробуем найти суперпользователя
+	user = User.objects.get(username='$SUPERUSER_NAME')
+	print("Суперпользователь уже существует")
 except ObjectDoesNotExist:
 	try:
 		# Если не найден, создаем суперпользователя
@@ -53,6 +63,7 @@ try:
 except User.DoesNotExist:
 	print("Суперпользователь не найден, проверьте логи")
 EOF
+
 
 # echo "Сбор статических файлов"
 # python manage.py collectstatic --noinput

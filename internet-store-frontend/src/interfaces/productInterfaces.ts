@@ -8,6 +8,7 @@ export interface Product {
   isInCart: boolean;
   cartQuantity: number;
   cartItemId: number;
+	categories: string[];
 }
 
 
@@ -46,6 +47,7 @@ export interface ProductDetail {
   cartQuantity: number;
   cartItemId: number;
   reviews: Array<any>;
+	categories: string[];
 }
 
 
@@ -108,4 +110,9 @@ export interface SearchInputProps {
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 	onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
+}
+
+
+export interface ProductCategoriesProps {
+	categories: string[];
 }

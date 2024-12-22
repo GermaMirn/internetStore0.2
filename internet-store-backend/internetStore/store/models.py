@@ -5,6 +5,8 @@ import os
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.core.cache import cache
+from .signals.cache_signals import *
+from .signals.store_signals import *
 
 
 class Category(models.Model):
@@ -48,22 +50,6 @@ class ProductImage(models.Model):
     verbose_name_plural = "Изображения"
 
 
-@receiver(post_delete, sender=Product)
-def autoProductDeleteFileOnDelete(sender, instance, **kwargs):
-	if instance.mainImage:
-		if os.path.isfile(instance.mainImage.path):
-			os.remove(instance.mainImage.path)
-
-	for productImage in instance.productImages.all():
-		if os.path.isfile(productImage.image.path):
-			os.remove(productImage.image.path)
-
-@receiver(post_delete, sender=ProductImage)
-def autoProductImageDeleteOnDelete(sender, instance, **kwargs):
-	if os.path.isfile(instance.image.path):
-		os.remove(instance.image.path)
-
-
 class ProductHeart(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_hearts')
   user = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -76,17 +62,6 @@ class ProductHeart(models.Model):
     unique_together = ('product', 'user')
     verbose_name = "Лайк под продуктом"
     verbose_name_plural = "Лайки под продуктами"
-
-
-@receiver(post_save, sender=ProductHeart)
-def increaseProductHearts(sender, instance, **kwargs):
-	instance.product.hearts += 1
-	instance.product.save()
-
-@receiver(post_delete, sender=ProductHeart)
-def decreaseProductHearts(sender, instance, **kwargs):
-  instance.product.hearts -= 1
-  instance.product.save()
 
 
 class Review(models.Model):
@@ -117,17 +92,6 @@ class ReviewHeart(models.Model):
     verbose_name_plural = "Лайки для отзыва"
 
 
-@receiver(post_save, sender=ReviewHeart)
-def increaseReviewHearts(sender, instance, **kwargs):
-    instance.review.hearts += 1
-    instance.review.save()
-
-@receiver(post_delete, sender=ReviewHeart)
-def decreaseReviewHearts(sender, instance, **kwargs):
-    instance.review.hearts -= 1
-    instance.review.save()
-
-
 class ReviewImage(models.Model):
   review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='reviewImages')
   image = models.ImageField(upload_to='reviews/')
@@ -138,21 +102,6 @@ class ReviewImage(models.Model):
   class Meta:
     verbose_name = "Изображение для отзыва"
     verbose_name_plural = "Изображения для отзывов"
-
-@receiver(post_delete, sender=Review)
-def autoReviewDeleteFileOnDelete(sender, instance, **kwargs):
-    if instance.images:
-      if os.path.isfile(instance.images.path):
-        os.remove(instance.images.path)
-
-    for reviewImage in instance.reviewImages.all():
-      if os.path.isfile(reviewImage.image.path):
-        os.remove(reviewImage.image.path)
-
-@receiver(post_delete, sender=ReviewImage)
-def autoReviewImageDeleteOnDelete(sender, instance, **kwargs):
-  if os.path.isfile(instance.image.path):
-    os.remove(instance.image.path)
 
 
 class Comment(models.Model):
@@ -186,17 +135,6 @@ class CommentHeart(models.Model):
     verbose_name_plural = "Лайк для комментария"
 
 
-@receiver(post_save, sender=CommentHeart)
-def increaseCommentHearts(sender, instance, **kwargs):
-    instance.comment.hearts += 1
-    instance.comment.save()
-
-@receiver(post_delete, sender=CommentHeart)
-def decreaseCommentHearts(sender, instance, **kwargs):
-    instance.comment.hearts -= 1
-    instance.comment.save()
-
-
 class CommentImage(models.Model):
   comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='commentImages')
   image = models.ImageField(upload_to='comments/')
@@ -207,21 +145,6 @@ class CommentImage(models.Model):
   class Meta:
     verbose_name = "Изображение для комментария"
     verbose_name_plural = "Изображения для комментариев"
-
-@receiver(post_delete, sender=Comment)
-def autoCommentDeleteFileOnDelete(sender, instance, **kwargs):
-  if instance.images:
-    if os.path.isfile(instance.images.path):
-      os.remove(instance.images.path)
-
-  for commentImage in instance.commentImages.all():
-    if os.path.isfile(commentImage.image.path):
-      os.remove(commentImage.image.path)
-
-@receiver(post_delete, sender=CommentImage)
-def autoCommentImageDeleteOnDelete(sender, instance, **kwargs):
-  if os.path.isfile(instance.image.path):
-    os.remove(instance.image.path)
 
 
 class Cart(models.Model):

@@ -3,6 +3,7 @@ import { QuickViewProps } from '../../../interfaces';
 import styles from './QuickView.module.css';
 import Cross from '../../../shared/ui/Cross/Cross';
 import ProductActions from '../../../features/products/ui/ProductActions';
+import ProductCategories from '../../../shared/ui/ProductCategories/ProductCategories';
 import { baseURL } from '../../../shared/api/axiosInstance';
 
 
@@ -19,6 +20,7 @@ const QuickView: React.FC<QuickViewProps> = ({
         <div className={styles.textOfQuickView}>
           <h2 className={styles.nameOfProduct}>{product.name}</h2>
           <h1 className={styles.priceOfQuickView}>{product.price} ₽</h1>
+					<ProductCategories categories={product.categories} />
           <h2>О товаре</h2>
           <h4 className={styles.descriptionOfQuickView}>{product.description}</h4>
 

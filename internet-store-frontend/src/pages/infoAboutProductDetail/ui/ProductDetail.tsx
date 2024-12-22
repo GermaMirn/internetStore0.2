@@ -9,6 +9,7 @@ import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContaine
 import styles from './ProductDetail.module.css';
 import { baseURL } from '../../../shared/api/axiosInstance';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
+import ProductCategories from '../../../shared/ui/ProductCategories/ProductCategories';
 
 
 const ProductDetailPage = () => {
@@ -84,7 +85,6 @@ const ProductDetailPage = () => {
   if (loading) return <div>Loading...</div>;
 
   if (!product) return <div>No product found</div>;
-
   return (
     <div className={styles.mainDivProductDetail}>
       <div className={styles.divForProductDetail}>
@@ -104,6 +104,8 @@ const ProductDetailPage = () => {
           <div className={styles.nameProductDetail}>
             <h2>{product.name}</h2>
           </div>
+
+					<ProductCategories categories={product.categories} />
 
           <div className={styles.descriptionProductDetail}>
             <h3>О товаре</h3>

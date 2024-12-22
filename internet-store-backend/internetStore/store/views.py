@@ -147,7 +147,6 @@ def searchPageProducts(request):
 	return Response(response_data)
 
 
-
 @api_view(['POST', 'DELETE'])
 @login_required
 def heartProduct(request, productId):
@@ -175,7 +174,6 @@ def heartProduct(request, productId):
 			return Response({'hearts': updated_product.hearts}, status=status.HTTP_200_OK)
 		except ProductHeart.DoesNotExist:
 			return Response({'error': 'Лайк не найден'}, status=status.HTTP_404_NOT_FOUND)
-
 
 
 @api_view(['GET'])
@@ -268,6 +266,7 @@ def infoAboutproductDetail(request, productId):
 			'mainImage': main_product_image,
 			'isHearted': isHearted,
 			'hearts': product.hearts,
+			'categories': [category.name for category in product.categories.all()],
 			'isInCart': isInCart,
 			'cartQuantity': cartQuantity,
 			'cartItemId': cartItemId,
@@ -280,8 +279,6 @@ def infoAboutproductDetail(request, productId):
 	set_cache_data(cache_key, response_data, timeout=60 * 15)
 
 	return Response(response_data)
-
-
 
 
 @api_view(['POST'])

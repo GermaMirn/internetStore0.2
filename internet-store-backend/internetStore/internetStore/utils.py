@@ -28,6 +28,13 @@ def delete_cache_patterns(user_id):
 	cache.delete_pattern(f'favorite_page_auth_{user_id}_*')
 
 
+def delete_cache_admin(pattern, *args):
+	cache_key = pattern.format(*args)
+	print(cache_key)
+	cache.delete_pattern(f'{cache_key}_*')
+	cache.delete_pattern(f'{cache_key}_auth_*')
+
+
 def delete_cache_for_product_detail(user):
 	if user.is_authenticated:
 		cache.delete_pattern(f'product_detail_auth_{user.id}_*')

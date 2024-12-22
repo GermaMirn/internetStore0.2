@@ -1,3 +1,9 @@
+@font-face {
+	font-family: 'Fontimer';
+	src: url('/font/AVFontimer-Light-BF66fcaad339543.ttf') format('truetype'); /* Убедись, что путь к файлу правильный */
+}
+
+
 body, html {
 	margin: 0;
 	padding: 0;
