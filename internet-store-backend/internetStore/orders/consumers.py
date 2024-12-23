@@ -1,3 +1,5 @@
+import base64
+from django.core.files.base import ContentFile
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
@@ -56,7 +58,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 		user = self.scope['user']
 
 		chat = await self.get_chat(self.chat_id)
-		print(image)
 		if not chat:
 			await self.send(text_data=json.dumps({
 				'error': 'Chat not found.'
@@ -75,10 +76,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			}))
 			return
 
+		image_path = None
 		if image:
-				image_path = await self.save_image(image)
-		else:
-				image_path = None
+			image_path = await self.save_image(image)
 
 		message = await self.create_message(chat, user, text, image_path)
 
@@ -144,10 +144,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
 			return None
 
 	@database_sync_to_async
-	def save_image(self, image):
-		image_name = f"chatImages/{image.name}"
-		image_path = default_storage.save(image_name, image)
-		return image_path
+	def save_image(self, base64_image):
+		try:
+			format, imgstr = base64_image.split(';base64,')
+			ext = format.split('/')[-1]
+			img_data = base64.b64decode(imgstr)
+
+			image_name = f"chatImages/{self.generate_image_filename()}.{ext}"
+
+			image_file = ContentFile(img_data)
+			image_path = default_storage.save(image_name, image_file)
+
+			return image_path
+		except Exception as e:
+			return None
+
+	def generate_image_filename(self):
+		from datetime import datetime
+		return datetime.now().strftime('%Y%m%d%H%M%S%f')
 
 	@database_sync_to_async
 	def is_participant(self, user, chat):

@@ -5,6 +5,7 @@ import Heart from '../../../shared/ui/Heart/Heart';
 import styles from './ProductActions.module.css';
 import { addProductToCart } from '../../../shared/api/removeAddProductToCart/addProductToCart';
 import { ProductActionsProps } from '../../../interfaces';
+import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
 
 
 const ProductActions: React.FC<ProductActionsProps> = ({
@@ -19,6 +20,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
   const [isInCartProduct, setIsInCart] = useState(isInCart);
   const [cartQuantityProduct, setCartQuantity] = useState(cartQuantity);
   const [isHeartedProduct, setIsHearted] = useState(isHearted);
+	const { showNotification } = useNotification();
 
   useEffect(() => {
     setIsInCart(isInCart);
@@ -33,7 +35,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
       setCartQuantity(1);
       updateCartState?.(true, 1, answer.item.id);
     } catch (error) {
-      console.error('Ошибка при добавлении товара в корзину', error);
+      showNotification('Ошибка при добавлении товара в корзину', 'error');
     }
   };
 
