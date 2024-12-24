@@ -17,7 +17,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ handleClose }) => {
   const storedPhoneNumber = localStorage.getItem('phoneNumber') || '';
   const storedUsername = localStorage.getItem('username') || '';
 
-  const { formData, errors, handleChange, setFieldError, isLoading, setIsLoading, validatePhone, validateForm } = useForm({
+  const { formData, errors, handleChange, setFieldError, validatePhone, validateForm } = useForm({
     fio: storedFullName,
     username: storedUsername,
     phoneNumber: storedPhoneNumber,
@@ -91,7 +91,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ handleClose }) => {
             onChange={handleChange}
             error={errors.username?.message}
             className={errors.username?.className}
-            isEdit={true}
           />
         </div>
 
@@ -102,7 +101,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ handleClose }) => {
             onChange={handlePhoneChange}
             error={errors.phoneNumber?.message}
             placeholder="Номер телефона"
-            isEdit={true}
           />
         </div>
 
@@ -114,7 +112,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ handleClose }) => {
             onChange={handleChange}
             error={errors.fio?.message}
             className={errors.fio?.className}
-            isEdit={true}
           />
         </div>
 

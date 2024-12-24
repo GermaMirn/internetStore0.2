@@ -1,3 +1,6 @@
+import { EditorState } from 'draft-js';
+
+
 export interface Comment {
   id: number;
 	reviewId: number;
@@ -29,4 +32,10 @@ export interface FormForSendNewCommentReviewProps {
   isReplyToComment?: boolean;
   username?: string;
   isReview?: boolean;
+}
+
+
+export interface UsernameEditorProps {
+  editorState: EditorState;
+  onChange: (editorState: EditorState) => void;
 }

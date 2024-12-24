@@ -27,21 +27,33 @@
 
 
 .inputWrapper{
-	padding: 1.3rem;
+	padding-top: 1.3rem;
+	padding-bottom: 1.3rem;
+	padding-right: 1.3rem;
+	display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
 }
 
 
 .placeholder{
-	margin-left: 105px;
+	width: 270px;
 	position: absolute;
 	color: rgba(152, 152, 152, 1);
 	margin-top: 5px;
+	left: 50%;
+  right: 0;
+	transform: translateX(-50%) translateX(-5px);
+	text-align: left;
 }
 
 
 .errorText{
+	width: 280px;
 	color: red;
 	position: absolute;
 	margin-top: 70px;
-	margin-left: -290px;
+	text-align: left;
+	margin-left: 20px;
 }

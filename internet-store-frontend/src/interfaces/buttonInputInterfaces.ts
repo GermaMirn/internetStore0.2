@@ -20,7 +20,6 @@ export interface InputProps {
   type?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
-	isEdit?: boolean;
 }
 
 

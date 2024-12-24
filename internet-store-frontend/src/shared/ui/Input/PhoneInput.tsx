@@ -11,7 +11,6 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   className,
   onChange,
   error,
-  isEdit = false,
 }) => {
   const [inputValue, setInputValue] = useState<string>(value || '+7');
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -41,14 +40,10 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
     setIsFocused(false);
   };
 
-  const placeholderStyle = {
-    marginLeft: isEdit ? '40px' : '105px',
-  };
-
   return (
     <div className={styles.inputWrapper}>
       {!isFocused && inputValue === '+7' && (
-        <p className={styles.placeholder} style={placeholderStyle}>
+        <p className={styles.placeholder}>
           {placeholder}
         </p>
       )}

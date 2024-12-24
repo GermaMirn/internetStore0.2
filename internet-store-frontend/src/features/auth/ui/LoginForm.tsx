@@ -23,7 +23,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ username = '' }) => {
   const validate = () => {
     return validateForm({
       username: (value) => (value ? '' : 'Имя пользователя обязательно'),
-      password: (value) => (value.length >= 6 ? '' : 'Пароль должен содержать не менее 6 символов'),
+      password: (value) => (value.length >= 6 ? '' : 'Пароль содержит менее 6 знаков'),
     });
   };
 

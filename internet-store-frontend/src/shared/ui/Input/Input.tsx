@@ -12,7 +12,6 @@ const Input: React.FC<InputProps> = ({
   className,
   onChange,
   error,
-  isEdit = false,
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const showPlaceholder = !isFocused && value === '';
@@ -25,14 +24,10 @@ const Input: React.FC<InputProps> = ({
     setIsFocused(false);
   };
 
-  const placeholderStyle = {
-    marginLeft: isEdit ? '40px' : '105px',
-  };
-
   return (
     <div className={styles.inputWrapper}>
       {showPlaceholder && (
-        <p className={styles.placeholder} style={placeholderStyle}>
+        <p className={styles.placeholder}>
           {placeholder}
         </p>
       )}

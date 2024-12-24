@@ -58,7 +58,7 @@ export const useForm = <T extends FormState>(initialState: T) => {
   // Валидация пароля
   const validatePassword = (password: string): string => {
     if (password.length < 6) {
-      return 'Пароль должен быть не менее 6 символов';
+      return 'Пароль содержит менее 6 знаков';
     }
     return '';
   };

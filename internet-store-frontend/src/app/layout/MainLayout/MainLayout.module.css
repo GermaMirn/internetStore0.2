@@ -18,3 +18,11 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
+@media (max-width: 768px) {
+	.mainContent{
+		margin-left: 0%;
+  	margin-right: 0%;
+		margin-bottom: 50px;
+	}
+}

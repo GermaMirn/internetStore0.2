@@ -26,4 +26,4 @@ class Message(models.Model):
 
 	@database_sync_to_async
 	def get_sender_username(self):
-			return self.sender.user.username if self.sender else 'Unknown'
+		return self.sender.user.username if self.sender else 'Unknown'

@@ -1,106 +1,48 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './FormForSendNewCommentReview.module.css';
+import { EditorState, ContentState, RichUtils } from 'draft-js';
 import classNames from 'classnames';
+import { UsernameEditor } from '../UsernameEditor/ui/UsernameEditor';
+import { useImageUploader } from '../../hooks/useImageUploader';
 import { FormForSendNewCommentReviewProps } from '../../interfaces';
+import styles from './FormForSendNewCommentReview.module.css';
 
 
-const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = ({ onClose, onSubmit, isReplyToComment, username, isReview }) => {
-	const MAX_COMMENT_LENGTH = isReview ? 1550 : 600;
-	const MAX_HEIGHT = 10;
-  const [commentText, setCommentText] = useState('');
-  const [images, setImages] = useState<File[]>([]);
+const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = ({
+  onClose, onSubmit, isReplyToComment, username, isReview
+}) => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const textAreaRef = useRef<HTMLDivElement | null>(null);
-	const [isKeyDownAllowed, setIsKeyDownAllowed] = useState(false);
+  const { images, handleImageChange, handleImageRemove } = useImageUploader();
 
   useEffect(() => {
-    if (isReplyToComment && username && textAreaRef.current) {
-      textAreaRef.current.innerHTML = `<span class="${styles.answerUsername}" contentEditable="false">@${username}</span>: `;
-    }
-  }, [isReplyToComment, username]);
+		if (isReplyToComment && username) {
+			const contentWithPrefix = `@${username} :`;
+			const contentState = ContentState.createFromText(contentWithPrefix);
+			let newEditorState = EditorState.createWithContent(contentState);
+			newEditorState = RichUtils.toggleInlineStyle(newEditorState, 'USERNAME_STYLE');
 
-  const handleChange = () => {
-    if (textAreaRef.current) {
-			let currentText = textAreaRef.current.innerHTML;
-
-			if (currentText.length > MAX_COMMENT_LENGTH) {
-				currentText = currentText.slice(0, MAX_COMMENT_LENGTH);
-				textAreaRef.current.innerHTML = currentText;
-			}
-
-			setIsKeyDownAllowed(currentText.length === MAX_COMMENT_LENGTH);
-			setCommentText(currentText);
-
-			if (textAreaRef.current.scrollHeight > MAX_HEIGHT) {
-        textAreaRef.current.style.overflowY = 'auto';
-      } else {
-        textAreaRef.current.style.overflowY = 'hidden';
-      }
+			setEditorState(newEditorState);
 		}
-  };
-
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-		const allowedKeys = ['Backspace', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
-
-    if (!allowedKeys.includes(event.key) && (event.key.length === 1 || /[a-zA-Z0-9]/.test(event.key))) {
-			event.preventDefault();
-    }
-
-		if (event.key === 'Enter' && textAreaRef.current) {
-      const lineHeight = parseInt(window.getComputedStyle(textAreaRef.current).lineHeight, 10);
-      const maxLines = Math.floor(MAX_HEIGHT / lineHeight);
-      const currentLines = Math.floor(textAreaRef.current.scrollHeight / lineHeight);
-
-      if (currentLines >= maxLines) {
-        event.preventDefault();
-      }
-    }
-	};
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      setImages((prevImages) => [...prevImages, ...Array.from(files)]);
-    }
-  };
+	}, [isReplyToComment, username]);
 
   const handleImageClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  const handleImageRemove = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    fileInputRef.current?.click();
   };
 
   const handleSubmit = () => {
-    if (commentText.trim() === '') {
-      return;
-    }
+    const finalCommentText = editorState.getCurrentContent().getPlainText();
+    if (finalCommentText.trim() === '') return;
 
-    const finalCommentText = isReplyToComment && username
-      ? `${commentText.replace(/<[^>]*>/g, '')}`
-      : commentText.replace(/<[^>]*>/g, '');
     onSubmit(finalCommentText, images);
-
-    setCommentText('');
-    setImages([]);
+    setEditorState(EditorState.createEmpty());
     onClose();
   };
 
   return (
     <div className={styles.replyForm}>
-      <div
-				ref={textAreaRef}
-				className={classNames(
-					styles.commentTextArea,
-					{ [styles.commentTextAreaReview]: isReview }
-				)}
-				contentEditable
-				onInput={handleChange}
-				onKeyDown={isKeyDownAllowed ? handleKeyDown : undefined}
-			/>
+      <div  className={classNames(styles.commentTextArea, { [styles.commentTextAreaReview]: isReview })}>
+        <UsernameEditor editorState={editorState} onChange={setEditorState} />
+      </div>
 
       <div className={styles.imageUpload}>
         <img
@@ -121,7 +63,7 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
         />
 
         <div className={styles.imagePreview}>
-          {images.length > 0 && images.map((image, index) => (
+          {images.map((image, index) => (
             <div key={index} className={styles.imageContainer}>
               <img
                 src={URL.createObjectURL(image)}
@@ -138,21 +80,14 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
 
       <div className={styles.buttons}>
         <button
-          className={classNames(
-            styles.submitButton,
-            styles.button,
-            { [styles.buttonReview]: isReview }
-          )}
+          className={classNames(styles.submitButton, styles.button, { [styles.buttonReview]: isReview })}
           onClick={handleSubmit}
         >
           Отправить
         </button>
 
         <button
-          className={classNames(
-            styles.cancelButton,
-            { [styles.cancelButtonReview]: isReview }
-          )}
+          className={classNames(styles.cancelButton, { [styles.cancelButtonReview]: isReview })}
           onClick={onClose}
         >
           Отмена

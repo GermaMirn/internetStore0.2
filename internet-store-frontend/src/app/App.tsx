@@ -4,6 +4,7 @@ import { NotificationProvider } from './providers/notifications/NotificationProv
 import { AuthProvider } from './context/AuthContext';
 import { fetchCsrfToken } from '../shared/api/csrf';
 import MainLayoutWithPadding from './layout/MainLayoutWithPadding';
+import 'global';
 
 
 const App: React.FC = () => {
