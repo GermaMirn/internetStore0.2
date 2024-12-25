@@ -6,9 +6,11 @@ from channels.db import database_sync_to_async
 from .models import Chat, Message
 from .serializers import MessageSerializer
 from django.core.files.storage import default_storage
+from internetStore.utils import RedisAsyncCache, generate_cache_key_chat_messages
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+	redis_cache = RedisAsyncCache()
 
 	async def connect(self):
 		self.chat_id = self.scope['url_route']['kwargs']['chat_id']
@@ -48,9 +50,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 		if text_data_json.get('type') == 'mark_as_read':
 			message_id = text_data_json.get('message_id')
-			await self.mark_as_read({
-				'message_id': message_id
-			})
+			await self.mark_as_read({'message_id': message_id})
+
+			cache_key = generate_cache_key_chat_messages(self.chat_id)
+			await self.redis_cache.delete(cache_key)
 			return
 
 		text = text_data_json.get('text', None)
@@ -82,6 +85,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 		message = await self.create_message(chat, user, text, image_path)
 
+		cache_key = generate_cache_key_chat_messages(self.chat_id)
+		await self.redis_cache.delete(cache_key)
+
 		await self.channel_layer.group_send(
 			self.chat_group_name,
 			{
@@ -102,12 +108,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 		message = await self.get_message_by_id(message_id)
 		if message:
-			sender_username = await message.get_sender_username()
-
 			if user.profile != message.sender:
 				await self.update_message_read_status(message, user)
-				message_data = await self.get_message_data(message)
 
+				cache_key = generate_cache_key_chat_messages(self.chat_id)
+				await self.redis_cache.delete(cache_key)
+
+				message_data = await self.get_message_data(message)
 				await self.send(text_data=json.dumps({
 					'message': message_data,
 					'status': 'read'
@@ -127,6 +134,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 		if message and message.sender.user == self.scope['user']:
 			await self.delete_message_from_db(message)
+
+			cache_key = generate_cache_key_chat_messages(self.chat_id)
+			await self.redis_cache.delete(cache_key)
+
 			await self.send(text_data=json.dumps({
 				'status': 'deleted',
 				'message_id': message.id
@@ -188,9 +199,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 		if not message.is_read:
 			message.is_read = True
 			message.save()
-
-			# Можете добавить логику для записи, кто именно прочитал это сообщение (если нужно)
-			# Например, создавая запись в другой модели, которая хранит информацию о прочтении
 
 	@database_sync_to_async
 	def get_message_data(self, message):

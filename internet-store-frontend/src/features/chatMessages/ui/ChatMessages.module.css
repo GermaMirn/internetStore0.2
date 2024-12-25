@@ -9,7 +9,8 @@
 
 
 .messagesWrapper {
-  max-height: calc(100% - 60px);
+	padding-top: 20px;
+  max-height: calc(100% - 100px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -40,90 +41,6 @@
   padding: 10px;
   border: 1px solid #ffffff;
   border-radius: 35px;
-}
-
-
-.messageItem {
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-end;
-	margin-left: 20px;
-	margin-right: 20px;
-	box-sizing: border-box;
-}
-
-
-.messageText {
-	min-width: 55px;
-  background-color: #ddd;
-  border-radius: 20px;
-  padding: 10px;
-  max-width: 100%;
-  word-wrap: break-word;
-	white-space: normal;
-	overflow-wrap: break-word;
-	position: relative;
-}
-
-
-.timeAndReadData{
-	display: flex;
-	align-items: center;
-}
-
-
-.messageTime{
-	color: #8c8c8c;
-	font-size: 10px;
-}
-
-
-.readStatusIcon{
-	margin-left: 5px;
-}
-
-
-.messageTimeRight {
-  text-align: right;
-	margin-left: calc(100% - 40px);
-	white-space: nowrap;
-}
-
-
-.myMessage {
-  justify-content: flex-end;
-  margin-left: auto;
-}
-
-
-.myMessage .messageText{
-  background-color: #5a3de6;
-  color: white;
-}
-
-
-.otherMessage {
-  justify-content: flex-start;
-}
-
-
-.otherMessage .messageText {
-  background-color: #e2e2e2;
-  color: black;
-}
-
-
-.messageRight {
-	width: 70%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-
-.messageLeft {
-	width: 70%;
-  display: flex;
-  justify-content: flex-start;
 }
 
 

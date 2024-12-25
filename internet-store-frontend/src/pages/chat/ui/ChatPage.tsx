@@ -34,48 +34,48 @@ const ChatPage = () => {
   const isOrderAvailable = !!order;
   return (
 		<>
-		{!order && (
-			<div className={styles.noOrderMessage}>
-				<h2>Нет данных о заказе</h2>
+			{!order && (
+				<div className={styles.noOrderMessage}>
+					<h2>Нет данных о заказе</h2>
+				</div>
+			)}
+
+			<div className={styles.chatPage}>
+				<div className={styles.chatList}>
+					<ChatList
+						selectedChatId={selectedChatId}
+						onSelectChat={setSelectedChatId}
+						onSelectChatOrder={handleSelectChatOrder}
+						orderId={orderId}
+					/>
+				</div>
+
+				<div className={styles.chatMessages}>
+					{isOrderAvailable && <ChatMessagesHeader order={order} />}
+
+					{isOrderAvailable && !isChatSelected && (
+						<div className={styles.selectChatMessage}>
+							<h2>Выберите чат</h2>
+						</div>
+					)}
+
+					{isChatSelected ? (
+						<ChatMessages chatId={selectedChatId} />
+					) : (
+						<></>
+					)}
+				</div>
+
+				<div className={styles.orderInfo}>
+					{isOrderAvailable ? (
+						<ChatOrderInfo order={order} />
+					) : (
+						<div className={styles.noOrderMessage}>
+							<></>
+						</div>
+					)}
+				</div>
 			</div>
-		)}
-
-    <div className={styles.chatPage}>
-      <div className={styles.chatList}>
-        <ChatList
-          selectedChatId={selectedChatId}
-          onSelectChat={setSelectedChatId}
-          onSelectChatOrder={handleSelectChatOrder}
-          orderId={orderId}
-        />
-      </div>
-
-      <div className={styles.chatMessages}>
-        {isOrderAvailable && <ChatMessagesHeader order={order} />}
-
-        {isOrderAvailable && !isChatSelected && (
-          <div className={styles.selectChatMessage}>
-            <h2>Выберите чат</h2>
-          </div>
-        )}
-
-        {isChatSelected ? (
-          <ChatMessages chatId={selectedChatId} />
-        ) : (
-					<></>
-        )}
-      </div>
-
-      <div className={styles.orderInfo}>
-        {isOrderAvailable ? (
-          <ChatOrderInfo order={order} />
-        ) : (
-          <div className={styles.noOrderMessage}>
-            <></>
-          </div>
-        )}
-      </div>
-    </div>
 		</>
   );
 };

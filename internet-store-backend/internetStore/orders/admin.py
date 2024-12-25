@@ -4,7 +4,6 @@ from accounts.models import Profile
 from django import forms
 
 
-
 class ChatAdmin(admin.ModelAdmin):
 	list_display = ('id', 'created_at', 'get_participants')
 	search_fields = ('id',)
@@ -63,6 +62,7 @@ class MessageForm(forms.ModelForm):
 			self.fields['sender'].queryset = Profile.objects.filter(user__in=chat.participants.all())
 		else:
 			self.fields['sender'].queryset = Profile.objects.none()
+
 
 class MessageAdmin(admin.ModelAdmin):
 	list_display = ('id', 'chat', 'sender', 'text_preview', 'image', 'created_at', 'is_read')

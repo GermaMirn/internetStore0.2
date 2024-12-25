@@ -2,35 +2,63 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import action
 from store.models import Order
 from .models import Chat, Message
 from .serializers import MessageSerializer, ChatSerializer, OrderSerializer
 from accounts.models import Profile
-
+from internetStore.utils import (
+	generate_cache_key,
+	get_cached_data,
+	set_cache_data,
+	generate_cache_key_chat_messages,
+	get_cached_data_chat_messages,
+	set_cache_data_chat_messages,
+)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserOrders(request):
+	cache_key = generate_cache_key('order_page', request.user)
+	cached_data = get_cached_data(cache_key)
+
+	if cached_data:
+		return Response(cached_data, status=200)
+
 	orders = Order.objects.filter(user=request.user.profile)
 	serializer = OrderSerializer(orders, many=True)
+
+	set_cache_data(cache_key, serializer.data, timeout=60 * 60)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_chats(request):
+	cache_key = generate_cache_key('chats', request.user)
+	cached_data = get_cached_data(cache_key)
+
+	if cached_data:
+		return Response(cached_data, status=200)
+
 	user_profile = request.user.profile
 	chats = Chat.objects.filter(participants=user_profile)
 
 	serializer = ChatSerializer(chats, many=True)
+
+	set_cache_data(cache_key, serializer.data, timeout=60 * 60)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_chat_messages(request, chat_id):
+	cache_key = generate_cache_key_chat_messages(chat_id)
+	cached_data = get_cached_data_chat_messages(cache_key)
+
+	if cached_data:
+		return Response(cached_data, status=status.HTTP_200_OK)
+
 	try:
 		chat = Chat.objects.get(id=chat_id)
 	except Chat.DoesNotExist:
@@ -42,6 +70,9 @@ def get_chat_messages(request, chat_id):
 
 	messages = Message.objects.filter(chat=chat).order_by('created_at')
 	serializer = MessageSerializer(messages, many=True)
+
+	set_cache_data_chat_messages(cache_key, serializer.data, timeout=60 * 60)
+
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
 

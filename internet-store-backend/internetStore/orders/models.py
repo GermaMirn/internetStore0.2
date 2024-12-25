@@ -12,6 +12,10 @@ class Chat(models.Model):
 	def __str__(self):
 		return f"{self.id} между {' и '.join([p.user.username for p in self.participants.all()])}"
 
+	class Meta:
+		verbose_name = "Чат"
+		verbose_name_plural = "Чаты"
+
 
 class Message(models.Model):
 	chat = models.ForeignKey(Chat, related_name='messages', on_delete=models.CASCADE)
@@ -27,3 +31,7 @@ class Message(models.Model):
 	@database_sync_to_async
 	def get_sender_username(self):
 		return self.sender.user.username if self.sender else 'Unknown'
+
+	class Meta:
+		verbose_name = "Сообщение"
+		verbose_name_plural = "Сообщения"
