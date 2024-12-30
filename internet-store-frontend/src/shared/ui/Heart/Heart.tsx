@@ -49,7 +49,7 @@ const DivForFullHeart: React.FC<HeartProductProps> = ({ isProductLiked = false, 
       onClick={toggleLike}
     >
       {isLoading ? (
-        <p></p>
+        <img className={styles.heartIcon} src={'/product/fullHeart.svg'} alt="Liked" />
       ) : isLiked ? (
         <img className={styles.heartIcon} src={'/product/fullHeart.svg'} alt="Liked" />
       ) : (

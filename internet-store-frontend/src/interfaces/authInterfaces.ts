@@ -30,3 +30,8 @@ export interface UpdateUserData {
 export interface EditProfileProps {
   handleClose: () => void;
 }
+
+
+export interface FooterMobileProps {
+	username: string | null;
+}

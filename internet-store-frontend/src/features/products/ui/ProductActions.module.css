@@ -6,3 +6,8 @@
 .heart{
 	margin-left: 15px;
 }
+
+
+.heart:hover{
+	cursor: pointer;
+}

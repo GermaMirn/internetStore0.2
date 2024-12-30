@@ -4,13 +4,15 @@
   min-height: 100vh;
 }
 
+
 .mainContent {
-	margin-left: 7%;
-  margin-right: 7%;
-  margin-top: 3%;
+  margin: 3% auto 80px;
+	margin-left: auto;
+  margin-right: auto;
+  width: 86%;
   flex: 1;
-	margin-bottom: 80px;
 }
+
 
 .noPadding {
   margin-left: 0;
@@ -19,10 +21,10 @@
   margin-bottom: 0;
 }
 
+
 @media (max-width: 768px) {
-	.mainContent{
-		margin-left: 0%;
-  	margin-right: 0%;
-		margin-bottom: 50px;
-	}
+  .mainContent {
+    margin: 3% auto 60px;
+    width: 100%;
+  }
 }

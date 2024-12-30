@@ -23,13 +23,14 @@
 
 .nameProductDetail{
 	width: 384px;
-	height: 108px;
+	height: max-content;
+	margin-bottom: 10%;
 }
 
 
 .descriptionProductDetail{
 	width: 386px;
-	margin-top: 20%;
+	margin-top: 10%;
 }
 
 

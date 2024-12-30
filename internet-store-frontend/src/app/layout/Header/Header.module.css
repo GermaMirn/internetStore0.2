@@ -1,7 +1,7 @@
 header{
 	background: linear-gradient(90deg, #796DE2 0%, #3F6AC9 100%);
 	color: white;
-	max-height: 120px;
+	text-align: center;
 	padding-top: 2%;
 	max-width: 100%;
 	z-index: 1;
@@ -11,7 +11,7 @@ header{
 .mainDivOfHeader{
 	display: flex;
 	align-items: center;
-	text-align: center;
+	justify-content: center;
 	padding-left: 10%;
 	padding-right: 10%;
 	padding-bottom: 2%;
@@ -73,52 +73,64 @@ header{
 }
 
 
-.personActivities{
-	display: flex;
-	margin-top: 1rem;
-	margin-left: 4.3rem;
+@media (max-width: 1180px){
+	.mainDivOfHeader{
+		max-width: 100% !important;
+		padding-left: 3% !important;
+		padding-right: 3% !important;
+	}
+
+	.logo{
+		margin-right: 1rem;
+	}
 }
 
 
-.svgOfPersonActivities{
-	margin-top: -3rem;
+@media (max-width: 910px) {
+	.header{
+		max-height: 90px;
+	}
+
+	.searchBar{
+		height: 55px;
+	}
+
+	.mainDivOfHeader{
+		padding-left: 0% !important;
+		padding-right: 15px !important;
+	}
+
+	.logo{
+		display: none;
+	}
+
+	.personActivitiesDiv{
+		display: none;
+	}
 }
 
 
-.divForSvgOfPersonActivities{
-	margin-bottom: -80px;
-	height: 40px;
-	width: 40px;
-}
+@media (max-width: 510px) {
+	.mainDivOfHeader{
+		padding-left: 0%;
+		padding-right: 0%;
+	}
 
+	.mainDivOfHeader{
+		padding-right: 7px !important;
+	}
 
-.svgOfFavorites{
-	margin-left: 8px;
-}
+	.searchBar{
+		margin-left: 5px !important;
+	}
 
+	.categories{
+		border-radius: 18px;
+		padding: 14px;
+		min-width: max-content !important;
+	}
 
-.svgOfShoppingCart{
-	margin-right: 8px;
-}
-
-
-.svgOfProfile{
-	margin-right: -11px;
-}
-
-
-.shoppingCart{
-	margin-left: 2rem;
-	margin-right: 2.2rem;
-	margin-top: -54px;
-}
-
-
-.textOfPersonActivities{
-	margin-top: 5rem;
-}
-
-
-.testForShoppingCart{
-	margin-top: 86px;
+	.categoriesText{
+		display: none;
+	}
 }

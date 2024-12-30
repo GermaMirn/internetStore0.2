@@ -6,6 +6,7 @@
 	width: 260px;
 	height: 412px;
 	margin-top: 1rem;
+	text-align: left;
 }
 
 
@@ -19,12 +20,13 @@
 .nameOfProduct{
 	color: #492DBB;
 	cursor: pointer;
-	height: 45px;
+	height: 45px !important;
+	font-size: 21px;
 }
 
 
 .fastView{
-	position: relative;
+	position: absolute;
 	margin-top: -75px;
 	margin-left: 8px;
 	margin-bottom: 30px;
@@ -32,5 +34,5 @@
 
 
 .actions{
-	margin-top: 45px;
+	margin-top: 40px;
 }

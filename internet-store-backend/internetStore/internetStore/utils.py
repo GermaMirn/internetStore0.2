@@ -83,9 +83,6 @@ class RedisAsyncCache:
 		await self.redis.delete(key)
 
 	async def delete_pattern(self, pattern):
-		"""
-		Удаляет ключи по паттерну с использованием SCAN для оптимизации.
-		"""
 		await self.connect()
 		async for key in self.redis.scan_iter(pattern):
 			await self.redis.delete(key)

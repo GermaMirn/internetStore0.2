@@ -42,7 +42,7 @@ export function Header() {
     <header>
       <div className={styles.mainDivOfHeader}>
         <div className={styles.logo} onClick={() => navigate('/')}>
-          <img src="/header/logo.svg" alt="" />
+          <img className={styles.imgLogo} src="/header/logo.svg" alt="" />
         </div>
 
         <div className={styles.searchBar}>
@@ -71,13 +71,15 @@ export function Header() {
           </div>
         </div>
 
-        <PersonActivities
-          username={username}
-          onLogout={handleLogout}
-          toggleMenu={toggleMenu}
-          menuVisible={menuVisible}
-          navigate={navigate}
-        />
+				<div className={styles.personActivitiesDiv}>
+					<PersonActivities
+						username={username}
+						onLogout={handleLogout}
+						toggleMenu={toggleMenu}
+						menuVisible={menuVisible}
+						navigate={navigate}
+					/>
+				</div>
       </div>
     </header>
   );

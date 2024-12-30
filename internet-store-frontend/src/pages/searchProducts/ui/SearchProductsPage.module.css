@@ -1,11 +1,40 @@
-.divForProductCard{
-	display: grid;
+.divForProductCards{
+	text-align: center;
+}
+
+.divForProductCard {
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: 16px;
+  gap: auto;
+  justify-items: center;
+  align-items: center;
 }
 
 
 .searchField{
 	color: #492DBB;
+}
+
+
+@media (max-width: 1330px){
+	.divForProductCard{
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+
+@media (max-width: 1000px) {
+	.divForProductCard{
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+
+@media (max-width: 575px) {
+	.divForProductCard{
+		grid-template-columns: repeat(1, 1fr);
+	}
 }
