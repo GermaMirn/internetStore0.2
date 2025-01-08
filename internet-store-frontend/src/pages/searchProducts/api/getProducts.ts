@@ -18,7 +18,7 @@ export const fetchSearchProducts = async (page: number = 1, searchField?: string
 
 		return response.data;
 	} catch (error) {
-		console.error('Error fetching п аававаыавав:', error);
+		console.error('Error fetching:', error);
 		throw error;
 	}
 };

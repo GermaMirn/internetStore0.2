@@ -1,0 +1,10 @@
+application/octet-stream   bin exe dll;     # Обычные бинарные файлы
+text/html                  html htm;        # HTML
+text/css                   css;             # CSS
+application/javascript      js;              # JavaScript
+image/png                  png;             # PNG изображения
+image/jpeg                 jpeg jpg;        # JPEG изображения
+image/gif                  gif;             # GIF изображения
+image/svg+xml              svg;             # SVG изображения
+application/json           json;            # JSON файлы
+application/xml            xml;             # XML файлы

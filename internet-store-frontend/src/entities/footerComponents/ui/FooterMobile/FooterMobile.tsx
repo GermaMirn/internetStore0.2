@@ -1,34 +1,58 @@
 import styles from './FooterMobile.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FooterMobileProps } from '../../../../interfaces';
 
 
-const FooterMobile: React.FC<FooterMobileProps> = ({username}) => {
-	const navigate = useNavigate();
+const FooterMobile: React.FC<FooterMobileProps> = ({ username }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Массивы для проверки активных URL
+  const profileUrls = ['/login', '/register', '/enter', '/favorits', '/shoppingCart', '/profile', '/chats'];
 
   return (
     <div className={styles.mobileContent}>
-			<div onClick={(() => navigate(''))}>
-				<img className={styles.footerHomeSvg} src="footer/home.svg" alt="home page" />
-			</div>
+      {/* Домашняя страница */}
+      <div onClick={() => navigate('')}>
+        <img
+          className={styles.footerHomeSvg}
+          src={location.pathname === '/' ? 'footer/homeActive.svg' : 'footer/home.svg'}
+          alt="home page"
+        />
+      </div>
 
-			<div onClick={(() => navigate('/catalog'))}>
-				<img src="footer/catalog.svg" alt="catalog page" />
-			</div>
+      {/* Каталог */}
+      <div onClick={() => navigate('/catalog')}>
+        <img
+          src={location.pathname === '/catalog' ? 'footer/catalogActive.svg' : 'footer/catalog.svg'}
+          alt="catalog page"
+        />
+      </div>
 
-			<div>
-				<img src="footer/orders.svg" alt="orders page" />
-			</div>
+      {/* Заказы */}
+      <div onClick={() => navigate('/orders')}>
+        <img
+          src={location.pathname === '/orders' ? 'footer/ordersActive.svg' : 'footer/orders.svg'}
+          alt="orders page"
+        />
+      </div>
 
-			{username ? (
-				<div>
-					<img src="footer/profile.svg" alt="profile icon" />
-				</div>
-			) : (
-				<div onClick={(() => navigate('/enter'))}>
-					<img src="footer/profile.svg" alt="profile icon" />
-				</div>
-			)}
+      {/* Профиль */}
+      {username ? (
+        <div>
+          <img
+            src={profileUrls.some((url) => location.pathname.includes(url)) ? 'footer/profileActive.svg' : 'footer/profile.svg'}
+            alt="profile icon"
+          />
+        </div>
+      ) : (
+        <div onClick={() => navigate('/enter')}>
+          <img
+            src={profileUrls.some((url) => location.pathname.includes(url)) ? 'footer/profileActive.svg' : 'footer/profile.svg'}
+            alt="profile icon"
+          />
+        </div>
+      )}
     </div>
   );
 };

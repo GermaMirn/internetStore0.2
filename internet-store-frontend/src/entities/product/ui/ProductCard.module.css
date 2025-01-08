@@ -36,3 +36,61 @@
 .actions{
 	margin-top: 40px;
 }
+
+
+@media (max-width: 575px) {
+	.productCard{
+		background-color: #e9e9e9;
+		width: 200px;
+		height: 320px;
+	}
+
+	.imgOfProduct{
+		width: 187px;
+		height: 158px;
+	}
+
+	.nameOfProduct{
+		color: #492DBB;
+		cursor: pointer;
+		height: 35px !important;
+		font-size: 18px;
+	}
+
+	.fastView{
+		display: none;
+	}
+
+	.productPrice{
+		font-size: 20px;
+	}
+}
+
+
+@media (max-width: 420px) {
+	.productCard{
+		background-color: #e9e9e9;
+		width: 160px;
+		height: 260px;
+	}
+
+	.imgOfProduct{
+		width: 149px;
+		height: 120px;
+	}
+
+	.nameOfProduct{
+		color: #492DBB;
+		cursor: pointer;
+		height: 30px !important;
+		font-size: 16px;
+	}
+
+	.productPrice{
+		font-size: 18px;
+	}
+
+	.actions{
+		margin-top: 25px;
+	}
+}

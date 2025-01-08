@@ -66,7 +66,7 @@ EOF
 
 
 # echo "Сбор статических файлов"
-# python manage.py collectstatic --noinput
+# python manage.py collectstatic
 
 echo "Миграции успешно применены"
 exec "$@"

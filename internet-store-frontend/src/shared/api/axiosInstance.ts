@@ -1,13 +1,27 @@
+let apiBaseURL;
+
+
+console.log(window.location.hostname)
+if (window.location.hostname === 'localhost') {
+  apiBaseURL = 'http://localhost:8000'; // Для разработки
+} else if (window.location.hostname === 'clear-precious-turkey.ngrok-free.app') {
+  apiBaseURL = 'https://clear-precious-turkey.ngrok-free.app'; // Для ngrok
+} else {
+  apiBaseURL = 'https://your-production-domain.com'; // Для продакшена
+}
+
+
+export const baseApiURL = `${apiBaseURL}/api`;
+export const baseURL = apiBaseURL
+
+
 import axios from 'axios';
 
-
+console.log(baseApiURL, apiBaseURL, 'a')
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: baseApiURL,
   withCredentials: true,
 });
-
-
-export const baseURL = 'http://localhost:8000'
 
 
 const token = localStorage.getItem('token');

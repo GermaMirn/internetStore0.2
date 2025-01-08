@@ -35,6 +35,11 @@ INSTALLED_APPS = [
 ]
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://clear-precious-turkey.ngrok-free.app',
+]
+
+
 MIDDLEWARE = [
   	'django.middleware.csrf.CsrfViewMiddleware',
   	'corsheaders.middleware.CorsMiddleware',
@@ -53,6 +58,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:5173',
     'ws://127.0.0.1:8000',
+    'https://clear-precious-turkey.ngrok-free.app',
+    'ws://clear-precious-turkey.ngrok-free.app'
 ]
 
 
@@ -152,14 +159,14 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'app/staticfiles')
 
 # STATICFILES_DIRS = [
 #     BASE_DIR / "static",
 # ]
 
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'api/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 

@@ -7,7 +7,7 @@ from orders import consumers
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/admin/', admin.site.urls),
     path('api/get-csrf-token/', GetCsrfToken.as_view(), name='get_csrf_token'),
     path('ws/chat/<int:chat_id>/', consumers.ChatConsumer.as_asgi(), name='chat'),
     path('api-auth/', include('rest_framework.urls')),

@@ -27,7 +27,7 @@
 
 .color:hover {
 	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
-	border: 1px solid #ffffffb8;
+	border: 1px solid #3f6bc9d2;
 }
 
 
@@ -59,4 +59,33 @@
 .large {
   width: 400px;
   height: 80px;
+}
+
+
+@media (max-width: 575px) {
+  .iconButton{
+		width: 140px;
+		height: 35px;
+	}
+
+
+	.icon{
+		width: 40px;
+		height: 25px;
+		margin-top: -8px;
+	}
+}
+
+
+@media (max-width: 420px) {
+  .iconButton{
+		width: 105px;
+		height: 35px;
+	}
+
+
+	.icon{
+		width: 40px;
+		height: 25px;
+	}
 }
