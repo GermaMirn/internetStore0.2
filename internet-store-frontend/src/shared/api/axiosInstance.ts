@@ -17,7 +17,7 @@ export const baseURL = apiBaseURL
 
 import axios from 'axios';
 
-console.log(baseApiURL, apiBaseURL, 'a')
+
 const axiosInstance = axios.create({
   baseURL: baseApiURL,
   withCredentials: true,

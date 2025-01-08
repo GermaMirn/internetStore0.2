@@ -1,5 +1,5 @@
 version: 2
-authtoken: 2rDUqN5XMd5K2kSj4vCBAI2gbAa_3RFYZmB8swzyZh6N9bBih
+authtoken: ${NGROK_AUTHTOKEN}
 tunnels:
   first:
     addr: app:5173

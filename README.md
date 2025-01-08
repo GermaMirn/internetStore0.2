@@ -10,7 +10,7 @@
 docker compose up --build
 ```
 
-Настройка ngrok:  заходим к ним на сайт и регистрируемся. Потом создаём домен https://dashboard.ngrok.com/domains. Дальше изменяем на свой домен в файлах: docker-compose-local.yml, ngrok.yml, internet-store-frontend/src/shared/api/axiosInstance.ts
+Настройка ngrok:  заходим к ним на сайт и регистрируемся. Потом создаём домен https://dashboard.ngrok.com/domains. Дальше изменяем на свой домен в файлах: docker-compose-local.yml, ngrok.yml, internet-store-frontend/src/shared/api/axiosInstance.ts, internet-store-backend/internetStore/internetStore/settings.py
 
 В конце вы получите сетевой интерфейс в интернет со своей локальной машины, так же можете всё открыть через http://localhost
 

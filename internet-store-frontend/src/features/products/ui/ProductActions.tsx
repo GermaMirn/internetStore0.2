@@ -35,6 +35,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
       setCartQuantity(1);
       updateCartState?.(true, 1, answer.item.id);
     } catch (error) {
+			setIsInCart(false);
       showNotification('Ошибка при добавлении товара в корзину', 'error');
     }
   };

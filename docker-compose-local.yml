@@ -80,7 +80,7 @@ services:
     expose:
       - 443
     environment:
-      NGROK_AUTHTOKEN: 2rDUqN5XMd5K2kSj4vCBAI2gbAa_3RFYZmB8swzyZh6N9bBih
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
     command: ["http", "--url=clear-precious-turkey.ngrok-free.app", "80"]
     depends_on:
       - nginx
