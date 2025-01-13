@@ -92,3 +92,23 @@ def decrease_comment_hearts(sender, instance, **kwargs):
 	Comment = apps.get_model('store', 'Comment')
 	instance.comment.hearts -= 1
 	instance.comment.save()
+
+
+@receiver(post_save, sender='store.CartItem')
+def update_cart_total_price(sender, instance, **kwargs):
+	instance.cart.update_cart_total_price()
+
+
+@receiver(post_delete, sender='store.CartItem')
+def update_cart_total_price(sender, instance, **kwargs):
+	instance.cart.update_cart_total_price()
+
+
+@receiver(post_save, sender='store.OrderItem')
+def update_order_total_price(sender, instance, **kwargs):
+	instance.order.update_total_price()
+
+
+@receiver(post_delete, sender='store.OrderItem')
+def update_cart_total_price(sender, instance, **kwargs):
+	instance.order.update_total_price()

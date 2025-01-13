@@ -27,7 +27,7 @@ urlpatterns = [
     path('heartProduct/<int:productId>/', heartProduct, name='heartProduct'),
     path('categories/', categories, name='categories'),
 
-    path('infoAboutproductDetail/<int:productId>/', infoAboutproductDetail, name='infoAboutproductDetail/'),
+    path('infoAboutproductDetail/<int:productId>/', infoAboutproductDetail, name='infoAboutproductDetail'),
     path('product/<int:productId>/fastviews/', addFastView, name='addFastViews'),
     path('product/<int:productId>/review/', addReview, name='addReview'),
     path('review/<int:reviewId>/heart/', heartReview, name='heartReview'),

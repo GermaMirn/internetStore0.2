@@ -104,7 +104,7 @@ class LogoutUserView(APIView):
 			return Response({'message': 'Ошибка при выходе из аккаунта.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GetUserInfo(APIView):
+class GetUserInfoView(APIView):
 	permission_classes = [AllowAny]
 
 	def get(self, request):

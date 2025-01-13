@@ -10,7 +10,7 @@ from .signals.store_signals import *
 
 
 class Category(models.Model):
-  name = models.CharField(max_length=100)
+  name = models.CharField(max_length=100, unique=True)
 
   def __str__(self):
     return self.name
@@ -21,11 +21,11 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-  name = models.CharField(max_length=255)
+  name = models.CharField(max_length=255, unique=True)
   description = models.TextField()
   price = models.DecimalField(max_digits=10, decimal_places=2)
   categories = models.ManyToManyField(Category, related_name='products')
-  mainImage = models.ImageField(upload_to='products/', null=True, blank=True)
+  mainImage = models.ImageField(upload_to='products/')
   hearts = models.IntegerField(default=0)
   fastViews = models.IntegerField(default=0)
   detailViews = models.IntegerField(default=0)
@@ -40,7 +40,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='productImages')
-  image = models.ImageField(upload_to='products/')
+  image = models.ImageField(upload_to='products/', blank=False)
 
   def __str__(self):
     return f"Изображения для {self.product.name}"
@@ -81,15 +81,18 @@ class Review(models.Model):
 
 
 class ReviewHeart(models.Model):
-  review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='reviewHearts')
-  user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-  created_at = models.DateTimeField(auto_now_add=True)
+	review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='reviewHearts')
+	user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+	created_at = models.DateTimeField(auto_now_add=True)
 
-  class Meta:
-    unique_together = ('review', 'user')
+	def __str__(self):
+		return f"Лайк от {self.user.user.username} для отзыва {self.review.id}"
 
-    verbose_name = "Лайк"
-    verbose_name_plural = "Лайки для отзыва"
+	class Meta:
+		unique_together = ('review', 'user')
+
+		verbose_name = "Лайк"
+		verbose_name_plural = "Лайки для отзыва"
 
 
 class ReviewImage(models.Model):
@@ -148,37 +151,45 @@ class CommentImage(models.Model):
 
 
 class Cart(models.Model):
-  user = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="cart")
-  created_at = models.DateTimeField(auto_now_add=True)
+	user = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="cart")
+	created_at = models.DateTimeField(auto_now_add=True)
 
-  def __str__(self):
-    return f"Корзина пользователя {self.user.fullname}"
+	def update_cart_total_price(self):
+		total = sum(item.price for item in self.items.all())
+		self.total_price = total
+		self.save()
 
-  class Meta:
-    verbose_name = "Корзина"
-    verbose_name_plural = "Корзины"
+	def __str__(self):
+		return f"Корзина пользователя {self.user.fullname}"
+
+	class Meta:
+		verbose_name = "Корзина"
+		verbose_name_plural = "Корзины"
 
 
 class CartItem(models.Model):
-  cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
-  product = models.ForeignKey(Product, on_delete=models.CASCADE)
-  quantity = models.PositiveIntegerField(default=1)
-  price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+	cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+	product = models.ForeignKey(Product, on_delete=models.CASCADE)
+	quantity = models.PositiveIntegerField(default=1)
+	price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
-  def save(self, *args, **kwargs):
-    if not self.id:
-      self.price = self.product.price
+	def save(self, *args, **kwargs):
+		if not self.id:
+			self.price = self.product.price
 
-    if self.quantity >= 1:
-      self.price = self.product.price * self.quantity
-    super().save(*args, **kwargs)
+		if self.quantity < 1:
+			self.quantity = 1
 
-  def __str__(self):
-    return f"{self.quantity} x {self.product.name} в корзине"
+		if self.quantity >= 1:
+			self.price = self.product.price * self.quantity
+		super().save(*args, **kwargs)
 
-  class Meta:
-    verbose_name = "Элемент корзины"
-    verbose_name_plural = "Элементы корзины"
+	def __str__(self):
+		return f"{self.quantity} x {self.product.name} в корзине"
+
+	class Meta:
+		verbose_name = "Элемент корзины"
+		verbose_name_plural = "Элементы корзины"
 
 
 class Order(models.Model):
@@ -200,28 +211,36 @@ class Order(models.Model):
 	def __str__(self):
 		return f'Заказ пользователя: {self.id}. ФИО: {self.user.fullname}'
 
+	def update_total_price(self):
+		total = sum(item.price for item in self.items.all())
+		self.totalPrice = total
+		self.save()
+
 	class Meta:
 		verbose_name = "Заказ"
 		verbose_name_plural = "Заказы"
 
 
 class OrderItem(models.Model):
-  order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-  product = models.ForeignKey(Product, on_delete=models.CASCADE)
-  quantity = models.PositiveIntegerField(default=1)
-  price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+	product = models.ForeignKey(Product, on_delete=models.CASCADE)
+	quantity = models.PositiveIntegerField(default=1)
+	price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
-  def __str__(self) -> str:
-    return f"Продукт: {self.product} заказа {self.order.id}"
+	def __str__(self) -> str:
+		return f"Продукт: {self.product} заказа {self.order.id}"
 
-  def save(self, *args, **kwargs):
-    if not self.id:
-      self.price = self.product.price
+	def save(self, *args, **kwargs):
+		if not self.id:
+			self.price = self.product.price
 
-    if self.quantity >= 1:
-      self.price = self.product.price * self.quantity
-    super().save(*args, **kwargs)
+		if self.quantity < 1:
+			self.quantity = 1
 
-  class Meta:
-    verbose_name = "Элемент заказа"
-    verbose_name_plural = "Элементы заказа"
+		if self.quantity >= 1:
+			self.price = self.product.price * self.quantity
+		super().save(*args, **kwargs)
+
+	class Meta:
+		verbose_name = "Элемент заказа"
+		verbose_name_plural = "Элементы заказа"
