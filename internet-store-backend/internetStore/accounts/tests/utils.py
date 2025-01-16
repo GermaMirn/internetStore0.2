@@ -17,11 +17,11 @@ def get_unique_username():
 	return username
 
 
-def create_unique_user(username=None):
+def create_unique_user(username=None, is_staff=False):
 	if username is None:
 		username = get_unique_username()
 	try:
-		user = User.objects.create_user(username=username, email='testuser@example.com', password='password123')
+		user = User.objects.create_user(username=username, email='testuser@example.com', password='password123', is_staff=is_staff)
 		return user
 	except IntegrityError:
 		return create_unique_user()

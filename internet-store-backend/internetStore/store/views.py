@@ -562,7 +562,7 @@ def createOrder(request):
 			)
 			cart_item.delete()
 		except CartItem.DoesNotExist:
-			return Response({'success': False, 'message': f'Элемент корзины {item["product"]} не найден.'}, status=404)
+			return Response({'success': False, 'message': f'Элемент корзины с ID {cart_item_id} не найден.'}, status=404)
 
 	cache.delete_pattern(f'shopping_cart_auth_{request.user.id}')
 

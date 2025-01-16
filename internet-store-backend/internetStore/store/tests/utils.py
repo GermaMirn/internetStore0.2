@@ -1,12 +1,13 @@
 from store.models import Product, Review, OrderItem, CartItem
 
 
-def create_product(name="Test Product", price=100.00, mainImage="path/to/image.jpg"):
+def create_product(name="Test Product", price=100.00, description="Test Description",mainImage="path/to/image.jpg", fastViews=0):
 	product = Product.objects.create(
 		name=name,
-		description=f"Test Description",
+		description=description,
 		price=price,
-		mainImage=mainImage
+		mainImage=mainImage,
+		fastViews=fastViews
 	)
 
 	return product

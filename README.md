@@ -7,7 +7,7 @@
 Для запуска проекта нужно будет запустить Docker и настроить файл `.env` с ngrok(для локалки). Для этого скопируйте файл `.env.example` в `.env` и укажите соответствующие значения переменных. После этого откройте терминал и введите:
 
 ```bash
-docker compose up --build
+docker compose -f docker-compose-local.yml up --build
 ```
 
 Настройка ngrok:  заходим к ним на сайт и регистрируемся. Потом создаём домен https://dashboard.ngrok.com/domains. Дальше изменяем на свой домен в файлах: docker-compose-local.yml, ngrok.yml, internet-store-frontend/src/shared/api/axiosInstance.ts, internet-store-backend/internetStore/internetStore/settings.py

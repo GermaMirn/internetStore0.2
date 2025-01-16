@@ -57,7 +57,8 @@ class CommentHeartSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    images = CommentImageSerializer(many=True, read_only=True)
+    main_image = serializers.ImageField(source='images')
+    additional_images = CommentImageSerializer(many=True, read_only=True, source='commentimage_set')
 
     class Meta:
         model = Comment
