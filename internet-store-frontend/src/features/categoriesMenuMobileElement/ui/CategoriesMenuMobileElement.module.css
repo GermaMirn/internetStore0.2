@@ -1,0 +1,41 @@
+.categoryElement {
+  border: 1px solid none;
+  padding-top: 54px;
+  padding-bottom: 54px;
+  padding-left: 45px;
+  padding-right: 45px;
+  background-color: white;
+	border: 3px solid white;
+	width: 187px;
+	max-height: 135px;
+  border-radius: 30px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.nameCategorie{
+	height: 33px;
+}
+
+
+.categoryElement.selected {
+	border: 3px solid #796DE2;
+}
+
+
+@media (max-width: 570px){
+	.categoryElement {
+		width: 120px;
+	}
+}
+
+
+@media (max-width: 480px) {
+	.categoryElement {
+		width: 80px;
+	}
+}

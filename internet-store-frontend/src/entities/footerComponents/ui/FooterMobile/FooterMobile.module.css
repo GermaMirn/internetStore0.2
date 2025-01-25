@@ -1,15 +1,27 @@
-.mobileContent{
+.mobileContent {
+	background-color: rgb(255, 255, 255);
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	padding: 14px;
+	z-index: 1000;
+	height: 45px;
+}
+
+.logs {
 	display: flex;
 	justify-content: space-between;
-	margin-left: 15%;
-	margin-right: 15%;
+	align-items: center;
+	text-align: center;
+	max-width: calc(100% - 30px);
+	height: 100%;
+	margin-right: 30px;
 }
 
-
-@media (max-width: 700px){
-	.mobileContent{
-		margin-left: 0%;
-		margin-right: 0%;
+@media (max-width: 700px) {
+	.mobileContent {
+		margin-left: 0;
+		margin-right: 0;
 	}
 }
-

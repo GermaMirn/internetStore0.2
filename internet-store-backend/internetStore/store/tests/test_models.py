@@ -27,8 +27,8 @@ class CategoryModelTest(TestCase):
 	def test_category_uniqueness(self):
 		duplicate_category = Category(name="Test Category")
 		with self.assertRaises(ValidationError):
-				duplicate_category.full_clean()
-				duplicate_category.save()
+			duplicate_category.full_clean()
+			duplicate_category.save()
 
 	def test_category_update(self):
 		self.category.name = "Updated Category"

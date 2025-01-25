@@ -1,0 +1,52 @@
+.mainDiv{
+	border-radius: 30px;
+	border: 1.5px solid rgba(0, 0, 0, 0.05);
+	width: auto;
+	height: 134px;
+	padding-top: 6px;
+	padding-bottom: 4px;
+	padding-left: 28px;
+	padding-right: 28px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 6px;
+	justify-content: space-between;
+}
+
+
+.userLogo{
+	width: 86px;
+	height: 86px;
+	margin-right: 24px;
+}
+
+
+.profileInfo{
+	height: 135px;
+	flex-grow: 1;
+}
+
+
+.phoneInfo{
+	margin-top: -10px;
+}
+
+
+.phoneNumber{
+	margin-top: -20px;
+}
+
+
+.changeProfileData{
+	display: flex;
+	border: 1px solid rgba(63, 106, 201, 0.7);
+	border-radius: 10px;
+	padding: 6px;
+	margin-top: -55px;
+}
+
+
+.imgChangeProfile{
+	width: 27px;
+	height: 27px;
+}

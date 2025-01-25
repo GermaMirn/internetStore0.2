@@ -1,0 +1,18 @@
+.divCategoriesElements {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+}
+
+
+.searchActions {
+  position: absolute;
+  bottom: 85px;
+  left: 0;
+  right: 0;
+  padding-bottom: 0px;
+	width: 100%;
+}

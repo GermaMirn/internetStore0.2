@@ -40,7 +40,7 @@
 
 @media (max-width: 575px) {
 	.productCard{
-		background-color: #e9e9e9;
+		background-color: white;
 		width: 200px;
 		height: 320px;
 	}
@@ -69,7 +69,7 @@
 
 @media (max-width: 420px) {
 	.productCard{
-		background-color: #e9e9e9;
+		background-color: white;
 		width: 160px;
 		height: 260px;
 	}

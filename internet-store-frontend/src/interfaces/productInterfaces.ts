@@ -87,6 +87,13 @@ export interface CategoriesMenuProps {
 }
 
 
+export interface CategoriesMenuMobileElementProps {
+  nameCategorie: string;
+  isSelected: boolean;
+  onClick: () => void;
+}
+
+
 export interface CategoriesHeaderProps {
   toggleCategoriesMenu: () => void;
   selectedCategories: string[];

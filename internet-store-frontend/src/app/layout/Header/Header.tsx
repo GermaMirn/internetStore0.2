@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useIsMobile } from '../../routes/hooks/useIsMobile';
 import styles from './Header.module.css';
 import CategoriesMenu from '../../../entities/headerComponents/ui/CategoriesMenu/CategoriesMenu';
 import SearchInput from '../../../entities/headerComponents/ui/SearchInputHeader/SearchInputHeader';
@@ -10,6 +11,7 @@ import PersonActivities from '../../../entities/headerComponents/ui/PersonActivi
 export function Header() {
   const navigate = useNavigate();
   const { username, logout } = useAuth();
+	const isMobile = useIsMobile();
   const [menuCategoriesVisible, setMenuCategoriesVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,6 +40,13 @@ export function Header() {
     navigate('/');
   };
 
+	useEffect(() => {
+    if (isMobile && menuCategoriesVisible) {
+      navigate('/categories');
+			setMenuCategoriesVisible(false);
+    }
+  }, [isMobile, menuCategoriesVisible, navigate]);
+
   return (
     <header>
       <div className={styles.mainDivOfHeader}>
@@ -50,13 +59,16 @@ export function Header() {
             <img className={styles.categoriesSvg} src="/header/categories.svg" alt="" />
             <p className={styles.categoriesText}>Категории</p>
           </div>
-					<CategoriesMenu
-						visible={menuCategoriesVisible}
-						selectedCategories={selectedCategories}
-						handleSearch={handleSearch}
-						toggleCategoriesMenu={toggleCategoriesMenu}
-						setSelectedCategories={setSelectedCategories}
-					/>
+
+					{!isMobile && (
+						<CategoriesMenu
+							visible={menuCategoriesVisible}
+							selectedCategories={selectedCategories}
+							handleSearch={handleSearch}
+							toggleCategoriesMenu={toggleCategoriesMenu}
+							setSelectedCategories={setSelectedCategories}
+						/>
+					)}
 
           <div className={styles.divSearchInput}>
             <SearchInput
