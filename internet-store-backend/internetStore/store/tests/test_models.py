@@ -642,6 +642,17 @@ class CartItemModelTest(TestCase):
 
 		self.assertEqual(str(cart_item), "3 x Test Product в корзине")
 
+	def test_cart_item_recalculate_price(self):
+		cart_item = create_cart_item(cart=self.cart, product=self.product, quantity=2)
+		self.assertEqual(cart_item.price, Decimal("200.00"))
+
+		self.product.price = Decimal("150.00")
+		self.product.save()
+
+		cart_item.recalculate_price()
+
+		self.assertEqual(cart_item.price, Decimal("300.00"))
+
 
 class OrderItemModelTest(TestCase):
 	def setUp(self):

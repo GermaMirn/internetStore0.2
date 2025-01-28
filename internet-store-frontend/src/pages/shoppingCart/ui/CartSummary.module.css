@@ -44,3 +44,31 @@
 	margin-top: 285px;
 	margin-left: 15px;
 }
+
+
+@media (max-width: 1240px){
+	.divCartSummary{
+		width: 231px;
+		height: 260px;
+	}
+
+	.button{
+		font-size: 14px;
+	}
+
+	.buttonForItems{
+		font-size: 14px;
+		margin-top: 270px;
+	}
+
+	.itemCount{
+		margin-left: 60%;
+	}
+
+	.totalAmount{
+		min-width: 90px !important;
+		color: #492DBB;
+		margin-left: 30%;
+		text-align: right;
+	}
+}

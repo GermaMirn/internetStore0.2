@@ -24,6 +24,22 @@
 }
 
 
+.orderDetailHeader{
+	height: max-content;
+	display: flex;
+	align-items: center;
+}
+
+
+.cross{
+	margin-left: 50%;
+	margin-bottom: 30px;
+	width: max-content;
+	height: max-content;
+	background-color: red;
+}
+
+
 .orderId{
 	margin-top: 40px;
 }

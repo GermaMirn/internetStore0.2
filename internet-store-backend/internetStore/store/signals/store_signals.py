@@ -14,6 +14,14 @@ def auto_product_delete_file_on_delete(sender, instance, **kwargs):
 			os.remove(product_image.image.path)
 
 
+@receiver(post_save, sender='store.Product')
+def update_cart_items_on_product_change(sender, instance, **kwargs):
+	CartItem = apps.get_model('store', 'CartItem')
+	cart_items = CartItem.objects.filter(product=instance)
+	for cart_item in cart_items:
+		cart_item.recalculate_price()
+
+
 @receiver(post_delete, sender='store.ProductImage')
 def auto_product_image_delete_on_delete(sender, instance, **kwargs):
 	if os.path.isfile(instance.image.path):

@@ -7,8 +7,6 @@
 
 .mainContent {
   margin: 3% auto 80px;
-	margin-left: auto;
-  margin-right: auto;
   width: 86%;
   flex: 1;
 }

@@ -17,7 +17,7 @@ const PanelElementProfileMobile: React.FC<PanelElementProfileMobileProps> = ({ t
 	return (
 		<div className={styles.mainDiv} onClick={handleClick}>
 			<img className={styles.svg} src={urlToSvg} alt={text} />
-			<span className={styles.text}>{text}</span>
+			<span className={styles.text} style={{ color: text === 'Выйти' ? 'red' : 'initial' }}>{text}</span>
 		</div>
 	);
 }

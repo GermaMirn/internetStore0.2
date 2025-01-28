@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { CartItem } from './CartItem';
+import { CartItem } from '../../../entities/cartItem/CartItem';
 import { CartSummary } from './CartSummary';
 import getShoppingCartItems from '../api/getShoppingCartItems';
 import styles from './ShoppingCart.module.css';
 import { CartItemType } from '../../../interfaces';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
+import { useIsMobile } from '../../../app/routes/hooks/useIsMobile';
 
 
 const ShoppingCart: React.FC = () => {
@@ -13,6 +14,7 @@ const ShoppingCart: React.FC = () => {
   const [selectedItemsCount, setSelectedItemsCount] = useState(0);
   const [allSelected, setAllSelected] = useState(false);
 	const handleError = useErrorRedirect();
+	const isMobile = useIsMobile();
 
 	useEffect(() => {
 	const fetchCartItems = async () => {

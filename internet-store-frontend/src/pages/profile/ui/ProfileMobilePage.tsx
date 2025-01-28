@@ -36,10 +36,10 @@ function ProfileMobilePage() {
 
 			<div className={styles.actionsProfile}>
 				<PanelElementProfileMobile text={'Каталог'} urlToSvg={'/footer/catalog.svg'} navigateUrl={'/catalog'} />
-				<PanelElementProfileMobile text={'Избранные'} urlToSvg={'/header/favorites.svg'} navigateUrl={'/favorits'} />
-				<PanelElementProfileMobile text={'Корзина'} urlToSvg={'/header/shoppingCart.svg'} navigateUrl={'/shoppingCart'} />
+				<PanelElementProfileMobile text={'Избранные'} urlToSvg={'/user/favoritesMobile.svg'} navigateUrl={'/favorits'} />
+				<PanelElementProfileMobile text={'Корзина'} urlToSvg={'/user/shoppingCartMobile.svg'} navigateUrl={'/shoppingCart'} />
 				<PanelElementProfileMobile text={'Заказы'} urlToSvg={'/footer/orders.svg'} navigateUrl={'/orders'} />
-				<PanelElementProfileMobile text={'Чаты'} urlToSvg={''} navigateUrl={'/chats'} />
+				<PanelElementProfileMobile text={'Чаты'} urlToSvg={'/user/chatMobile.svg'} navigateUrl={'/chats'} />
 
 				<PanelElementProfileMobile text={'Выйти'} urlToSvg={'/user/exit.svg'} move={handleLogout} />
 			</div>

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from store.models import Product, ProductImage, ProductHeart, Review, ReviewImage, ReviewHeart, Comment, CommentImage, CommentHeart, Cart, CartItem, Order, OrderItem
 from accounts.models import Profile
-from store.tests.utils import create_product
+from store.tests.utils import create_product, create_cart_item
 from accounts.tests.utils import create_unique_user
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
@@ -37,6 +37,37 @@ class ProductSignalsTest(TestCase):
 
 		self.assertFalse(os.path.exists(product.mainImage.path))
 		self.assertFalse(os.path.exists(product_image.image.path))
+
+
+class UpdateCartItemsSignalTest(TestCase):
+	def setUp(self):
+		self.user = create_unique_user(username='testuser')
+		self.profile, created = Profile.objects.get_or_create(user=self.user)
+
+		Cart.objects.filter(user=self.profile).delete()
+
+		if not Cart.objects.filter(user=self.profile).exists():
+			Cart.objects.create(user=self.profile)
+
+		self.product = Product.objects.create(name="Test Product", price=100.00)
+		self.cart, created = Cart.objects.get_or_create()
+		self.cart_item = create_cart_item(cart=self.cart, product=self.product, quantity=2)
+
+	def test_signal_updates_cart_item_price(self):
+		self.assertEqual(self.cart_item.price, 200.00)
+
+		self.product.price = 150.00
+		self.product.save()
+
+		self.cart_item.refresh_from_db()
+
+		self.assertEqual(self.cart_item.price, 300.00)
+
+	def test_signal_does_not_create_new_cart_items(self):
+		initial_cart_items_count = CartItem.objects.count()
+		self.product.save()
+
+		self.assertEqual(CartItem.objects.count(), initial_cart_items_count)
 
 
 class ProductImageSignalsTest(TestCase):

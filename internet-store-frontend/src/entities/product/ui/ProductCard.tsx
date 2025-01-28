@@ -5,6 +5,7 @@ import Button from '../../../shared/ui/Button';
 import ProductActions from '../../../features/products/ui/ProductActions';
 import { ProductCardProps } from '../../../interfaces'
 import { baseURL } from '../../../shared/api/axiosInstance';
+import { refactorText } from '../utils/refactorText';
 
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -36,7 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
       </div>
 
-      <p className={styles.nameOfProduct}>{product.name}</p>
+      <p className={styles.nameOfProduct}>{refactorText(product.name)}</p>
       <h2 className={styles.productPrice}>{product.price} ₽</h2>
 
 			<div className={styles.actions}>

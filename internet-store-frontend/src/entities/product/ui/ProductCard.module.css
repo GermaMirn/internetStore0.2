@@ -38,6 +38,13 @@
 }
 
 
+@media (max-width: 910px) {
+	.fastView{
+		display: none;
+	}
+}
+
+
 @media (max-width: 575px) {
 	.productCard{
 		background-color: white;

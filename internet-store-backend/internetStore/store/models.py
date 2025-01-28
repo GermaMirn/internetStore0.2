@@ -184,6 +184,10 @@ class CartItem(models.Model):
 			self.price = self.product.price * self.quantity
 		super().save(*args, **kwargs)
 
+	def recalculate_price(self):
+		self.price = self.product.price * self.quantity
+		self.save()
+
 	def __str__(self):
 		return f"{self.quantity} x {self.product.name} в корзине"
 

@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import styles from './OrderCard.module.css';
 import classNames from 'classnames';
-import OrderDetail from './OrderDetail';
-import ProductImage from './ProductImage';
-import OrderStatus from '../../../shared/ui/OrderStatus/OrderStatus';
+import OrderDetail from '../OrderDetail';
+import ProductImage from '../ProductImage';
+import OrderStatus from '../../../../shared/ui/OrderStatus/OrderStatus';
 import { useNavigate } from 'react-router-dom';
-import { OrderCardProps } from '../../../interfaces';
-import { baseURL } from '../../../shared/api/axiosInstance';
+import { OrderCardProps } from '../../../../interfaces';
+import { baseURL } from '../../../../shared/api/axiosInstance';
+import { useVisibleImages } from '../../hooks/useVisibleImages';
 
 
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   const [showDetails, setShowDetails] = useState(false);
 	const navigate = useNavigate();
+	const visibleCount = useVisibleImages();
+	console.log(visibleCount)
 
-  const visibleImages = order.items.slice(0, 5);
-  const hiddenImages = order.items.slice(5);
+  const visibleImages = order.items.slice(0, visibleCount);
+  const hiddenImages = order.items.slice(visibleCount);
 
 	const handleChatClick = () => {
     navigate(`/chats?orderId=${order.id}`);
@@ -30,7 +33,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
 						<OrderStatus status={order.status} />
 					</div>
 				</div>
-        <h3>
+        <h3 className={styles.sumHeader}>
           <span className={styles.sumText}>Сумма заказа:</span> <span>{order.totalPrice} ₽</span>
         </h3>
       </div>
@@ -57,7 +60,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
 										className={styles.moreImagesButton}
 										onClick={() => setShowDetails(true)}
 									>
-										См. ещё
+										см. ещё
 									</p>
 								</div>
 							)}

@@ -20,6 +20,7 @@ export interface ImagesCarouselProps {
 export interface ProductImageProps {
   productId: number;
   imageUrl: string;
+	isMobile?: boolean;
 }
 
 

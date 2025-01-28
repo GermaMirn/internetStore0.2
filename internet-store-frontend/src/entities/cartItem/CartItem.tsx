@@ -1,15 +1,19 @@
 import React from 'react';
-import { CartItemProps } from '../../../interfaces';
+import { CartItemProps } from '../../interfaces';
 import styles from './CartItem.module.css';
-import AddRemoveQuantityOfProducts from '../../../shared/ui/AddRemoveQuantityOfProducts/AddRemoveQuantityOfProducts';
-import Heart from '../../../shared/ui/Heart/Heart';
-import TrashCan from '../../../shared/ui/TrashCan';
+import AddRemoveQuantityOfProducts from '../../shared/ui/AddRemoveQuantityOfProducts/AddRemoveQuantityOfProducts';
+import Heart from '../../shared/ui/Heart/Heart';
+import TrashCan from '../../shared/ui/TrashCan';
 import { useNavigate } from 'react-router-dom';
-import { baseURL } from '../../../shared/api/axiosInstance';
+import { baseURL } from '../../shared/api/axiosInstance';
+import { refactorText } from './utils/refactorText';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 
 export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, onIncrease, onDecrease, onRemove }) => {
 	const navigate = useNavigate();
+	const { width } = useWindowSize();
+	const shouldRefactorText = width <= 1500;
 
 	return (
 		<div>
@@ -31,7 +35,7 @@ export const CartItem: React.FC<CartItemProps> = ({ item, productId, onToggle, o
 						}}
 						className={styles.textOfItem}
 					>
-						{item.productName}
+						{shouldRefactorText ? refactorText(item.productName) : item.productName}
 					</p>
 
 					<div className={styles.divForTrashCanAndHeart}>
