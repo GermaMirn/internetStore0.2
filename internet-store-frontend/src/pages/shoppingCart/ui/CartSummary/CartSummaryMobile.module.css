@@ -1,0 +1,49 @@
+.divForCartSummaryAndButton{
+	background-color: white;
+	width: 101%;
+	margin-left: -8%;
+	display: flex;
+	justify-content: center;
+	border-radius: 15px;
+	position: fixed;
+	bottom: 65px;
+}
+
+
+.divCartSummary{
+	border-radius: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	width: 100%;
+	text-align: center;
+}
+
+
+.textOfCartSummary{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+
+.button{
+	width: 100%;
+	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+	border: 1px solid #3F6AC9;
+	color: white;
+}
+
+
+.button:hover{
+	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
+	border: 1px solid #3f6bc9d2;
+}
+
+
+@media (max-width: 768px){
+	.divForCartSummaryAndButton{
+		width: 100%;
+		margin-left: 0%;
+	}
+}

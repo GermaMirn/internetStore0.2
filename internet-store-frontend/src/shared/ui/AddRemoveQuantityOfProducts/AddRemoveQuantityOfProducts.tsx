@@ -65,7 +65,7 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
       <h2 className={styles.count}>{count}</h2>
 
       <button className={styles.countButton} onClick={handleAdd} disabled={loading}>
-        <img className={styles.icon} src={'/product/plus.svg'} alt="Plus" />
+        <img className={classNames(styles.icon, styles.plus)} src={'/product/plus.svg'} alt="Plus" />
       </button>
     </div>
   );

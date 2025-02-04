@@ -111,6 +111,24 @@ header{
 
 
 @media (max-width: 510px) {
+	.categories{
+		margin-left: 3px;
+	}
+
+	.categoriesSvg{
+		height: 17px;
+	}
+
+	.searchButtonSvg{
+		height: 25px;
+	}
+
+	.searchButton{
+		height: 25px;
+		min-width: 25px;
+		margin-right: 3px;
+	}
+
 	.mainDivOfHeader{
 		padding-left: 0%;
 		padding-right: 0%;
@@ -132,5 +150,17 @@ header{
 
 	.categoriesText{
 		display: none;
+	}
+}
+
+
+@media (max-width: 370px) {
+	.searchBar{
+		min-width: 300px;
+	}
+
+	.divSearchInput {
+		min-width: 10px;
+		margin-left: -13px;
 	}
 }

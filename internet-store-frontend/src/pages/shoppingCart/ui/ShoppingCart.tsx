@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CartItem } from '../../../entities/cartItem/CartItem';
-import { CartSummary } from './CartSummary';
+import { CartItemMobile } from '../../../entities/cartItem/CartItemMobile';
+import { CartSummary } from './CartSummary/CartSummary';
+import { CartSummaryMobile } from './CartSummary/CartSummaryMobile';
 import getShoppingCartItems from '../api/getShoppingCartItems';
 import styles from './ShoppingCart.module.css';
 import { CartItemType } from '../../../interfaces';
@@ -88,31 +90,52 @@ const ShoppingCart: React.FC = () => {
 	const selectedItems = cartItems.filter(item => item.isActive);
 
 	return (
-		<div className={styles.divForShoppingCart}>
-			<div className={styles.divForCartItems}>
-				{cartItems.map(item => (
-					<CartItem
-						key={item.id}
-						item={item}
-						productId={item.productId}
-						onToggle={() => handleToggleItem(item.id)}
-						onIncrease={() => handleQuantityChange(item.id, true, item.quantity + 1)}
-						onDecrease={() => handleQuantityChange(item.id, false, item.quantity - 1)}
-						onRemove={() => handleRemoveItem(item.id)}
-					/>
-			))}
+		<div className={isMobile ? styles.divForShoppingCartMobile : styles.divForShoppingCart}>
+			<div className={isMobile ? styles.divForCartItemsMobile : styles.divForCartItems}>
+				{cartItems.map(item =>
+					isMobile ? (
+						<CartItemMobile
+							key={item.id}
+							item={item}
+							productId={item.productId}
+							onToggle={() => handleToggleItem(item.id)}
+							onIncrease={() => handleQuantityChange(item.id, true, item.quantity + 1)}
+							onDecrease={() => handleQuantityChange(item.id, false, item.quantity - 1)}
+							onRemove={() => handleRemoveItem(item.id)}
+						/>
+					) : (
+						<CartItem
+							key={item.id}
+							item={item}
+							productId={item.productId}
+							onToggle={() => handleToggleItem(item.id)}
+							onIncrease={() => handleQuantityChange(item.id, true, item.quantity + 1)}
+							onDecrease={() => handleQuantityChange(item.id, false, item.quantity - 1)}
+							onRemove={() => handleRemoveItem(item.id)}
+						/>
+					)
+				)}
 			</div>
 
 			{cartItems.length > 0 ? (
-				<div className={styles.cartSummary}>
-					<CartSummary
-						totalAmount={totalAmount}
-						itemCount={selectedItemsCount}
-						selectedItems={selectedItems}
-						allSelected={allSelected}
-						onOrderSuccess={handleOrderSuccess}
-						handleToggleAllItems={handleToggleAllItems}
-					/>
+				<div className={isMobile ? styles.cartSummaryMobile : styles.cartSummary}>
+					{isMobile ? (
+            <CartSummaryMobile
+              totalAmount={totalAmount}
+              itemCount={selectedItemsCount}
+              selectedItems={selectedItems}
+              onOrderSuccess={handleOrderSuccess}
+            />
+          ) : (
+            <CartSummary
+              totalAmount={totalAmount}
+              itemCount={selectedItemsCount}
+              selectedItems={selectedItems}
+              allSelected={allSelected}
+              onOrderSuccess={handleOrderSuccess}
+              handleToggleAllItems={handleToggleAllItems}
+            />
+          )}
 				</div>
 			) : (
 				<div className={styles.empty}>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './CartSummary.module.css';
-import Button from '../../../shared/ui/Button';
-import createOrder from '../api/createOrder';
-import { CartSummaryProps } from '../../../interfaces';
-import { useNotification } from '../../../app/providers/notifications/NotificationProvider';
+import Button from '../../../../shared/ui/Button';
+import createOrder from '../../api/createOrder';
+import { CartSummaryProps } from '../../../../interfaces';
+import { useNotification } from '../../../../app/providers/notifications/NotificationProvider';
 
 
 export const CartSummary: React.FC<CartSummaryProps> = ({

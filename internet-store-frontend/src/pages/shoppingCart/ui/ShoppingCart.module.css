@@ -8,6 +8,13 @@
 	border-radius: 30px;
 }
 
+.divForCartItemsMobile{
+	background-color: none;
+	flex-direction: column;
+	height: 100vh;
+	overflow-y: auto;
+}
+
 
 .cartSummary{
 	margin-left: 20px;

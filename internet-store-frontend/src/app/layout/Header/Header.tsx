@@ -79,7 +79,7 @@ export function Header() {
           </div>
 
           <div className={styles.searchButton} onClick={handleSearch}>
-          <img src="/header/search.svg" alt="" />
+          	<img className={styles.searchButtonSvg} src="/header/search.svg" alt="" />
           </div>
         </div>
 

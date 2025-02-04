@@ -94,3 +94,31 @@
 		margin-left: -8px;
 	}
 }
+
+
+@media (max-width: 370px) {
+	.divOfaddRemoveQuantityOfProducts{
+		width: 90px;
+		height: 20px;
+	}
+
+	.countButton{
+		width: 30px;
+		height: 30px;
+		border-radius: 12px;
+	}
+
+	.minus{
+		margin-bottom: 9px;
+		margin-left: -9px;
+	}
+
+	.plus{
+		margin-bottom: 3.1px;
+		margin-left: -9.5px;
+	}
+
+	.count{
+		min-width: 30px;
+	}
+}

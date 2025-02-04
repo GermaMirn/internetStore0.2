@@ -35,10 +35,10 @@ function ProfileMobilePage() {
 			<CategoriesMenuMobilePage fio={fullname} username={username} phoneNumber={phoneNumber} edit={handleEditProfile} />
 
 			<div className={styles.actionsProfile}>
-				<PanelElementProfileMobile text={'Каталог'} urlToSvg={'/footer/catalog.svg'} navigateUrl={'/catalog'} />
+				<PanelElementProfileMobile text={'Каталог'} urlToSvg={'/user/catalog.svg'} navigateUrl={'/catalog'} />
 				<PanelElementProfileMobile text={'Избранные'} urlToSvg={'/user/favoritesMobile.svg'} navigateUrl={'/favorits'} />
 				<PanelElementProfileMobile text={'Корзина'} urlToSvg={'/user/shoppingCartMobile.svg'} navigateUrl={'/shoppingCart'} />
-				<PanelElementProfileMobile text={'Заказы'} urlToSvg={'/footer/orders.svg'} navigateUrl={'/orders'} />
+				<PanelElementProfileMobile text={'Заказы'} urlToSvg={'/user/orders.svg'} navigateUrl={'/orders'} />
 				<PanelElementProfileMobile text={'Чаты'} urlToSvg={'/user/chatMobile.svg'} navigateUrl={'/chats'} />
 
 				<PanelElementProfileMobile text={'Выйти'} urlToSvg={'/user/exit.svg'} move={handleLogout} />

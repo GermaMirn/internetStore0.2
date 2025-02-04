@@ -7,7 +7,6 @@ const FooterMobile: React.FC<FooterMobileProps> = ({ username }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Массивы для проверки активных URL
   const profileUrls = ['/login', '/register', '/enter', '/favorits', '/shoppingCart', '/profile', '/chats'];
 
   return (
@@ -23,7 +22,7 @@ const FooterMobile: React.FC<FooterMobileProps> = ({ username }) => {
 
 				<div onClick={() => navigate('/catalog')}>
 					<img
-						src={location.pathname === '/catalog' ? 'footer/catalogActive.svg' : '/footer/catalog.svg'}
+						src={['/catalog', '/categories'].includes(location.pathname) ? 'footer/catalogActive.svg' : '/footer/catalog.svg'}
 						alt="catalog page"
 					/>
 				</div>

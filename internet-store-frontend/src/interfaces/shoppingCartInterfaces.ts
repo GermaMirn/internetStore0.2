@@ -21,6 +21,14 @@ export interface CartSummaryProps {
 }
 
 
+export interface CartSummaryMobileProps {
+	totalAmount: number;
+	itemCount: number;
+	selectedItems: CartItemType[];
+	onOrderSuccess: (orderedItems: CartItemType[]) => void;
+}
+
+
 export interface CartItemProps {
 	item: CartItemType;
 	productId: number;
