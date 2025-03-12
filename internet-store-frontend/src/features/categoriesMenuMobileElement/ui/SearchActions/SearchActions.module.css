@@ -9,6 +9,7 @@
 	border-radius: 35px;
 	width: 60px;
 	height: 60px;
+	margin-left: 20px;
 }
 
 
@@ -17,10 +18,17 @@
 	border-radius: 35px;
 	width: 60px;
 	height: 60px;
+	margin-right: 20px;
 }
 
 
 .svg{
 	margin-left: 17px;
-	margin-top: 15px;
+	margin-top: 17px;
+}
+
+
+.resetSvg{
+	margin-top: 19px;
+	margin-left: 17.5px;
 }

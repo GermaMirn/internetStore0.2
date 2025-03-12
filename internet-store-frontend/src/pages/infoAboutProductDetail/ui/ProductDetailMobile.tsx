@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { getProductDetail } from '../api/getProductDetail';
 import { ProductDetail } from '../../../interfaces';
 import { addReview } from '../api/addCommentReview/addReview';
-import ImagesCarousel from '../../../entities/ImagesCarouselReviewComment/ImagesCarouselReviewComment';
 import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetail.module.css';
 import { baseURL } from '../../../shared/api/axiosInstance';
@@ -13,7 +12,7 @@ import EmptyPageText from '../../../shared/ui/EmptyPageText/EmptyPageText';
 import ProductMoves from '../../../entities/product/ui/ProductMoves';
 
 
-const ProductDetailPage = () => {
+const ProductDetailMobilePage = () => {
   const { id } = useParams<{ id?: string }>();
   const [product, setProduct] = useState<ProductDetail | null>(null);
 	const [reviews, setReviews] = useState(product?.reviews || []);
@@ -76,6 +75,7 @@ const ProductDetailPage = () => {
 				return updatedReviews;
 			});
 
+
       setIsReviewFormOpen(false);
     } catch (error) {
       handleError(error);
@@ -84,16 +84,11 @@ const ProductDetailPage = () => {
 
   if (loading) return <div>Loading...</div>;
   if (!product) return <EmptyPageText text='Продукт не найден' />;
+
   return (
     <div className={styles.mainDivProductDetail}>
       <div className={styles.divForProductDetail}>
         <div className={styles.imgsAndImgOfProductDetail}>
-          <ImagesCarousel
-            imagesUrl={product.imagesUrl}
-            mainImage={product.mainImage}
-            onImageSelect={setCurrentImage}
-          />
-
           <div className={styles.mainImage}>
             <img className={styles.imgOfProductDetail} src={baseURL + currentImage} alt={product.name} />
           </div>
@@ -102,6 +97,7 @@ const ProductDetailPage = () => {
         <div className={styles.infoProductDetail}>
           <div className={styles.nameProductDetail}>
             <h2>{product.name}</h2>
+            <h2>{product.price}</h2>
           </div>
 
           <div className={styles.productActionsDesctopMin}>
@@ -147,17 +143,17 @@ const ProductDetailPage = () => {
       </div>
 
       <ReviewsContainer
-				productImg={product.mainImage}
-				productName={product.name}
+        productImg={product.mainImage}
+        productName={product.name}
         reviews={reviews}
         hearts={hearts}
         isReviewFormOpen={isReviewFormOpen}
-				openFormAddReview={toggleReviewForm}
-				handleSubmitReview={handleSubmitReview}
+        openFormAddReview={toggleReviewForm}
+        handleSubmitReview={handleSubmitReview}
       />
     </div>
   );
 };
 
 
-export default ProductDetailPage;
+export default ProductDetailMobilePage;

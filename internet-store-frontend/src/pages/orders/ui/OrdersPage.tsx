@@ -4,6 +4,7 @@ import { Order } from '../../../interfaces';
 import styles from './OrdersPage.module.css';
 import OrderCard from '../../../entities/order/ui/OrderCard/OrderCard';
 import OrderCardMobile from '../../../entities/order/ui/OrderCard/OrderCardMobile';
+import EmptyPageText from '../../../shared/ui/EmptyPageText/EmptyPageText';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
 import { useIsMobile } from '../../../app/routes/hooks/useIsMobile';
 
@@ -35,22 +36,20 @@ const UserOrders: React.FC = () => {
     return <div className={styles.loading}>Загрузка заказов...</div>;
   }
 
+	if (orders.length === 0 ) {return(<EmptyPageText text={'Заказов нет'} />)}
+
   return (
     <div>
-      {orders.length === 0 ? (
-        <h2 className={styles.emptyShoppingCart}>У вас пока нет заказов.</h2>
-      ) : (
-        <div>
-					<h2 className={styles.mainText}>Ваши Заказы</h2>
-					{orders.map((order) => (
-						isMobile ? (
-							<OrderCardMobile key={order.id} order={order} />
-						) : (
-							<OrderCard key={order.id} order={order} />
-						)
-					))}
-        </div>
-      )}
+			<div>
+				<h2 className={styles.mainText}>Ваши Заказы</h2>
+				{orders.map((order) => (
+					isMobile ? (
+						<OrderCardMobile key={order.id} order={order} />
+					) : (
+						<OrderCard key={order.id} order={order} />
+					)
+				))}
+			</div>
     </div>
   );
 };

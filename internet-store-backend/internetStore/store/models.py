@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from accounts.models import Profile
-import os
-from django.db.models.signals import post_delete, post_save
-from django.dispatch import receiver
-from django.core.cache import cache
 from .signals.cache_signals import *
 from .signals.store_signals import *
 

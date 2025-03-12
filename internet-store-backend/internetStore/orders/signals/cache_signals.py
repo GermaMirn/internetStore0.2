@@ -10,7 +10,7 @@ def clear_chat_messages_cache(sender, instance, **kwargs):
 	clear_chat_cache(chat_id)
 
 
-@receiver(post_save, sender='orders.Chat')
 @receiver(post_delete, sender='orders.Chat')
 def clear_chat_messages_cache(sender, instance, **kwargs):
-	delete_cache_admin('chats', instance.user.id)
+	delete_cache_admin('chats', instance.id)
+	delete_cache_admin('order_page', instance.id)

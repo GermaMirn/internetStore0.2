@@ -6,9 +6,9 @@ source ../../.env
 set +o allexport
 
 
-# Очистка базы данных (удаление всех данных)
-echo "Очистка базы данных..."
-python manage.py flush --no-input
+# # Очистка базы данных (удаление всех данных)
+# echo "Очистка базы данных..."
+# python manage.py flush --no-input
 
 # Очистка кэша Redis
 echo "Очистка кэша Redis..."

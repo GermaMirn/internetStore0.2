@@ -5,6 +5,7 @@ import { CartSummary } from './CartSummary/CartSummary';
 import { CartSummaryMobile } from './CartSummary/CartSummaryMobile';
 import getShoppingCartItems from '../api/getShoppingCartItems';
 import styles from './ShoppingCart.module.css';
+import EmptyPageText from '../../../shared/ui/EmptyPageText/EmptyPageText';
 import { CartItemType } from '../../../interfaces';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
 import { useIsMobile } from '../../../app/routes/hooks/useIsMobile';
@@ -89,6 +90,10 @@ const ShoppingCart: React.FC = () => {
 
 	const selectedItems = cartItems.filter(item => item.isActive);
 
+	if (cartItems.length === 0) {
+		return <EmptyPageText text={'Корзина пуста'} />
+	}
+
 	return (
 		<div className={isMobile ? styles.divForShoppingCartMobile : styles.divForShoppingCart}>
 			<div className={isMobile ? styles.divForCartItemsMobile : styles.divForCartItems}>
@@ -117,29 +122,25 @@ const ShoppingCart: React.FC = () => {
 				)}
 			</div>
 
-			{cartItems.length > 0 ? (
+			{cartItems.length > 0 && (
 				<div className={isMobile ? styles.cartSummaryMobile : styles.cartSummary}>
 					{isMobile ? (
-            <CartSummaryMobile
-              totalAmount={totalAmount}
-              itemCount={selectedItemsCount}
-              selectedItems={selectedItems}
-              onOrderSuccess={handleOrderSuccess}
-            />
-          ) : (
-            <CartSummary
-              totalAmount={totalAmount}
-              itemCount={selectedItemsCount}
-              selectedItems={selectedItems}
-              allSelected={allSelected}
-              onOrderSuccess={handleOrderSuccess}
-              handleToggleAllItems={handleToggleAllItems}
-            />
-          )}
-				</div>
-			) : (
-				<div className={styles.empty}>
-					<h2>Корзина пуста</h2>
+						<CartSummaryMobile
+							totalAmount={totalAmount}
+							itemCount={selectedItemsCount}
+							selectedItems={selectedItems}
+							onOrderSuccess={handleOrderSuccess}
+						/>
+					) : (
+						<CartSummary
+							totalAmount={totalAmount}
+							itemCount={selectedItemsCount}
+							selectedItems={selectedItems}
+							allSelected={allSelected}
+							onOrderSuccess={handleOrderSuccess}
+							handleToggleAllItems={handleToggleAllItems}
+						/>
+					)}
 				</div>
 			)}
 		</div>

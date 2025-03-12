@@ -1,6 +1,7 @@
 import React from 'react';
 import { OrderDetailProps } from '../../../interfaces';
 import { formatDate } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/utils/dateUtils';
+import { useNavigate } from 'react-router-dom';
 import styles from './OrderDetail.module.css';
 import OrderDetailItems from '../../../shared/ui/OrderDetailItems/OrderDetailItems';
 import Cross from '../../../shared/ui/Cross/Cross';
@@ -8,10 +9,13 @@ import Cross from '../../../shared/ui/Cross/Cross';
 
 const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.currentTarget === event.target) {
-      onClose();
-    }
-  };
+		const targetElement = event.target as Element;
+
+		if (!targetElement.closest(`.${styles.detailsContainer}`)) {
+			onClose();
+		}
+	};
+	const navigate = useNavigate();
 
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
@@ -25,6 +29,17 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
 				</div>
         <p className={styles.orderId}>#{order.id}</p>
         <OrderDetailItems items={order.items} />
+
+				<div className={styles.totalPriceAndNavigateToChat}>
+					<p>
+						Сумма заказа:
+						<span className={styles.totalPrice}> {order.totalPrice}₽</span>
+					</p>
+
+					<button onClick={(() => navigate(`/chats?orderId=${order.id}`))} className={styles.orderButton}>
+						<img className={styles.orderChatImg} src="/product/orderChat.svg" alt="" />
+					</button>
+				</div>
       </div>
     </div>
   );

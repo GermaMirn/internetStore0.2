@@ -1,6 +1,7 @@
 from django.test import TestCase
 from store.models import Product, ProductImage, ProductHeart, Review, ReviewImage, ReviewHeart, Comment, CommentImage, CommentHeart, Cart, CartItem, Order, OrderItem
 from accounts.models import Profile
+from orders.models import Chat
 from store.tests.utils import create_product, create_cart_item
 from accounts.tests.utils import create_unique_user
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -340,6 +341,9 @@ class OrderSignalsTest(TestCase):
 
 		self.order = Order.objects.create(user=self.profile)
 
+		self.chat = Chat.objects.create(order=self.order)
+		self.chat.participants.add(self.profile)
+
 		self.product1 = create_product()
 		self.product2 = create_product(name="Test Product 2", price=200)
 
@@ -377,3 +381,12 @@ class OrderSignalsTest(TestCase):
 		order_item2.delete()
 		self.order.refresh_from_db()
 		self.assertEqual(self.order.totalPrice, 0)
+
+	def test_chat_deleted_when_order_deleted(self):
+		self.assertTrue(Chat.objects.filter(order=self.order).exists())
+
+		order_id = self.order.id
+		Chat.objects.filter(order=self.order).delete()
+		self.order.delete()
+
+		self.assertFalse(Chat.objects.filter(order_id=order_id).exists())

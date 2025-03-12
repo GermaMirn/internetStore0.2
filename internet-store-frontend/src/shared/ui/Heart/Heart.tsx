@@ -32,7 +32,7 @@ const DivForFullHeart: React.FC<HeartProductProps> = ({ isProductLiked = false, 
       } else {
         setIsLiked(newLikedState);
       }
-    } catch (error) {
+    } catch {
       showNotification('Ошибка при изменении статуса лайка', 'error');
     } finally {
       setIsLoading(false);

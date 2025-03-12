@@ -27,3 +27,4 @@ def clear_cache(sender, instance, created=None, **kwargs):
 		delete_cache_admin('search_page_products')
 	elif model_name == 'Order':
 		delete_cache_admin('order_page', instance.user.id)
+		delete_cache_admin('chats', instance.user.id)

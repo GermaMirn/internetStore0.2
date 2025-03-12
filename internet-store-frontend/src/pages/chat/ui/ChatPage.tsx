@@ -6,6 +6,7 @@ import ChatMessages from "../../../features/chatMessages/ui/ChatMessages";
 import { Order } from "../../../interfaces";
 import ChatMessagesHeader from "../../../features/chatMessagesHeader/ui/ChatMessagesHeader";
 import ChatOrderInfo from "../../../features/chatOrderInfo/ui/ChatOrderInfo";
+import EmptyPageText from "../../../shared/ui/EmptyPageText/EmptyPageText";
 
 
 const ChatPage = () => {
@@ -36,7 +37,7 @@ const ChatPage = () => {
 		<>
 			{!order && (
 				<div className={styles.noOrderMessage}>
-					<h2>Нет данных о заказе</h2>
+					<EmptyPageText text={'Нет данных о заказе'} />
 				</div>
 			)}
 

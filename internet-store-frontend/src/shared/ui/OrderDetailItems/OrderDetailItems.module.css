@@ -1,6 +1,6 @@
 .orderItems {
 	margin-top: -5px;
-	height: calc(100% - 150px);
+	height: calc(100% - 230px);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -24,4 +24,21 @@
 
 .itemData{
 	width: 100%;
+	margin-top: -15px;
+}
+
+
+.itemName{
+	color: #492DBB;
+}
+
+
+@media (max-width: 510px) {
+	.itemQuantity{
+		margin-top: -5px;
+	}
+
+	.itemPrice{
+		margin-top: -5px;
+	}
 }

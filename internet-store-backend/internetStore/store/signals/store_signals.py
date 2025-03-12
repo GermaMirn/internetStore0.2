@@ -112,6 +112,12 @@ def update_cart_total_price(sender, instance, **kwargs):
 	instance.cart.update_cart_total_price()
 
 
+@receiver(post_delete, sender='store.Order')
+def auto_delete_chat_of_order(sender, instance, **kwargs):
+	if hasattr(instance, 'chat'):
+		instance.chat.delete()
+
+
 @receiver(post_save, sender='store.OrderItem')
 def update_order_total_price(sender, instance, **kwargs):
 	instance.order.update_total_price()

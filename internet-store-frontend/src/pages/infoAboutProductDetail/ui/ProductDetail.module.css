@@ -16,34 +16,53 @@
 
 
 .infoProductDetail{
-	margin-top: -15px;
+	min-width: 200px;
+	margin-top: -20px;
 	margin-left: 40px;
 }
 
 
 .nameProductDetail{
-	width: 384px;
-	height: max-content;
-	margin-bottom: 10%;
+	min-width: 200px;
 }
 
-
-.descriptionProductDetail{
-	width: 386px;
-	margin-top: 10%;
+.nameProductDetail h2{
+	height: auto;
 }
 
-
-.cartMoves{
-	background-color: white;
-	width: 250px;
-	height: 250px;
-	border-radius: 30px;
-	padding: 20px;
-	margin-left: 30px;
+.descriptionProductDetailDesctopFull{
+	min-width: 200px;
+	margin-top: 20px;
 }
 
+.descriptionProductDetailDesctopMin{
+	min-width: 200px;
+	margin-top: 20px;
+	display: none;
+}
 
-.mainMoves{
-	margin-top: 72%;
+.productActionsDesctopFull {
+  display: block !important;
+}
+
+.productActionsDesctopMin {
+  display: none !important;
+}
+
+@media (max-width: 1440px){
+	.descriptionProductDetailDesctopFull{
+		display: none;
+	}
+
+	.descriptionProductDetailDesctopMin{
+		display: block;
+	}
+
+	.productActionsDesctopFull {
+    display: none !important;
+  }
+
+  .productActionsDesctopMin {
+    display: block !important;
+  }
 }

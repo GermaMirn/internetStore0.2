@@ -14,7 +14,6 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   const [showDetails, setShowDetails] = useState(false);
 	const navigate = useNavigate();
 	const visibleCount = useVisibleImages();
-	console.log(visibleCount)
 
   const visibleImages = order.items.slice(0, visibleCount);
   const hiddenImages = order.items.slice(visibleCount);

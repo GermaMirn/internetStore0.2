@@ -1,5 +1,6 @@
 .titleError{
-	display: flex;
+	display: inline-flex;
+	flex-wrap: wrap;
 }
 
 
@@ -7,7 +8,10 @@
 	color: #7761d1;
 	font-size: 12px;
 	margin-left: 2px;
-	margin-top: 20px;
+	white-space: nowrap;
+	font-weight: 200;
+	position: relative;
+  top: -16px;
 }
 
 

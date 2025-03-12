@@ -3,6 +3,7 @@ import { getLikedProducts } from '../api/getFavoritProducts';
 import { Product } from '../../../interfaces';
 import styles from './FavoritsPage.module.css';
 import ProductContainer from '../../../entities/product/ui/ProductContainer';
+import EmptyPageText from '../../../shared/ui/EmptyPageText/EmptyPageText';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
 
 
@@ -34,25 +35,25 @@ const LikedProductsPage = () => {
     return <p>Загрузка...</p>;
   }
 
+	if (likedProducts.length === 0) {
+		return <EmptyPageText text={'Нет лайкнутых товаров'} />
+	}
+
   return (
 		<div className={styles.mainDivFavoritsPage}>
-			{likedProducts.length > 0 ? (
-				<>
-					<h1 className={styles.mainTextFavoritsPage}>Избранные товары</h1>
-					<div className={styles.divFavoritsProduts}>
-						{likedProducts.map((product: Product) => (
-							<div key={product.id} className={styles.productCard}>
-								<ProductContainer
-									product={product}
-									onRemoveLike={handleRemoveLike}
-								/>
-							</div>
-						))}
-					</div>
-				</>
-			) : (
-				<h2 className={styles.emptyFavorites}>Вы еще не лайкнули ни одного товара.</h2>
-			)}
+			<>
+				<h1 className={styles.mainTextFavoritsPage}>Избранные товары</h1>
+				<div className={styles.divFavoritsProduts}>
+					{likedProducts.map((product: Product) => (
+						<div key={product.id} className={styles.productCard}>
+							<ProductContainer
+								product={product}
+								onRemoveLike={handleRemoveLike}
+							/>
+						</div>
+					))}
+				</div>
+			</>
 		</div>
 	);
 };

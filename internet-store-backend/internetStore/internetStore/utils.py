@@ -33,7 +33,6 @@ def delete_cache_patterns(user_id):
 
 def delete_cache_admin(pattern, *args):
 	cache_key = pattern.format(*args)
-	print(cache_key)
 	cache.delete_pattern(f'{cache_key}_*')
 	cache.delete_pattern(f'{cache_key}_auth_*')
 

@@ -37,7 +37,7 @@ export function Header() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('enter');
   };
 
 	useEffect(() => {

@@ -55,7 +55,15 @@
 
 @media (max-width: 600px) {
 	.orderDate{
-		margin-top: 24px;
 		font-size: 17px;
+	}
+
+	.statusMobile{
+		margin-top: -35px;
+		margin-bottom: 5px;
+	}
+
+	.orderCardDetailsMobile{
+		margin-top: -3px;
 	}
 }

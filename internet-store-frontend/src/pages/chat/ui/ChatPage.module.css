@@ -1,12 +1,11 @@
 .noOrderMessage{
-	margin-top: 4.5%;
-	text-align: center;
+	margin-right: -13%;
 }
-
 
 .chatPage {
   display: flex;
   height: 100vh;
+	width: 100%;
 }
 
 

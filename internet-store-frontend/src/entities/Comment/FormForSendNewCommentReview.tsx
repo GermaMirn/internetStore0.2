@@ -5,6 +5,7 @@ import { UsernameEditor } from '../UsernameEditor/ui/UsernameEditor';
 import { useImageUploader } from '../../hooks/useImageUploader';
 import { FormForSendNewCommentReviewProps } from '../../interfaces';
 import styles from './FormForSendNewCommentReview.module.css';
+import { useNotification } from '../../app/providers/notifications/NotificationProvider';
 
 
 const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = ({
@@ -13,6 +14,7 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { images, handleImageChange, handleImageRemove } = useImageUploader();
+  const { showNotification } = useNotification();
 
   useEffect(() => {
 		if (isReplyToComment && username) {
@@ -31,7 +33,10 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
 
   const handleSubmit = () => {
     const finalCommentText = editorState.getCurrentContent().getPlainText();
-    if (finalCommentText.trim() === '') return;
+    if (!finalCommentText.trim()) {
+      showNotification('Поле должно быть заполнено', 'error');
+      return;
+    }
 
     onSubmit(finalCommentText, images);
     setEditorState(EditorState.createEmpty());

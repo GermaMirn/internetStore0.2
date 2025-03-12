@@ -2,12 +2,14 @@ from django.db import models
 from accounts.models import Profile
 from store.models import Order
 from channels.db import database_sync_to_async
+from .signals.cache_signals import *
+from .signals.orders_signals import *
 
 
 class Chat(models.Model):
 	participants = models.ManyToManyField(Profile, related_name='chats')
 	created_at = models.DateTimeField(auto_now_add=True)
-	order = models.OneToOneField(Order, null=True, blank=True, on_delete=models.SET_NULL, related_name='chat')
+	order = models.OneToOneField(Order, null=True, blank=True, on_delete=models.CASCADE, related_name='chat')
 
 	def __str__(self):
 		return f"{self.id} между {' и '.join([p.user.username for p in self.participants.all()])}"

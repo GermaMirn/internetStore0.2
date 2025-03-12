@@ -6,5 +6,7 @@ export default defineConfig({
 	define: {
     'global': 'window', // Присваиваем глобальную переменную window
   },
-  plugins: [react()],
+  plugins: [
+    react()
+  ],
 })

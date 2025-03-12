@@ -8,14 +8,12 @@ function WelcomePage() {
 			<div className={styles.mainDivWelcome}>
 				<div className={styles.divWelcomeHeaderText}>
 					<img className={styles.dotImg} src="/product/dot.svg" alt="dot" />
-					<h2>Some welcome words</h2>
+					<h2>Добро пожаловать</h2>
 				</div>
 				<hr className={styles.hr} />
 
 				<h4 className={styles.welcomeText}>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima molestiae quaerat ab dignissimos laudantium. Aspernatur sint dignissimos est exercitationem ea neque doloribus consectetur laudantium quae, dolore, impedit in libero suscipit.
-					Voluptas minus veniam, quidem debitis delectus voluptatibus unde sunt velit. Voluptate aperiam accusantium repellat omnis eos! Consectetur esse quo qui accusantium voluptatibus ea facilis! Illum iusto ut tempore voluptatibus fugit.
-					Perspiciatis reprehenderit numquam, iure eligendi vel recusandae a quam consectetur magni quasi assumenda facere ipsam porro ea corrupti cumque eius est asperiores doloribus cum. Delectus deleniti nulla quo dolorum qui?
+					Добро пожаловать! Это мой первый большой пет-проект(в соло)
 				</h4>
 			</div>
 

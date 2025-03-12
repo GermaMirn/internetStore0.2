@@ -1,3 +1,5 @@
+import { ReviewItemProps } from "./reviewInterfaces";
+
 export interface Product {
   id: number;
   mainImageUrl: string;
@@ -46,7 +48,7 @@ export interface ProductDetail {
   isInCart: boolean;
   cartQuantity: number;
   cartItemId: number;
-  reviews: Array<any>;
+  reviews: Array<ReviewItemProps>;
 	categories: string[];
 }
 
@@ -122,4 +124,16 @@ export interface SearchInputProps {
 
 export interface ProductCategoriesProps {
 	categories: string[];
+}
+
+
+export interface ProductMovesProps {
+  price: string;
+  isInCart: boolean;
+  cartQuantity: number;
+  cartItemId: number;
+  productId: number;
+  isHearted: boolean;
+  updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void;
+  updateHeartState: (newHearts: boolean) => void;
 }

@@ -5,7 +5,6 @@ import { useErrorRedirect } from "../../../hooks/errorHandler";
 
 export const useMessages = (chatId: string | undefined) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const messagesRef = useRef(messages);
   const handleError = useErrorRedirect();
 
@@ -21,8 +20,6 @@ export const useMessages = (chatId: string | undefined) => {
           setMessages(messages);
         } catch (error) {
           handleError(error);
-        } finally {
-          setLoading(false);
         }
       }
     };

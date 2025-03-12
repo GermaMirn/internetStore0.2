@@ -18,9 +18,9 @@ const OrderDetailItems: React.FC<OrderDetailItemsProps> = ({ items }) => {
               imageUrl={baseURL + item.product.mainImageUrl}
             />
             <div className={styles.itemData}>
-              <p>{item.product.name}</p>
-              <p>{item.quantity} шт.</p>
-              <h4>{Number(item.product.price) * item.quantity} ₽</h4>
+              <p className={styles.itemName}>{item.product.name}</p>
+              <p className={styles.itemQuantity}>{item.quantity} шт.</p>
+              <h4 className={styles.itemPrice}>{Number(item.product.price) * item.quantity} ₽</h4>
             </div>
           </div>
         ))}

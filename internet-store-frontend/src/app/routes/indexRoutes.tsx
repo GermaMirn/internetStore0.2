@@ -9,6 +9,7 @@ import WelcomePage from '../../pages/welcome/WelcomePage';
 import SearchProductsPage from '../../pages/searchProducts/ui/SearchProductsPage';
 import ShoppingCart from '../../pages/shoppingCart/ui/ShoppingCart';
 import ProductDetail from '../../pages/infoAboutProductDetail/ui/ProductDetail';
+import ProductDetailMobile from '../../pages/infoAboutProductDetail/ui/ProductDetailMobile';
 import LikedProductsPage from '../../pages/favorits/ui/FavoritsPage';
 import ProfilePage from '../../pages/profile/ui/ProfilePage';
 import ProfileMobilePage from '../../pages/profile/ui/ProfileMobilePage';
@@ -30,7 +31,11 @@ const IndexRoutes: React.FC = () => {
       <Route path="/enter" element={<LoginChoicePage />} />
       <Route path="/" element={<WelcomePage />} />
       <Route path="/catalog" element={<SearchProductsPage />} />
-      <Route path="/product/:id" element={<ProductDetail />} />
+      {isMobile ? (
+        <Route path="/product/:id" element={<ProductDetailMobile />} />
+      ) : (
+        <Route path="/product/:id" element={<ProductDetail />} />
+      )}
 			{isMobile && (
 				<Route path="/categories" element={<CategoriesMenuMobilePage />} />
 			)}
