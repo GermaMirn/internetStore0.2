@@ -37,14 +37,14 @@ const FooterMobile: React.FC<FooterMobileProps> = ({ username }) => {
 				{username ? (
 					<div onClick={() => navigate('/profile')}>
 						<img
-							src={profileUrls.some((url) => location.pathname.includes(url)) ? '/footer/profileActive.svg' : 'footer/profile.svg'}
+							src={profileUrls.some((url) => location.pathname.includes(url)) ? '/footer/profileActive.svg' : '/footer/profile.svg'}
 							alt="profile icon"
 						/>
 					</div>
 				) : (
 					<div onClick={() => navigate('/enter')}>
 						<img
-							src={profileUrls.some((url) => location.pathname.includes(url)) ? '/footer/profileActive.svg' : 'footer/profile.svg'}
+							src={profileUrls.some((url) => location.pathname.includes(url)) ? '/footer/profileActive.svg' : '/footer/profile.svg'}
 							alt="profile icon"
 						/>
 					</div>

@@ -4,12 +4,14 @@ import { getProductDetail } from '../api/getProductDetail';
 import { ProductDetail } from '../../../interfaces';
 import { addReview } from '../api/addCommentReview/addReview';
 import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContainer';
-import styles from './ProductDetail.module.css';
+import styles from './ProductDetailMobile.module.css';
 import { baseURL } from '../../../shared/api/axiosInstance';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
 import ProductCategories from '../../../shared/ui/ProductCategories/ProductCategories';
 import EmptyPageText from '../../../shared/ui/EmptyPageText/EmptyPageText';
-import ProductMoves from '../../../entities/product/ui/ProductMoves';
+import Heart from '../../../shared/ui/Heart/Heart';
+import ReturnArrow from '../../../shared/ui/ReturnArrow/ReturnArrow';
+import ProductMobileActionButtonCart from '../../../entities/product/ui/ProductMobileActionButtonCart';
 
 
 const ProductDetailMobilePage = () => {
@@ -19,6 +21,7 @@ const ProductDetailMobilePage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentImage, setCurrentImage] = useState<string>('');
 	const [hearts, setHearts] = useState<number>(0);
+  const [isHearted, setIsHearted] = useState<boolean>(false);
 	const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 	const handleError = useErrorRedirect();
 
@@ -31,6 +34,7 @@ const ProductDetailMobilePage = () => {
           setCurrentImage(fetchedProduct.mainImage);
 					setHearts(fetchedProduct.hearts);
 					setReviews(fetchedProduct.reviews);
+          setIsHearted(fetchedProduct.isHearted)
         } catch (error) {
           handleError(error);
         } finally {
@@ -44,9 +48,12 @@ const ProductDetailMobilePage = () => {
     loadProductDetail();
   }, [id]);
 
-	const updateHearts = (newHearts: boolean) => {
-		setHearts(prevHearts => prevHearts + (newHearts ? 1 : -1));
-	};
+	const handleToggleHeart = async () => {
+    return new Promise<void>((resolve) => {
+      setIsHearted(prev => !prev);
+      resolve();
+    });
+  };
 
 	const updateCartState = (isInCart: boolean, quantity: number, itemId: number) => {
 		setProduct(prevProduct => ({
@@ -88,58 +95,31 @@ const ProductDetailMobilePage = () => {
   return (
     <div className={styles.mainDivProductDetail}>
       <div className={styles.divForProductDetail}>
-        <div className={styles.imgsAndImgOfProductDetail}>
-          <div className={styles.mainImage}>
-            <img className={styles.imgOfProductDetail} src={baseURL + currentImage} alt={product.name} />
+        <div className={styles.mainImage}>
+          <div className={styles.returnArrowAndHeart}>
+            <ReturnArrow arrowSrc={'/product/returnArrow.svg'} />
+
+            <Heart productId={product.id} isProductLiked={isHearted} onToggleLike={handleToggleHeart} />
           </div>
+
+          <img className={styles.imgOfProductDetail} src={baseURL + currentImage} alt={product.name} />
         </div>
 
         <div className={styles.infoProductDetail}>
           <div className={styles.nameProductDetail}>
-            <h2>{product.name}</h2>
-            <h2>{product.price}</h2>
-          </div>
-
-          <div className={styles.productActionsDesctopMin}>
-            <ProductMoves
-              price={product.price}
-              isInCart={product.isInCart}
-              cartQuantity={product.cartQuantity}
-              cartItemId={product.cartItemId}
-              productId={product.id}
-              isHearted={product.isHearted}
-              updateCartState={updateCartState}
-              updateHeartState={updateHearts}
-            />
+            <p className={styles.productName}>{product.name}</p>
+            <p className={styles.productPrice}>{product.price}</p>
           </div>
 
           <div className={styles.categories}>
             <ProductCategories categories={product.categories} />
           </div>
 
-          <div className={styles.descriptionProductDetailDesctopFull}>
+          <div className={styles.description}>
             <h3>О товаре</h3>
             <p>{product.description}</p>
           </div>
         </div>
-
-        <div className={styles.productActionsDesctopFull}>
-          <ProductMoves
-            price={product.price}
-            isInCart={product.isInCart}
-            cartQuantity={product.cartQuantity}
-            cartItemId={product.cartItemId}
-            productId={product.id}
-            isHearted={product.isHearted}
-            updateCartState={updateCartState}
-            updateHeartState={updateHearts}
-          />
-        </div>
-      </div>
-
-      <div className={styles.descriptionProductDetailDesctopMin}>
-        <h3>О товаре</h3>
-        <p>{product.description}</p>
       </div>
 
       <ReviewsContainer
@@ -150,6 +130,14 @@ const ProductDetailMobilePage = () => {
         isReviewFormOpen={isReviewFormOpen}
         openFormAddReview={toggleReviewForm}
         handleSubmitReview={handleSubmitReview}
+      />
+
+      <ProductMobileActionButtonCart
+        productId={product.id}
+        isInCart={product.isInCart}
+        cartQuantity={product.cartQuantity}
+        cartItemId={product.cartItemId}
+        updateCartState={updateCartState}
       />
     </div>
   );

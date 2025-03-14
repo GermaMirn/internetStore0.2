@@ -31,7 +31,7 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
         return newCount;
       });
       if (onIncrease) onIncrease();
-    } catch (err) {
+    } catch {
       showNotification('Не получилось добавить к количеству', 'error');
     } finally {
       setLoading(false);
@@ -49,7 +49,7 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
         return newCount;
       });
       if (onDecrease) onDecrease();
-    } catch (err) {
+    } catch {
       showNotification('Не получилось убавить от количества', 'error');
     } finally {
       setLoading(false);

@@ -53,7 +53,7 @@ const RegistrationForm: React.FC = () => {
             setFieldError('username', response.message);
           }
         }
-      } catch (error) {
+      } catch {
         showNotification('Ошибка при регистрации', 'error');
       } finally {
         setIsLoading(false);

@@ -2,9 +2,10 @@ import React from 'react';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 import styles from './MainLayout.module.css';
+import { MainLayoutProps } from '../../../interfaces';
 
 
-const MainLayout: React.FC<{ children: React.ReactNode, noPadding: boolean }> = ({ children, noPadding }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children, noPadding }) => {
   return (
     <div className={styles.appContainer}>
       <Header />

@@ -35,3 +35,9 @@ export interface EditProfileProps {
 export interface FooterMobileProps {
 	username: string | null;
 }
+
+
+export type MainLayoutProps = {
+  children: React.ReactNode;
+  noPadding: boolean;
+};

@@ -1,0 +1,42 @@
+.overlay {
+  position: fixed;
+  top: 82%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+.detailsContainer {
+  background: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-height: 80px;
+}
+
+
+.AddRemoveQuantityOfProduct{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.button{
+  font-weight: 600;
+  color: white;
+  margin-top: 20px;
+  width: 100%;
+  background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+}
+
+
+.button:hover{
+  background: linear-gradient(90deg, #6a53de 0%, #567bcb 100%);
+}

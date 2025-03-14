@@ -3,6 +3,11 @@
 }
 
 
+.heartContainer:hover{
+	cursor: pointer;
+}
+
+
 .liked {
   width: 44px;
   height: 44px;
@@ -27,8 +32,8 @@
 
 @media (max-width: 575px){
 	.liked {
-		width: 30px;
-		height: 30px;
+		width: 34px;
+		height: 34px;
 	}
 
 	.notLiked {

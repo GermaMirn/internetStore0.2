@@ -39,3 +39,17 @@ export interface PaginatorProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
+
+
+export interface ReturnArrowProps {
+  arrowSrc: string;
+}
+
+
+export interface ProductMobileActionButtonCartProps {
+  productId: number;
+  cartQuantity: number;
+  isInCart: boolean;
+  cartItemId: number;
+  updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void
+}

@@ -1,0 +1,19 @@
+.returnArrow{
+  cursor: pointer;
+}
+
+
+@media (max-width: 575px){
+  .returnArrow{
+    width: 34px;
+    height: 34px;
+  }
+}
+
+
+@media (max-width: 370px){
+  .returnArrow{
+    width: 30px;
+    height: 30px;
+  }
+}

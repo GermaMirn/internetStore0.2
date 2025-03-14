@@ -17,12 +17,13 @@
   margin-right: 0;
   margin-top: 0;
   margin-bottom: 0;
+  width: 100%;
 }
 
 
 @media (max-width: 768px) {
   .mainContent {
-    margin: 3% auto 60px;
+    margin: 1% auto 60px;
     width: 100%;
   }
 }

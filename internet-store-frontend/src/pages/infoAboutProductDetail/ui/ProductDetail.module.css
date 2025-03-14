@@ -66,3 +66,12 @@
     display: block !important;
   }
 }
+
+
+@media (max-width: 1110px) {
+	.imgOfProductDetail{
+		width: 450px;
+		height: 410px;
+		border-radius: 30px;
+	}
+}
