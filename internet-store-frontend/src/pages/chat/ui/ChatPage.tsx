@@ -33,12 +33,11 @@ const ChatPage = () => {
 
   const isChatSelected = selectedChatId !== null;
   const isOrderAvailable = !!order;
+
   return (
 		<>
 			{!order && (
-				<div className={styles.noOrderMessage}>
-					<EmptyPageText text={'Нет данных о заказе'} />
-				</div>
+				<EmptyPageText text={'Нет данных о заказах'} />
 			)}
 
 			<div className={styles.chatPage}>

@@ -5,25 +5,26 @@ import { ProductDetail } from '../../../interfaces';
 import { addReview } from '../api/addCommentReview/addReview';
 import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetailMobile.module.css';
-import { baseURL } from '../../../shared/api/axiosInstance';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
+import ImagesCarouselMobile from '../../../entities/ImagesCarouselReviewComment/ui/ImagesCarouselReviewCommentMobile';
 import ProductCategories from '../../../shared/ui/ProductCategories/ProductCategories';
 import EmptyPageText from '../../../shared/ui/EmptyPageText/EmptyPageText';
 import Heart from '../../../shared/ui/Heart/Heart';
 import ReturnArrow from '../../../shared/ui/ReturnArrow/ReturnArrow';
 import ProductMobileActionButtonCart from '../../../entities/product/ui/ProductMobileActionButtonCart';
+import ProductDescriptionMobile from '../../../entities/ProductDescriptionMobile/ProductDescriptionMobile';
 
 
 const ProductDetailMobilePage = () => {
   const { id } = useParams<{ id?: string }>();
   const [product, setProduct] = useState<ProductDetail | null>(null);
-	const [reviews, setReviews] = useState(product?.reviews || []);
+  const [reviews, setReviews] = useState(product?.reviews || []);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentImage, setCurrentImage] = useState<string>('');
-	const [hearts, setHearts] = useState<number>(0);
+  const [hearts, setHearts] = useState<number>(0);
   const [isHearted, setIsHearted] = useState<boolean>(false);
-	const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
-	const handleError = useErrorRedirect();
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+  const handleError = useErrorRedirect();
 
   useEffect(() => {
     const loadProductDetail = async () => {
@@ -32,8 +33,8 @@ const ProductDetailMobilePage = () => {
           const fetchedProduct = await getProductDetail(id);
           setProduct(fetchedProduct);
           setCurrentImage(fetchedProduct.mainImage);
-					setHearts(fetchedProduct.hearts);
-					setReviews(fetchedProduct.reviews);
+          setHearts(fetchedProduct.hearts);
+          setReviews(fetchedProduct.reviews);
           setIsHearted(fetchedProduct.isHearted)
         } catch (error) {
           handleError(error);
@@ -48,27 +49,28 @@ const ProductDetailMobilePage = () => {
     loadProductDetail();
   }, [id]);
 
-	const handleToggleHeart = async () => {
+  const handleToggleHeart = async () => {
     return new Promise<void>((resolve) => {
       setIsHearted(prev => !prev);
+      setHearts(hearts + (isHearted ? -1 : 1));
       resolve();
     });
   };
 
-	const updateCartState = (isInCart: boolean, quantity: number, itemId: number) => {
-		setProduct(prevProduct => ({
-			...prevProduct!,
-			isInCart,
-			cartQuantity: quantity,
-			cartItemId: itemId,
-		}));
-	};
+  const updateCartState = (isInCart: boolean, quantity: number, itemId: number) => {
+    setProduct(prevProduct => ({
+      ...prevProduct!,
+      isInCart,
+      cartQuantity: quantity,
+      cartItemId: itemId,
+    }));
+  };
 
-	const toggleReviewForm = () => {
+  const toggleReviewForm = () => {
     setIsReviewFormOpen(prevState => !prevState);
   };
 
-	const handleSubmitReview = async (commentText: string, images: File[]) => {
+  const handleSubmitReview = async (commentText: string, images: File[]) => {
     try {
       const formData = new FormData();
       formData.append('review', commentText);
@@ -77,11 +79,10 @@ const ProductDetailMobilePage = () => {
       });
 
       const newReview = await addReview(String(id), formData);
-			setReviews(prevReviews => {
-				const updatedReviews = [...prevReviews, newReview];
-				return updatedReviews;
-			});
-
+      setReviews(prevReviews => {
+        const updatedReviews = [...prevReviews, newReview];
+        return updatedReviews;
+      });
 
       setIsReviewFormOpen(false);
     } catch (error) {
@@ -102,7 +103,13 @@ const ProductDetailMobilePage = () => {
             <Heart productId={product.id} isProductLiked={isHearted} onToggleLike={handleToggleHeart} />
           </div>
 
-          <img className={styles.imgOfProductDetail} src={baseURL + currentImage} alt={product.name} />
+          <div className={styles.imgOfProductDetail}>
+            <ImagesCarouselMobile
+              imagesUrl={product.imagesUrl}
+              mainImage={product.mainImage}
+              onImageSelect={setCurrentImage}
+            />
+          </div>
         </div>
 
         <div className={styles.infoProductDetail}>
@@ -115,15 +122,12 @@ const ProductDetailMobilePage = () => {
             <ProductCategories categories={product.categories} />
           </div>
 
-          <div className={styles.description}>
-            <h3>О товаре</h3>
-            <p>{product.description}</p>
-          </div>
+          <ProductDescriptionMobile description={product.description} />
         </div>
       </div>
 
       <ReviewsContainer
-        productImg={product.mainImage}
+        productImg={currentImage || product.mainImage}
         productName={product.name}
         reviews={reviews}
         hearts={hearts}

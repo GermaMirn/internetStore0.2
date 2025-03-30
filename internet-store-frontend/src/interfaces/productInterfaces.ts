@@ -137,3 +137,7 @@ export interface ProductMovesProps {
   updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void;
   updateHeartState: (newHearts: boolean) => void;
 }
+
+export interface ProductDescriptionProps {
+  description: string;
+}

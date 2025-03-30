@@ -20,10 +20,8 @@
 
 
 .imgOfProductDetail{
-  max-height: 600px;
   width: 100%;
   height: 100%;
-	border-radius: 15px;
 }
 
 
@@ -64,11 +62,4 @@
   border-radius: 15px;
   padding: 1px 15px 1px 15px;
   margin-bottom: 6px;
-}
-
-
-.description{
-  background-color: white;
-  border-radius: 15px;
-  padding: 1px 15px 1px 15px;
 }

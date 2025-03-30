@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getProductDetail } from '../api/getProductDetail';
 import { ProductDetail } from '../../../interfaces';
 import { addReview } from '../api/addCommentReview/addReview';
-import ImagesCarousel from '../../../entities/ImagesCarouselReviewComment/ImagesCarouselReviewComment';
+import ImagesCarousel from '../../../entities/ImagesCarouselReviewComment/ui/ImagesCarouselReviewComment';
 import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContainer';
 import styles from './ProductDetail.module.css';
 import { baseURL } from '../../../shared/api/axiosInstance';

@@ -25,7 +25,6 @@ const ProductActions: React.FC<ProductActionsProps> = ({
   useEffect(() => {
     setIsInCart(isInCart);
     setCartQuantity(cartQuantity);
-    setIsHearted(isHearted);
   }, [isInCart, cartQuantity, isHearted]);
 
   const handleAddToCart = async () => {
@@ -78,5 +77,6 @@ const ProductActions: React.FC<ProductActionsProps> = ({
     </div>
   );
 };
+
 
 export default ProductActions;

@@ -71,7 +71,7 @@ const ReviewCommentData: React.FC<ReviewDataProps> = ({
       } else {
         console.error('Review ID is undefined');
       }
-    } catch (error) {
+    } catch {
       showNotification('Не получилось добавить комментарий', 'error');
     }
   };

@@ -28,7 +28,7 @@ export const useWebSocket = (chatId: string | number, messages: Message[], setMe
       if (chatId) {
         try {
           const token = await getToken();
-          const wsUrl = `ws://${baseURL}:8000/ws/chat/${chatId}/?token=${token}`;
+          const wsUrl = `ws://${baseURL}/ws/chat/${chatId}/?token=${token}`;
 
           ws.current = new WebSocket(wsUrl);
 
