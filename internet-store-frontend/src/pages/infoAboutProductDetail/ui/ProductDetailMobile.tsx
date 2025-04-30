@@ -142,6 +142,7 @@ const ProductDetailMobilePage = () => {
         cartQuantity={product.cartQuantity}
         cartItemId={product.cartItemId}
         updateCartState={updateCartState}
+        isMobile={true}
       />
     </div>
   );

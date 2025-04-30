@@ -7,10 +7,12 @@ import classNames from 'classnames';
 import ComponentSort from '../../shared/ui/ComponentSort/ComponentSort';
 import ReviewItem from '../Review/Review';
 import FormForSendNewReview from '../Review/FormForSendNewReview';
+import { useIsMobile } from '../../app/routes/hooks/useIsMobile';
 
 
 const ReviewsContainer: React.FC<ReviewsProps> = ({ productImg, productName, reviews, hearts, isReviewFormOpen, openFormAddReview, handleSubmitReview }) => {
 	const token = localStorage.getItem('token');
+  const isMobile = useIsMobile();
   const [sortedReviews, setSortedReviews] = useState<Review[]>(reviews);
   const [currentSort, setCurrentSort] = useState<'date' | 'likes'>('date');
   const [likesState, setLikesState] = useState<{ [key: number]: boolean }>({});
@@ -41,27 +43,34 @@ const ReviewsContainer: React.FC<ReviewsProps> = ({ productImg, productName, rev
   };
 
   return (
-    <div className={classNames(styles.divReviews)}>
+    <div className={isMobile ? styles.divReviewsMobile : styles.divReviews}>
       <div className={styles.headerReviews}>
         <h2 className={styles.textHeaderReviews}>Отзывы</h2>
-        <p className={classNames(styles.sortTextHeaderReviews, styles.underline)}>Сортировать по:</p>
 
-        <div className={styles.divForSort}>
-          <ComponentSort
-            reviews={sortedReviews}
-            onSortChange={handleSortChange}
-            currentSort={currentSort}
-            isAscendingDate={isAscendingDate}
-            isAscendingLikes={isAscendingLikes}
-            setCurrentSort={setCurrentSort}
-            setIsAscendingDate={setIsAscendingDate}
-            setIsAscendingLikes={setIsAscendingLikes}
-          />
-        </div>
+        {!isMobile && (
+          <>
+            <p className={classNames(styles.sortTextHeaderReviews, styles.underline)}>
+              Сортировать по:
+            </p>
+
+            <div className={styles.divForSort}>
+              <ComponentSort
+                reviews={sortedReviews}
+                onSortChange={handleSortChange}
+                currentSort={currentSort}
+                isAscendingDate={isAscendingDate}
+                isAscendingLikes={isAscendingLikes}
+                setCurrentSort={setCurrentSort}
+                setIsAscendingDate={setIsAscendingDate}
+                setIsAscendingLikes={setIsAscendingLikes}
+              />
+            </div>
+          </>
+        )}
 
         <div className={styles.divForHeart}>
 					{ token && (
-						<button className={styles.openCloseFormForSendNewReview} onClick={openFormAddReview}>
+						<button className={isMobile ?  styles.openCloseFormForSendNewReviewMobile : styles.openCloseFormForSendNewReview} onClick={openFormAddReview}>
 							Оставить отзыв
 						</button>
 					)}

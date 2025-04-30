@@ -408,7 +408,6 @@ def addComment(request, reviewId):
 	return Response({'status': 'error'}, status=400)
 
 
-
 @api_view(['POST', 'DELETE'])
 @login_required
 def heartComment(request, commentId):

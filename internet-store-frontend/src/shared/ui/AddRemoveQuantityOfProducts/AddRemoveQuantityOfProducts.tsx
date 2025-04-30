@@ -10,6 +10,7 @@ import { useNotification } from '../../../app/providers/notifications/Notificati
 const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = ({
   countOfProduct = 1,
   cartItemId,
+  isMobile,
   onIncrease,
   onDecrease,
 }) => {
@@ -57,7 +58,12 @@ const AddRemoveQuantityOfProducts: React.FC<AddRemoveQuantityOfProductsProps> = 
   };
 
   return (
-    <div className={styles.divOfaddRemoveQuantityOfProducts}>
+    <div
+      className={classNames(
+        styles.divOfaddRemoveQuantityOfProducts,
+        { [styles.mobile]: isMobile }
+      )}
+    >
       <button className={styles.countButton} onClick={handleRemove} disabled={loading}>
         <img className={classNames(styles.icon, styles.minus)} src={'/product/minus.svg'} alt="Minus" />
       </button>

@@ -46,7 +46,9 @@ const FormForSendNewCommentReview: React.FC<FormForSendNewCommentReviewProps> = 
   return (
     <div className={styles.replyForm}>
       <div  className={classNames(styles.commentTextArea, { [styles.commentTextAreaReview]: isReview })}>
-        <UsernameEditor editorState={editorState} onChange={setEditorState} />
+        <div className={styles.editorScrollWrapper}>
+          <UsernameEditor editorState={editorState} onChange={setEditorState} />
+        </div>
       </div>
 
       <div className={styles.imageUpload}>

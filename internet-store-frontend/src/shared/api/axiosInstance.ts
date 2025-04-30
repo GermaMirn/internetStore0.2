@@ -1,9 +1,10 @@
 let apiBaseURL;
-
+let apiWebsocketURL;
 
 console.log(window.location.hostname)
 if (window.location.hostname === 'localhost') {
   apiBaseURL = 'http://localhost:8000'; // Для разработки
+  apiWebsocketURL = 'localhost:8000';
 } else if (window.location.hostname === 'clear-precious-turkey.ngrok-free.app') {
   apiBaseURL = 'https://clear-precious-turkey.ngrok-free.app'; // Для ngrok
 } else {
@@ -12,7 +13,8 @@ if (window.location.hostname === 'localhost') {
 
 
 export const baseApiURL = `${apiBaseURL}/api`;
-export const baseURL = apiBaseURL
+export const baseURL = apiBaseURL;
+export const baseURLWebSocket = apiWebsocketURL;
 
 
 import axios from 'axios';

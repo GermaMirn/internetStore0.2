@@ -1,16 +1,106 @@
 .chatPage {
+  width: 100%;
+  height: 100%;
+}
+
+
+.mainContent {
+  height: 100%;
+  min-height: 0;
+  transition: margin 0.3s ease;
+}
+
+
+.orderInfoAndMessages {
+  height: 100%;
+  min-height: 0;
+}
+
+
+.chatMessages {
+  height: 100%;
+  min-height: 0;
+}
+
+
+.chatList, .orderInfo {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: max-content;
+  background: white;
+  z-index: 100;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+
+.chatList {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+
+.orderInfo {
+  right: 0;
+  transform: translateX(100%);
+  width: 30%;
+}
+
+
+.chatList.menuOpen, .orderInfo.menuOpen {
+  transform: translateX(0);
+}
+
+
+.menuToggleButtonLeft, .menuToggleButtonRight {
+  position: absolute;
+  top: 150px;
+  z-index: 101;
+  background: #593de6b3;
+  border: none;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   display: flex;
-  height: 100vh;
-	width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 
-.chatMessages{
-	width: 60%;
+.menuToggleButtonLeft:hover, .menuToggleButtonRight:hover {
+  background: #593de6;
 }
 
 
-.orderInfo{
-	margin-left: -30px;
-	width: 30%;
+.menuToggleButtonLeft {
+  left: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+
+.menuToggleButtonRight {
+  right: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+
+
+.divEmptyOrder {
+  width: 100%;
+  justify-content: center;
 }

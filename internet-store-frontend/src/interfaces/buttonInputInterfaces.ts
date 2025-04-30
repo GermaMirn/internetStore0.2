@@ -51,5 +51,6 @@ export interface ProductMobileActionButtonCartProps {
   cartQuantity: number;
   isInCart: boolean;
   cartItemId: number;
+  isMobile?: boolean;
   updateCartState: (isInCart: boolean, quantity: number, itemId: number) => void
 }

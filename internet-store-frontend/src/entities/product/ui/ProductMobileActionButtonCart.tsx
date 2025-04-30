@@ -11,6 +11,7 @@ const ProductMobileActionButtonCart: React.FC<ProductMobileActionButtonCartProps
   isInCart,
   cartQuantity,
   cartItemId,
+  isMobile,
   updateCartState,
 }) => {
   const [isInCartProduct, setIsInCart] = useState(isInCart);
@@ -55,6 +56,7 @@ const ProductMobileActionButtonCart: React.FC<ProductMobileActionButtonCartProps
             <AddRemoveQuantityOfProducts
               countOfProduct={cartQuantityProduct}
               cartItemId={cartItemId}
+              isMobile={isMobile}
               onIncrease={handleIncreaseQuantity}
               onDecrease={handleDecreaseQuantity}
             />

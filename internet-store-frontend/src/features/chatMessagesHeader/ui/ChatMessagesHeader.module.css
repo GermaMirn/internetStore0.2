@@ -1,10 +1,7 @@
 .chatMessagesHeader{
-	padding-top: 5px;
-	padding-bottom: 19px;
-	padding-left: 28px;
-	padding-right: 28px;
-	height: 100px;
-	width: auto;
+	height: 70px;
+	width: 100%;
+	height: max-content;
 }
 
 

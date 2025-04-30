@@ -64,6 +64,7 @@ export interface SearchProductsResponse {
 export interface AddRemoveQuantityOfProductsProps {
   countOfProduct: number;
   cartItemId: number;
+  isMobile?: boolean;
   onIncrease?: () => void;
   onDecrease?: () => void;
 }

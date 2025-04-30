@@ -3,6 +3,14 @@
 }
 
 
+.divReviewsMobile{
+	margin-top: 40px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+
+
 .headerReviews{
 	height: 55px;
 	display: flex;
@@ -13,7 +21,7 @@
 
 .textHeaderReviews{
 	margin-top: -5px;
-	margin-right: 50px;
+	margin-right: 10px;
 }
 
 
@@ -46,9 +54,26 @@
 }
 
 
+.openCloseFormForSendNewReviewMobile{
+	height: 20px;
+	width: 130px;
+	padding-top: 1px;
+	padding-bottom: 7px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+	border-radius: 20px;
+	border: 1px solid;
+	color: white;
+	font-size: 13px;
+	margin-right: 5px;
+	margin-bottom: -3px;
+	border: none;
+}
+
+
 .openCloseFormForSendNewReview:hover {
 	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
-	border: 1px solid #ffffffb8;
 }
 
 

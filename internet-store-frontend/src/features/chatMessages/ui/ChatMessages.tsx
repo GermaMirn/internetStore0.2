@@ -48,7 +48,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
   }, [messages]);
 
   return (
-    <div className={styles.chatMessagesContainer}>
+    <div className={styles.chatMessages}>
       <div className={styles.messagesWrapper}>
         <MessagesList messages={messages} currentUser={currentUser} />
         <div ref={messageEndRef} />

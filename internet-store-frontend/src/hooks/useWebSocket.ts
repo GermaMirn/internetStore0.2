@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Message } from "../interfaces";
 import { useErrorRedirect } from "../hooks/errorHandler";
-import { baseURL } from "../shared/api/axiosInstance";
+import { baseURLWebSocket } from "../shared/api/axiosInstance";
 
 
 export const useWebSocket = (chatId: string | number, messages: Message[], setMessages: React.Dispatch<React.SetStateAction<Message[]>>) => {
@@ -28,7 +28,7 @@ export const useWebSocket = (chatId: string | number, messages: Message[], setMe
       if (chatId) {
         try {
           const token = await getToken();
-          const wsUrl = `ws://${baseURL}/ws/chat/${chatId}/?token=${token}`;
+          const wsUrl = `ws://${baseURLWebSocket}/ws/chat/${chatId}/?token=${token}`;
 
           ws.current = new WebSocket(wsUrl);
 

@@ -55,7 +55,7 @@ const ReviewCommentData: React.FC<ReviewDataProps> = ({
   const handleSubmitComment = async (commentText: string, images: File[]) => {
     try {
       if (reviewId !== undefined) {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append('comment', commentText);
         images.forEach(image => {
           formData.append('image', image);
