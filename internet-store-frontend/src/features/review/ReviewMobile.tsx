@@ -95,7 +95,6 @@ const ReviewMobile: React.FC<ReviewItemProps> = ({
           ))}
         </div>
       )}
-      <hr />
     </div>
   );
 };

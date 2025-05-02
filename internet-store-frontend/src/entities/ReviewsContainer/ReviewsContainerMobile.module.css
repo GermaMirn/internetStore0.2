@@ -20,7 +20,6 @@
 
 
 .textHeaderReviews{
-	margin-top: -5px;
 	margin-right: 10px;
 }
 
@@ -55,24 +54,20 @@
 
 
 .openCloseFormForSendNewReviewMobile{
-	height: 20px;
-	width: 130px;
-	padding-top: 1px;
-	padding-bottom: 7px;
-	padding-left: 13px;
-	padding-right: 13px;
+	height: 22px;
+	width: 140px;
+	padding-top: 0px;
+	padding-bottom: 0px;
 	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
 	border-radius: 20px;
 	border: 1px solid;
 	color: white;
-	font-size: 13px;
+	font-size: 14px;
 	margin-right: 5px;
-	margin-bottom: -3px;
-	border: none;
 }
 
 
-.openCloseFormForSendNewReview:hover {
+.openCloseFormForSendNewReview:hover, .openCloseFormForSendNewReviewMobile:hover {
 	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
 }
 
@@ -86,5 +81,17 @@
 
 .countHearts{
 	margin-right: 5px;
-	margin-top: 0px;
+	margin-top: 20px;
+}
+
+.hearts{
+	width: 17px;
+	height: 17px;
+}
+
+
+.viewAll{
+	text-align: center;
+	color: #5A3DE6;
+	cursor: pointer;
 }

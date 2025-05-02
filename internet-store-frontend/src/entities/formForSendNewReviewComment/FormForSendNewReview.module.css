@@ -49,7 +49,6 @@
 .productName {
   flex: 1 1 200px;
   color: #5d3ae9;
-  margin: auto 0;
   font-size: 1.2rem;
 }
 
@@ -72,12 +71,13 @@
 
   .productImg {
     max-width: 60%;
-    margin-bottom: 1rem;
+    margin-bottom: -20px;
   }
 
   .productName {
     margin-left: 0;
     text-align: center;
+    margin-bottom: -5px;
   }
 
   .divForProduct {

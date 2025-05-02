@@ -9,6 +9,7 @@ from store.views import (
 	removeAddProductToCart,
 	updateCartProductQuantity,
 	createOrder,
+	getReviews,
 	addReview,
 	heartReview,
 	addComment,
@@ -17,54 +18,25 @@ from store.views import (
 )
 
 class AccountsUrlsTest(SimpleTestCase):
-	def test_searchPageProducts_url_resolves(self):
-		url = reverse('searchPageProducts')
-		self.assertEqual(resolve(url).func, searchPageProducts)
+	def test_url_resolves_to_view(self):
+		test_cases = [
+			{'url_name': 'searchPageProducts', 'view_func': searchPageProducts, 'kwargs': {}},
+			{'url_name': 'heartProduct', 'view_func': heartProduct, 'kwargs': {'productId': 1}},
+			{'url_name': 'categories', 'view_func': categories, 'kwargs': {}},
+			{'url_name': 'infoAboutproductDetail', 'view_func': infoAboutproductDetail, 'kwargs': {'productId': 1}},
+			{'url_name': 'addFastViews', 'view_func': addFastView, 'kwargs': {'productId': 1}},
+			{'url_name': 'removeAddProductToCart', 'view_func': removeAddProductToCart, 'kwargs': {'productId': 1}},
+			{'url_name': 'updateCartProductQuantity', 'view_func': updateCartProductQuantity, 'kwargs': {'ItemId': 1}},
+			{'url_name': 'createOrder', 'view_func': createOrder, 'kwargs': {}},
+			{'url_name': 'getReviews', 'view_func': getReviews, 'kwargs': {'productId': 1}},
+			{'url_name': 'addReview', 'view_func': addReview, 'kwargs': {'productId': 1}},
+			{'url_name': 'heartReview', 'view_func': heartReview, 'kwargs': {'reviewId': 1}},
+			{'url_name': 'addComment', 'view_func': addComment, 'kwargs': {'reviewId': 1}},
+			{'url_name': 'heartComment', 'view_func': heartComment, 'kwargs': {'commentId': 1}},
+			{'url_name': 'getShoppingCartItems', 'view_func': getShoppingCartItems, 'kwargs': {}},
+		]
 
-	def test_heartProduct_url_resolves(self):
-		url = reverse('heartProduct', kwargs={'productId': 1})
-		self.assertEqual(resolve(url).func, heartProduct)
-
-	def test_categories_url_resolves(self):
-		url = reverse('categories')
-		self.assertEqual(resolve(url).func, categories)
-
-	def test_infoAboutproductDetail_url_resolves(self):
-		url = reverse('infoAboutproductDetail', kwargs={'productId': 1})
-		self.assertEqual(resolve(url).func, infoAboutproductDetail)
-
-	def test_addFastView_url_resolves(self):
-		url = reverse('addFastViews', kwargs={'productId': 1})
-		self.assertEqual(resolve(url).func, addFastView)
-
-	def test_removeAddProductToCart_url_resolves(self):
-		url = reverse('removeAddProductToCart', kwargs={'productId': 1})
-		self.assertEqual(resolve(url).func, removeAddProductToCart)
-
-	def test_updateCartProductQuantity_url_resolves(self):
-		url = reverse('updateCartProductQuantity', kwargs={'ItemId': 1})
-		self.assertEqual(resolve(url).func, updateCartProductQuantity)
-
-	def test_createOrder_url_resolves(self):
-		url = reverse('createOrder')
-		self.assertEqual(resolve(url).func, createOrder)
-
-	def test_addReview_url_resolves(self):
-		url = reverse('addReview', kwargs={'productId': 1})
-		self.assertEqual(resolve(url).func, addReview)
-
-	def test_heartReview_url_resolves(self):
-		url = reverse('heartReview', kwargs={'reviewId': 1})
-		self.assertEqual(resolve(url).func, heartReview)
-
-	def test_addComment_url_resolves(self):
-		url = reverse('addComment', kwargs={'reviewId': 1})
-		self.assertEqual(resolve(url).func, addComment)
-
-	def test_heartComment_url_resolves(self):
-		url = reverse('heartComment', kwargs={'commentId': 1})
-		self.assertEqual(resolve(url).func, heartComment)
-
-	def test_getShoppingCartItems_url_resolves(self):
-		url = reverse('getShoppingCartItems')
-		self.assertEqual(resolve(url).func, getShoppingCartItems)
+		for case in test_cases:
+			with self.subTest(case=case):
+				url = reverse(case['url_name'], kwargs=case['kwargs'])
+				self.assertEqual(resolve(url).func, case['view_func'])

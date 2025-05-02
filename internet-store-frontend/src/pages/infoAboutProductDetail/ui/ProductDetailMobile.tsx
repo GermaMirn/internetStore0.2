@@ -127,6 +127,7 @@ const ProductDetailMobilePage = () => {
       </div>
 
       <ReviewsContainerMobile
+        productId={product.id}
         productImg={currentImage || product.mainImage}
         productName={product.name}
         reviews={reviews}

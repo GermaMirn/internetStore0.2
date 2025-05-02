@@ -23,7 +23,7 @@
 
 
 .editorScrollWrapper {
-  max-height: 110px;
+  max-height: 115px;
   overflow-y: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -57,7 +57,7 @@
 
 
 .uploadImage {
-	margin-top: -23.5px;
+	margin-top: -19px;
 	width: 50px;
 	height: 50px;
   cursor: pointer;
@@ -70,27 +70,27 @@
 
 .imageContainer {
   position: relative;
-	margin-top: -23.5px;
+	margin-top: -19px;
 }
 
 
 .previewImage {
+  margin-top: 5px;
 	margin-left: 5px;
-  margin-right: 5px;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 40px;
   border-radius: 10px;
 	transition: opacity 0.3s ease;
 }
 
 
 .removeImageButton {
-  width: 50px;
-	height: 50px;
+  width: 45px;
+	height: 40px;
 	font-size: x-large;
   position: absolute;
 	background: rgba(255, 255, 255, 0.5);
-  margin-top: -54px;
+  margin-top: -44px;
 	margin-left: 5px;
 	border-radius: 10px;
   cursor: pointer;
@@ -107,8 +107,8 @@
 .removeImageIcon{
 	position: absolute;
 	color: white;
-	margin-left: 13.5px;
-	margin-top: 13px;
+	margin-left: 11px;
+	margin-top: 7.5px;
 }
 
 
@@ -179,6 +179,11 @@
   width: 150px;
   height: 40px;
   border-radius: 30px;
+}
+
+
+.uploadImage{
+  width: 40px;
 }
 
 

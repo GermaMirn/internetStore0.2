@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ReviewsProps } from '../../interfaces';
 import styles from './ReviewsContainerMobile.module.css';
 import ReviewMobile from '../../features/review/ReviewMobile';
 import FormForSendNewReview from '../formForSendNewReviewComment/FormForSendNewReview';
 
-
 const ReviewsContainerMobile: React.FC<ReviewsProps> = ({
+  productId,
   productImg,
   productName,
   reviews,
@@ -15,6 +16,7 @@ const ReviewsContainerMobile: React.FC<ReviewsProps> = ({
   handleSubmitReview
 }) => {
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
   const [likesState, setLikesState] = useState<{ [key: number]: boolean }>({});
 
   const updateReviewLikes = () => {};
@@ -23,10 +25,16 @@ const ReviewsContainerMobile: React.FC<ReviewsProps> = ({
     setLikesState(prev => ({ ...prev, [id]: isLiked }));
   };
 
+  const lastReview = reviews[reviews.length - 1];
+
+  const handleViewAll = () => {
+    navigate(`/product/${productId}/reviews`);
+  };
+
   return (
     <div className={styles.divReviewsMobile}>
       <div className={styles.headerReviews}>
-        <h2 className={styles.textHeaderReviews}>Отзывы</h2>
+        <h3 className={styles.textHeaderReviews}>Отзывы</h3>
 
         <div className={styles.divForHeart}>
           {token && (
@@ -37,24 +45,29 @@ const ReviewsContainerMobile: React.FC<ReviewsProps> = ({
               Оставить отзыв
             </button>
           )}
-          <h2 className={styles.countHearts}>{hearts}</h2>
-          <img src="/product/fullHeart.svg" alt="" />
+          <h3 className={styles.countHearts}>{hearts}</h3>
+          <img className={styles.hearts} src="/product/fullHeart.svg" alt="" />
         </div>
       </div>
 
       <hr />
 
       <div>
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
+        {lastReview ? (
+          <>
             <ReviewMobile
-              key={review.id}
-              {...review}
+              key={lastReview.id}
+              {...lastReview}
               updateReviewLikes={updateReviewLikes}
-              isLiked={likesState[review.id] ?? review.isLiked}
+              isLiked={likesState[lastReview.id] ?? lastReview.isLiked}
               setIsLiked={toggleLike}
             />
-          ))
+            {reviews.length > 1 && (
+              <div className={styles.viewAll} onClick={handleViewAll}>
+                Посмотреть все отзывы
+              </div>
+            )}
+          </>
         ) : (
           <div>Нет отзывов</div>
         )}

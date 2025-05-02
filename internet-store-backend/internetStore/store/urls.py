@@ -6,6 +6,7 @@ from .views import (
     heartProduct,
     infoAboutproductDetail,
     addFastView,
+    getReviews,
     removeAddProductToCart,
     updateCartProductQuantity,
     createOrder,
@@ -29,6 +30,7 @@ urlpatterns = [
 
     path('infoAboutproductDetail/<int:productId>/', infoAboutproductDetail, name='infoAboutproductDetail'),
     path('product/<int:productId>/fastviews/', addFastView, name='addFastViews'),
+    path('product/<int:productId>/reviews/', getReviews, name='getReviews'),
     path('product/<int:productId>/review/', addReview, name='addReview'),
     path('review/<int:reviewId>/heart/', heartReview, name='heartReview'),
     path('review/<int:reviewId>/comment/', addComment, name='addComment'),

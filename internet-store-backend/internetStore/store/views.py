@@ -44,7 +44,8 @@ from internetStore.utils import (
 	get_cached_data,
 	set_cache_data,
 	delete_cache_patterns,
-	delete_cache_for_product_detail
+	delete_cache_for_product_detail,
+	delete_cache_admin,
 )
 
 
@@ -289,6 +290,74 @@ def addFastView(request, productId):
   return Response({'success': True}, status=200)
 
 
+@api_view(['GET'])
+def getReviews(request, productId):
+	product = get_object_or_404(Product, id=productId)
+
+	cache_key = generate_cache_key('product_reviews', request.user, productId)
+	cached_data = get_cached_data(cache_key)
+	if cached_data:
+		return Response(cached_data)
+
+	reviews = product.reviews.prefetch_related('comments', 'reviewImages').all()
+
+	reviewData = []
+	likedReview = []
+	likedComment = []
+
+	if request.user.is_authenticated:
+		try:
+			profile = request.user.profile
+			likedReview = ReviewHeart.objects.filter(user=profile).values_list('review_id', flat=True)
+			likedComment = CommentHeart.objects.filter(user=profile).values_list('comment_id', flat=True)
+		except Profile.DoesNotExist:
+			pass
+
+	for review in reviews:
+		comments = review.comments.prefetch_related('commentImages').all()
+		commentData = []
+
+		for comment in comments:
+			comment_images = [img.image.url for img in comment.commentImages.all()]
+			main_comment_image = comment_images[0] if comment_images else None
+			isCommentLiked = comment.id in likedComment
+
+			commentData.append({
+				'id': comment.id,
+				'user': comment.user.user.username,
+				'text': comment.text,
+				'created_at': comment.created_at,
+				'hearts': comment.hearts,
+				'imagesUrl': comment_images,
+				'mainImage': main_comment_image,
+				'isLiked': isCommentLiked
+			})
+
+		review_images = [img.image.url for img in review.reviewImages.all()]
+		main_review_image_url = review_images[0] if review_images else None
+		isReviewLiked = review.id in likedReview
+
+		reviewData.append({
+			'id': review.id,
+			'user': review.user.user.username,
+			'text': review.text,
+			'created_at': review.created_at,
+			'hearts': review.hearts,
+			'imagesUrl': review_images,
+			'mainImage': main_review_image_url,
+			'comments': commentData,
+			'isLiked': isReviewLiked
+		})
+
+	response_data = {
+		'productId': product.id,
+		'reviews': reviewData
+	}
+	set_cache_data(cache_key, response_data, timeout=15 * 60)
+
+	return Response(response_data)
+
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 def addReview(request, productId):
@@ -327,6 +396,7 @@ def addReview(request, productId):
 			}
 		}
 		delete_cache_for_product_detail(request.user)
+		delete_cache_admin('product_reviews', product.id)
 
 		return Response(response_data, status=201)
 
@@ -354,6 +424,7 @@ def heartReview(request, reviewId):
 			heart = ReviewHeart.objects.get(review=review, user=profile)
 			heart.delete()
 			delete_cache_for_product_detail(request.user)
+			delete_cache_admin('product_reviews', review.product.id)
 
 			return Response({
 				'success': True,
@@ -402,6 +473,7 @@ def addComment(request, reviewId):
 			}
 		}
 		delete_cache_for_product_detail(request.user)
+		delete_cache_admin('product_reviews', review.product.id)
 
 		return Response(response_data, status=201)
 
@@ -429,6 +501,7 @@ def heartComment(request, commentId):
 			heart = CommentHeart.objects.get(comment=comment, user=profile)
 			heart.delete()
 			delete_cache_for_product_detail(request.user)
+			delete_cache_admin('product_reviews', comment.review.product.id)
 
 			return Response({
 					'success': True,

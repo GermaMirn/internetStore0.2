@@ -19,6 +19,7 @@ import { Unauthorized } from '../../pages/errors/Unauthorized';
 import OrdersPage from '../../pages/orders/ui/OrdersPage';
 import ChatPage from '../../pages/chat/ui/ChatPage';
 import CategoriesMenuMobilePage from '../../pages/categories/ui/CategoriesMenuMobilePage';
+import ReviewsMobilePage from '../../pages/reviews/ui/ReviewsMobilePage';
 
 
 const IndexRoutes: React.FC = () => {
@@ -36,6 +37,7 @@ const IndexRoutes: React.FC = () => {
       ) : (
         <Route path="/product/:id" element={<ProductDetail />} />
       )}
+      <Route path="/product/:id/reviews" element={<ReviewsMobilePage />} />
 			{isMobile && (
 				<Route path="/categories" element={<CategoriesMenuMobilePage />} />
 			)}

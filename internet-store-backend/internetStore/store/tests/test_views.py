@@ -350,6 +350,58 @@ class AddFastViewTestCase(APITestCase):
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
+class GetReviewsTestCase(APITestCase):
+	def setUp(self):
+		self.user = create_unique_user(username='testuser')
+		self.profile, _ = Profile.objects.get_or_create(user=self.user)
+		self.product = create_product(name="Product for review testing")
+
+		self.review = Review.objects.create(product=self.product, user=self.profile, text="Great product!")
+		self.comment = Comment.objects.create(review=self.review, user=self.profile, text="Nice review!")
+
+		self.token = Token.objects.create(user=self.user)
+		self.client = APIClient()
+		self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+
+		self.cache_key = generate_cache_key('product_reviews', self.user, self.product.id)
+
+	def test_get_reviews_response_structure_and_cache(self):
+		cache.delete(self.cache_key)
+
+		url = f'/api/store/product/{self.product.id}/reviews/'
+		response = self.client.get(url)
+
+		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertIn('reviews', response.data)
+		self.assertEqual(len(response.data['reviews']), 1)
+
+		review_data = response.data['reviews'][0]
+		self.assertEqual(review_data['id'], self.review.id)
+		self.assertEqual(review_data['text'], self.review.text)
+		self.assertEqual(review_data['user'], self.user.username)
+		self.assertIn('comments', review_data)
+		self.assertEqual(len(review_data['comments']), 1)
+
+		comment_data = review_data['comments'][0]
+		self.assertEqual(comment_data['id'], self.comment.id)
+		self.assertEqual(comment_data['text'], self.comment.text)
+		self.assertEqual(comment_data['user'], self.user.username)
+
+		cached = cache.get(self.cache_key)
+		self.assertIsNotNone(cached)
+		self.assertEqual(cached['productId'], self.product.id)
+
+	def test_get_reviews_from_cache(self):
+		response_data = {'productId': self.product.id, 'reviews': []}
+		cache.set(self.cache_key, response_data, timeout=900)
+
+		url = f'/api/store/product/{self.product.id}/reviews/'
+		response = self.client.get(url)
+
+		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data, response_data)
+
+
 class AddReviewTests(APITestCase):
 	def setUp(self):
 		self.user = create_unique_user()

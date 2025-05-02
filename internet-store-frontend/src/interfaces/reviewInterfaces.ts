@@ -50,6 +50,7 @@ export interface ReviewProps {
 
 
 export interface ReviewsProps {
+  productId?: number;
 	productImg: string;
 	productName: string;
   reviews: ReviewProps[];
