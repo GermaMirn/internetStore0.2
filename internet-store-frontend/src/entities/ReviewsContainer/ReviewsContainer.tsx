@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { ReviewsProps } from '../../interfaces';
-import { Review } from '../../interfaces';
+import { ReviewProps } from '../../interfaces';
 import { sortReviews } from '../../shared/utils/sort';
 import styles from './ReviewsContainer.module.css';
 import classNames from 'classnames';
 import ComponentSort from '../../shared/ui/ComponentSort/ComponentSort';
-import ReviewItem from '../Review/Review';
-import FormForSendNewReview from '../Review/FormForSendNewReview';
-import { useIsMobile } from '../../app/routes/hooks/useIsMobile';
+import Review from '../../features/review/Review';
+import FormForSendNewReview from '../formForSendNewReviewComment/FormForSendNewReview';
 
 
 const ReviewsContainer: React.FC<ReviewsProps> = ({ productImg, productName, reviews, hearts, isReviewFormOpen, openFormAddReview, handleSubmitReview }) => {
 	const token = localStorage.getItem('token');
-  const isMobile = useIsMobile();
-  const [sortedReviews, setSortedReviews] = useState<Review[]>(reviews);
+  const [sortedReviews, setSortedReviews] = useState<ReviewProps[]>(reviews);
   const [currentSort, setCurrentSort] = useState<'date' | 'likes'>('date');
   const [likesState, setLikesState] = useState<{ [key: number]: boolean }>({});
   const [isAscendingDate, setIsAscendingDate] = useState(true);
@@ -24,7 +22,7 @@ const ReviewsContainer: React.FC<ReviewsProps> = ({ productImg, productName, rev
 	}, [reviews, currentSort, isAscendingDate, isAscendingLikes]);
 
 
-  const handleSortChange = (newSortedReviews: Review[]) => {
+  const handleSortChange = (newSortedReviews: ReviewProps[]) => {
     setSortedReviews(newSortedReviews);
   };
 
@@ -43,34 +41,30 @@ const ReviewsContainer: React.FC<ReviewsProps> = ({ productImg, productName, rev
   };
 
   return (
-    <div className={isMobile ? styles.divReviewsMobile : styles.divReviews}>
+    <div className={styles.divReviews}>
       <div className={styles.headerReviews}>
         <h2 className={styles.textHeaderReviews}>Отзывы</h2>
 
-        {!isMobile && (
-          <>
-            <p className={classNames(styles.sortTextHeaderReviews, styles.underline)}>
-              Сортировать по:
-            </p>
+        <p className={classNames(styles.sortTextHeaderReviews, styles.underline)}>
+          Сортировать по:
+        </p>
 
-            <div className={styles.divForSort}>
-              <ComponentSort
-                reviews={sortedReviews}
-                onSortChange={handleSortChange}
-                currentSort={currentSort}
-                isAscendingDate={isAscendingDate}
-                isAscendingLikes={isAscendingLikes}
-                setCurrentSort={setCurrentSort}
-                setIsAscendingDate={setIsAscendingDate}
-                setIsAscendingLikes={setIsAscendingLikes}
-              />
-            </div>
-          </>
-        )}
+        <div className={styles.divForSort}>
+          <ComponentSort
+            reviews={sortedReviews}
+            onSortChange={handleSortChange}
+            currentSort={currentSort}
+            isAscendingDate={isAscendingDate}
+            isAscendingLikes={isAscendingLikes}
+            setCurrentSort={setCurrentSort}
+            setIsAscendingDate={setIsAscendingDate}
+            setIsAscendingLikes={setIsAscendingLikes}
+          />
+        </div>
 
         <div className={styles.divForHeart}>
 					{ token && (
-						<button className={isMobile ?  styles.openCloseFormForSendNewReviewMobile : styles.openCloseFormForSendNewReview} onClick={openFormAddReview}>
+						<button className={styles.openCloseFormForSendNewReview} onClick={openFormAddReview}>
 							Оставить отзыв
 						</button>
 					)}
@@ -84,7 +78,7 @@ const ReviewsContainer: React.FC<ReviewsProps> = ({ productImg, productName, rev
       <div>
         {sortedReviews.length > 0 ? (
           sortedReviews.map((review) => (
-            <ReviewItem
+            <Review
               key={review.id}
               {...review}
               updateReviewLikes={updateReviewLikes}

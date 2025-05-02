@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styles from './Review.module.css';
-import CommentItem from '../Comment/Comment';
-import HeartCommentAndReview from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/Heart';
-import ReviewCommentData from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/ReviewCommentData';
+import Comment from '../comment/Comment';
+import HeartCommentAndReview from '../../entities/heartCommentAndReview/HeartCommentAndReview';
+import ReviewCommentData from '../../entities/reviewCommentData/ReviewCommentData';
 import { ReviewItemProps } from '../../interfaces';
-import { Comment } from '../../interfaces';
+import { CommentProps } from '../../interfaces';
 
 
-const ReviewItem: React.FC<ReviewItemProps> = ({
+const Review: React.FC<ReviewItemProps> = ({
   id,
   user,
   text,
@@ -33,7 +33,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
     setIsLiked(id, !isLiked);
   };
 
-	const handleNewComment = (newComment: Comment) => {
+	const handleNewComment = (newComment: CommentProps) => {
     setUpdatedComments((prevComments) => [...prevComments, newComment]);
   };
 
@@ -62,7 +62,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
       {showComments && updatedComments.length > 0 && (
         <div className={styles.divForComments}>
           {updatedComments.map((comment) => (
-            <CommentItem key={comment.id} {...comment} reviewId={id} onNewComment={handleNewComment} />
+            <Comment key={comment.id} {...comment} reviewId={id} onNewComment={handleNewComment} />
           ))}
         </div>
       )}
@@ -72,4 +72,4 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
 };
 
 
-export default ReviewItem;
+export default Review;

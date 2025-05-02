@@ -21,11 +21,14 @@
   gap: 1rem;
 }
 
+
 .editorScrollWrapper {
-  max-height: 300px;
+  max-height: 110px;
   overflow-y: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 
@@ -185,7 +188,7 @@
   }
 
   .editorScrollWrapper {
-    max-height: 150px;
+    max-height: 110px;
     overflow-y: auto;
     white-space: pre-wrap;
     word-wrap: break-word;

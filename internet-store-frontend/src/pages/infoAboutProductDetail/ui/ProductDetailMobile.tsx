@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getProductDetail } from '../api/getProductDetail';
 import { ProductDetail } from '../../../interfaces';
 import { addReview } from '../api/addCommentReview/addReview';
-import ReviewsContainer from '../../../entities/ReviewsContainer/ReviewsContainer';
+import ReviewsContainerMobile from '../../../entities/ReviewsContainer/ReviewsContainerMobile';
 import styles from './ProductDetailMobile.module.css';
 import { useErrorRedirect } from '../../../hooks/errorHandler';
 import ImagesCarouselMobile from '../../../entities/ImagesCarouselReviewComment/ui/ImagesCarouselReviewCommentMobile';
@@ -126,7 +126,7 @@ const ProductDetailMobilePage = () => {
         </div>
       </div>
 
-      <ReviewsContainer
+      <ReviewsContainerMobile
         productImg={currentImage || product.mainImage}
         productName={product.name}
         reviews={reviews}

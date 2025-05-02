@@ -1,7 +1,7 @@
 import { EditorState } from 'draft-js';
 
 
-export interface Comment {
+export interface CommentProps {
   id: number;
 	reviewId: number;
   user: string;
@@ -11,11 +11,14 @@ export interface Comment {
 	isLiked: boolean;
   imagesUrl: string[];
   mainImage: string | null;
-	onNewComment?: (newComment: Comment) => void;
+	onNewComment?: (newComment: CommentProps) => void;
+  handleLikeToggle?: () => void;
+  setIsLiked?: (isLiked: boolean) => void;
 }
 
 
 export interface CommentActionsProps {
+  isMobile?: boolean;
   commentsCount: number;
   showComments: boolean;
   isReplyFormOpen: boolean;

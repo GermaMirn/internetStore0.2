@@ -1,6 +1,6 @@
 import React from 'react';
 import { OrderDetailProps } from '../../../interfaces';
-import { formatDate } from '../../../pages/infoAboutProductDetail/ui/ReviewsContainer/utils/dateUtils';
+import { formatDate } from '../../reviewCommentData/utils/dateUtils';
 import { useNavigate } from 'react-router-dom';
 import styles from './OrderDetail.module.css';
 import OrderDetailItems from '../../../shared/ui/OrderDetailItems/OrderDetailItems';

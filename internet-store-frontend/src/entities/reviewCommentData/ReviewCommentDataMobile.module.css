@@ -2,17 +2,21 @@
 	display: flex;
 	overflow: hidden;
 	width: 100%;
+	border-radius: 15px;
+	padding: 7px 15px 7px 15px;
 }
 
 
 .logo{
 	width: 55px;
 	height: 55px;
+	position: relative;
 }
 
 
 .divForUserNameReviewCommentAndImages{
 	display: flex;
+	flex-direction: column;
 }
 
 
@@ -35,8 +39,27 @@
 
 
 .textReview{
-	margin-top: -5px;
+	margin-left: -60px;
+	margin-top: 20px;
 	font-size: 14px;
+}
+
+
+.reviewImagesMobile{
+	margin-left: -60px;
+	width: calc(100% + 60px);
+}
+
+
+.commentActionsMobile{
+	margin-left: -60px;
+	display: flex;
+	justify-content: space-between;
+}
+
+
+.replyForm{
+	margin-left: -60px;
 }
 
 
@@ -46,8 +69,8 @@
 
 
 .heartReview{
-	margin-bottom: 100px;
 	margin-left: auto;
+	margin-top: -80px;
 }
 
 

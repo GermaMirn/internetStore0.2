@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ImageViewer.module.css';
-import { ImageViewerProps } from '../../../../interfaces';
-import { baseURL } from '../../../../shared/api/axiosInstance';
+import { ImageViewerProps } from '../../../interfaces';
+import { baseURL } from '../../api/axiosInstance';
 
 
 const ImageViewer: React.FC<ImageViewerProps> = ({ images, onOpenModal }) => {

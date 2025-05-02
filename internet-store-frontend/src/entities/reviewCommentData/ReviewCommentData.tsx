@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { formatDate } from './utils/dateUtils';
-import { ReviewDataProps } from '../../../../interfaces';
-import { addComment } from '../../api/addCommentReview/addComment';
+import { ReviewDataProps } from '../../interfaces';
+import { addComment } from '../../pages/infoAboutProductDetail/api/addCommentReview/addComment';
 import { formatCommentText } from './utils/formatCommentText';
 import styles from './ReviewCommentData.module.css';
-import ImageModal from './ImageModalReviewComment';
-import FormForSendNewCommentReview from '../../../../entities/Comment/FormForSendNewCommentReview';
-import ImageViewer from './ImageViewer';
-import CommentActions from '../../../../entities/Comment/CommentActions';
-import { useNotification } from '../../../../app/providers/notifications/NotificationProvider';
+import ImageModal from '../imageModalReviewComment/ImageModalReviewComment';
+import FormForSendNewCommentReview from '../formForSendNewReviewComment/FormForSendNewCommentReview';
+import ImageViewer from '../../shared/ui/ImageViewer/ImageViewer';
+import CommentActions from '../commentActions/CommentActions';
+import { useNotification } from '../../app/providers/notifications/NotificationProvider';
 
 
 const ReviewCommentData: React.FC<ReviewDataProps> = ({
@@ -86,9 +86,11 @@ const ReviewCommentData: React.FC<ReviewDataProps> = ({
         <div className={styles.divForUserNameReviewCommentAndImages}>
           <h3 className={styles.userNameReview}>{user}</h3>
 
-          {imagesUrl.length > 0 && (
-            <ImageViewer images={imagesUrl} onOpenModal={openModal} />
-          )}
+          <div className={styles.divImageViewer}>
+            {imagesUrl.length > 0 && (
+              <ImageViewer images={imagesUrl} onOpenModal={openModal} />
+            )}
+          </div>
         </div>
         <h5 className={styles.dateReview}>{formatDate(created_at)}</h5>
         <p className={styles.textReview}>{formatCommentText(text)}</p>

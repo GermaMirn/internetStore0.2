@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './Comment.module.css';
-import HeartCommentAndReview from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/Heart';
-import ReviewCommentData from '../../pages/infoAboutProductDetail/ui/ReviewsContainer/ReviewCommentData';
-import { Comment } from '../../interfaces';
+import HeartCommentAndReview from '../../entities/heartCommentAndReview/HeartCommentAndReview';
+import ReviewCommentData from '../../entities/reviewCommentData/ReviewCommentData';
+import { CommentProps } from '../../interfaces';
 
 
-const CommentItem: React.FC<Comment> = ({
+const Comment: React.FC<CommentProps> = ({
 	id,
 	reviewId,
 	user,
@@ -40,4 +40,4 @@ const CommentItem: React.FC<Comment> = ({
 };
 
 
-export default CommentItem;
+export default Comment;

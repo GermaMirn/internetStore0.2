@@ -1,0 +1,61 @@
+.review{
+	display: flex;
+	overflow: hidden;
+	width: 100%;
+}
+
+
+.logo{
+	width: 55px;
+	height: 55px;
+}
+
+
+.divForUserNameReviewCommentAndImages{
+	display: flex;
+}
+
+
+.dataReview{
+	margin-top: -15px;
+	margin-left: 10px;
+	width: 100%;
+}
+
+
+.userNameReview{
+	color: #5d3ae9;
+}
+
+
+.divImageViewer{
+	margin-left: 90px;
+}
+
+
+.dateReview{
+	margin-top: -10px;
+	color: #989898;
+}
+
+
+.textReview{
+	margin-top: -5px;
+	font-size: 14px;
+}
+
+
+.countHeartReview{
+	font-size: 18px;
+}
+
+
+.heartReview{
+	margin-bottom: 100px;
+	margin-left: auto;
+}
+
+
+.rotate {
+  transform: rotate(180deg);
+}

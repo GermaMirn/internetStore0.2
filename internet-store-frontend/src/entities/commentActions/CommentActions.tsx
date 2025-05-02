@@ -4,6 +4,7 @@ import { CommentActionsProps } from "../../interfaces"
 
 
 const CommentActions: React.FC<CommentActionsProps> = ({
+  isMobile = false,
   onToggleComments,
   commentsCount,
   showComments,
@@ -12,7 +13,7 @@ const CommentActions: React.FC<CommentActionsProps> = ({
 	isReview = true
 }) => {
   return (
-    <div className={styles.divReviewCommentActions}>
+    <div className={isMobile ? styles.divReviewCommentActionsMobile : styles.divReviewCommentActions}>
       {token && (
         <div className={styles.openReviewForm} onClick={onReplyClick}>
           <p className={styles.divCommentText}>Ответить</p>

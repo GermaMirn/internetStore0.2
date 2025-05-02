@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './FormForSendNewReview.module.css';
-import FormForSendNewComment from '../Comment/FormForSendNewCommentReview';
+import FormForSendNewComment from './FormForSendNewCommentReview';
 import { FormForSendNewReviewProps } from '../../interfaces';
 import { baseURL } from '../../shared/api/axiosInstance';
 import { useIsMobile } from '../../app/routes/hooks/useIsMobile';

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ImageModalReviewComment.module.css';
-import { formatDate } from './utils/dateUtils';
-import { ImageModalProps } from '../../../../interfaces';
-import { formatCommentText } from './utils/formatCommentText';
-import { baseURL } from '../../../../shared/api/axiosInstance';
+import { formatDate } from '../reviewCommentData/utils/dateUtils';
+import { ImageModalProps } from '../../interfaces';
+import { formatCommentText } from '../reviewCommentData/utils/formatCommentText';
+import { baseURL } from '../../shared/api/axiosInstance';
 
 
 const ImageModal: React.FC<ImageModalProps> = ({

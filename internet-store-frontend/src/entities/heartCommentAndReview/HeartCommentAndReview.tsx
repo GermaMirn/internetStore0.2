@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Heart.module.css';
+import styles from './HeartCommentAndReview.module.css'
 import classNames from 'classnames';
-import { addHeartToComment, removeHeartFromComment } from '../../api/HeartCommentAndReview/commentHeart';
-import { addHeartToReview, removeHeartFromReview } from '../../api/HeartCommentAndReview/reviewHeart';
-import { HeartProps } from '../../../../interfaces';
-import { useNotification } from '../../../../app/providers/notifications/NotificationProvider';
+import { addHeartToComment, removeHeartFromComment } from '../../pages/infoAboutProductDetail/api/HeartCommentAndReview/commentHeart';
+import { addHeartToReview, removeHeartFromReview } from '../../pages/infoAboutProductDetail/api/HeartCommentAndReview/reviewHeart';
+import { HeartProps } from '../../interfaces';
+import { useNotification } from '../../app/providers/notifications/NotificationProvider';
 
 
 const HeartCommentAndReview: React.FC<HeartProps> = ({
@@ -16,7 +16,6 @@ const HeartCommentAndReview: React.FC<HeartProps> = ({
   onToggleLike,
 }) => {
   const [isLiked, setIsLiked] = useState(isCommentLiked || isReviewLiked);
-  const [isLoading, setIsLoading] = useState(false);
   const [currentHeartsCount, setCurrentHeartsCount] = useState(heartsCount);
 	const { showNotification } = useNotification();
 
@@ -25,7 +24,6 @@ const HeartCommentAndReview: React.FC<HeartProps> = ({
   }, [isCommentLiked, isReviewLiked]);
 
   const toggleLike = async () => {
-    setIsLoading(true);
     try {
       const newLikedState = !isLiked;
 
@@ -52,10 +50,8 @@ const HeartCommentAndReview: React.FC<HeartProps> = ({
       } else {
         setIsLiked(newLikedState);
       }
-    } catch (error) {
+    } catch {
       showNotification('Ошибка при изменении статуса лайка', 'error');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -70,9 +66,7 @@ const HeartCommentAndReview: React.FC<HeartProps> = ({
 				)}
 				onClick={toggleLike}
 			>
-				{isLoading ? (
-					<p>Загрузка...</p>
-				) : isLiked ? (
+				{isLiked ? (
 					<img className={styles.heartIcon} src={'/product/fullHeart.svg'} alt="Liked" />
 				) : (
 					<img className={styles.heartIcon} src={'/product/emptyHeart.svg'} alt="Not liked" />

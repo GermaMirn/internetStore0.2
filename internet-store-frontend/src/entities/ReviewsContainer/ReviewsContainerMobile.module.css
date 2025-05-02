@@ -1,0 +1,90 @@
+.divReviewsMobile{
+  margin-top: 7px;
+  border-radius: 15px;
+	margin-left: 3px;
+	margin-right: 3px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: white;
+}
+
+
+
+.headerReviews{
+	height: 55px;
+	display: flex;
+	align-items: center;
+	margin-bottom: -20px;
+}
+
+
+.textHeaderReviews{
+	margin-top: -5px;
+	margin-right: 10px;
+}
+
+
+.sortTextHeaderReviews{
+	color: #989898;
+	margin-right: 10px;
+	margin-top: 20px;
+}
+
+
+.divForSort{
+	margin-bottom: -3px;
+}
+
+
+.openCloseFormForSendNewReview{
+	height: 34px;
+	width: 150px;
+	padding-top: 4px;
+	padding-bottom: 7px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+	border-radius: 20px;
+	border: 1px solid;
+	color: white;
+	font-size: 15px;
+	margin-right: 15px;
+	margin-bottom: 5px;
+}
+
+
+.openCloseFormForSendNewReviewMobile{
+	height: 20px;
+	width: 130px;
+	padding-top: 1px;
+	padding-bottom: 7px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background: linear-gradient(90deg, #5A3DE6 0%, #3F6AC9 100%);
+	border-radius: 20px;
+	border: 1px solid;
+	color: white;
+	font-size: 13px;
+	margin-right: 5px;
+	margin-bottom: -3px;
+	border: none;
+}
+
+
+.openCloseFormForSendNewReview:hover {
+	background: linear-gradient(90deg, #593de6d5 0%, #3f6bc9d2 100%);
+}
+
+
+.divForHeart{
+	align-items: center;
+	margin-left: auto;
+	display: flex;
+}
+
+
+.countHearts{
+	margin-right: 5px;
+	margin-top: 0px;
+}

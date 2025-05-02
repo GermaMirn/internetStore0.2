@@ -1,4 +1,4 @@
-import { Comment } from ".";
+import { CommentProps } from ".";
 
 
 export interface ReviewDataProps {
@@ -9,13 +9,34 @@ export interface ReviewDataProps {
 	reviewId: number;
   mainImage?: string | null;
   imagesUrl?: string[];
-  comments?: Comment[];
+  comments?: CommentProps[];
   showComments?: boolean;
   toggleComments?: () => void;
-	onNewComment?: (newComment: Comment) => void;
+	onNewComment?: (newComment: CommentProps) => void;
 }
 
-export interface Review {
+
+export interface ReviewDataMobileProps {
+  id: number;
+  hearts: number;
+  isLiked?: boolean;
+  commentIsLiked?: boolean;
+  isReview: boolean;
+  user: string;
+  created_at: string;
+  text: string;
+	reviewId: number;
+  mainImage?: string | null;
+  imagesUrl?: string[];
+  comments?: CommentProps[];
+  showComments?: boolean;
+  toggleComments?: () => void;
+	onNewComment?: (newComment: CommentProps) => void;
+  handleLikeToggle?: () => void;
+  setIsLiked?: (isLiked: boolean) => void;
+}
+
+export interface ReviewProps {
   id: number;
   user: string;
   text: string;
@@ -24,14 +45,14 @@ export interface Review {
   isLiked: boolean;
   imagesUrl: string[];
   mainImage: string | null;
-  comments: Comment[];
+  comments: CommentProps[];
 }
 
 
 export interface ReviewsProps {
 	productImg: string;
 	productName: string;
-  reviews: Review[];
+  reviews: ReviewProps[];
   hearts: number;
 	isReviewFormOpen: boolean;
 	openFormAddReview: () => void;
@@ -39,7 +60,7 @@ export interface ReviewsProps {
 }
 
 
-export interface ReviewItemProps extends Review {
+export interface ReviewItemProps extends ReviewProps {
   updateReviewLikes: (id: number, newLikes: number) => void;
   setIsLiked: (id: number, isLiked: boolean) => void;
 }

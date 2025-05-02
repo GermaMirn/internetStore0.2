@@ -1,0 +1,10 @@
+.comment{
+	display: flex;
+	margin-left: -50px;
+}
+
+
+.heartComment{
+	margin-right: 10px !important;
+	margin-left: auto;
+}
