@@ -19,11 +19,9 @@ const ReviewMobile: React.FC<ReviewItemProps> = ({
 }) => {
   const [showComments, setShowComments] = useState(false);
   const [updatedComments, setUpdatedComments] = useState(comments);
-  // Состояние для хранения лайков комментариев
   const [commentLikesState, setCommentLikesState] = useState<{
     [commentId: number]: boolean
   }>(() => {
-    // Инициализируем состояние лайков из пропсов комментариев
     const initialState: { [commentId: number]: boolean } = {};
     comments.forEach(comment => {
       initialState[comment.id] = comment.isLiked || false;
@@ -41,18 +39,15 @@ const ReviewMobile: React.FC<ReviewItemProps> = ({
     setIsLiked(id, !isLiked);
   };
 
-  // Обработчик лайков для комментариев
   const handleCommentLikeToggle = (commentId: number, currentLikedState: boolean) => {
     setCommentLikesState(prev => ({
       ...prev,
       [commentId]: !currentLikedState
     }));
-    // Здесь можно добавить вызов API для обновления лайков на сервере
   };
 
   const handleNewComment = (newComment: CommentProps) => {
     setUpdatedComments((prevComments) => [...prevComments, newComment]);
-    // Инициализируем состояние лайка для нового комментария
     setCommentLikesState(prev => ({
       ...prev,
       [newComment.id]: newComment.isLiked || false

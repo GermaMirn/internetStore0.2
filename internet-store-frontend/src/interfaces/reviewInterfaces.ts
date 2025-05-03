@@ -36,6 +36,7 @@ export interface ReviewDataMobileProps {
   setIsLiked?: (isLiked: boolean) => void;
 }
 
+
 export interface ReviewProps {
   id: number;
   user: string;
@@ -72,4 +73,10 @@ export interface FormForSendNewReviewProps {
 	productName: string;
   onClose: () => void;
 	handleSubmitReview: (commentText: string, images: File[]) => void;
+}
+
+
+export interface getReviewsProps {
+  reviews: ReviewProps[];
+  productId: number;
 }

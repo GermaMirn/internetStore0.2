@@ -32,12 +32,14 @@ const IndexRoutes: React.FC = () => {
       <Route path="/enter" element={<LoginChoicePage />} />
       <Route path="/" element={<WelcomePage />} />
       <Route path="/catalog" element={<SearchProductsPage />} />
+      <Route path="/product/:id/reviews" element={<ReviewsMobilePage />} />
+
       {isMobile ? (
         <Route path="/product/:id" element={<ProductDetailMobile />} />
       ) : (
         <Route path="/product/:id" element={<ProductDetail />} />
       )}
-      <Route path="/product/:id/reviews" element={<ReviewsMobilePage />} />
+
 			{isMobile && (
 				<Route path="/categories" element={<CategoriesMenuMobilePage />} />
 			)}

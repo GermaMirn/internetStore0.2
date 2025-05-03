@@ -31,10 +31,25 @@ const ReviewsContainerMobile: React.FC<ReviewsProps> = ({
     navigate(`/product/${productId}/reviews`);
   };
 
+  const declineWord = (count: number, words: [string, string, string]) => {
+    const mod10 = count % 10;
+    const mod100 = count % 100;
+
+    if (mod10 === 1 && mod100 !== 11) return words[0];     // 1 отзыв
+    if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) return words[1]; // 2–4 отзыва
+    return words[2];
+  }
+
   return (
     <div className={styles.divReviewsMobile}>
       <div className={styles.headerReviews}>
-        <h3 className={styles.textHeaderReviews}>Отзывы</h3>
+        {reviews.length > 0 ? (
+          <h3 className={styles.textHeaderReviews}>
+            {reviews.length} {declineWord(reviews.length, ['отзыв', 'отзыва', 'отзывов'])}
+          </h3>
+        ) : (
+          <h3 className={styles.textHeaderReviews}>Отзовы</h3>
+        )}
 
         <div className={styles.divForHeart}>
           {token && (
