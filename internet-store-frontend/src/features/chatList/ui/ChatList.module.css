@@ -30,6 +30,11 @@
 }
 
 
+.headerText{
+  font-size: 18px;
+}
+
+
 .chatListContainer {
   max-height: 100vh;
   overflow-y: scroll;
@@ -53,4 +58,12 @@
 
 .chatListContainer::-webkit-scrollbar-track {
   background: transparent;
+}
+
+
+@media (max-width: 500px) {
+  .chat {
+    width: 180px !important;
+    height: 80px;
+  }
 }

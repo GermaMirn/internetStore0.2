@@ -41,9 +41,15 @@ const ChatPage = () => {
 
   return (
     <div className={styles.chatPage}>
-      <div
-        className={`${styles.chatList} ${isLeftMenuOpen ? styles.menuOpen : ''}`}
-      >
+      <div className={`${styles.chatList} ${isLeftMenuOpen ? styles.menuOpen : ''}`}>
+        <button
+          className={styles.menuToggleButtonLeft}
+          onClick={() => setIsLeftMenuOpen(!isLeftMenuOpen)}
+          disabled={isRightMenuOpen}
+        >
+          {isLeftMenuOpen ? '✕' : '☰'}
+        </button>
+
         <ChatList
           selectedChatId={selectedChatId}
           onSelectChat={setSelectedChatId}
@@ -51,13 +57,6 @@ const ChatPage = () => {
           orderId={orderId}
         />
       </div>
-
-      <button
-        className={styles.menuToggleButtonLeft}
-        onClick={() => setIsLeftMenuOpen(!isLeftMenuOpen)}
-      >
-        {isLeftMenuOpen ? '✕' : '☰'}
-      </button>
 
       <div className={styles.mainContent}>
         {!order ? (
@@ -73,22 +72,21 @@ const ChatPage = () => {
         )}
       </div>
 
-      <div
-        className={`${styles.orderInfo} ${isRightMenuOpen ? styles.menuOpen : ''}`}
-      >
+      <div className={`${styles.orderInfo} ${isRightMenuOpen ? styles.menuOpen : ''}`}>
+        <button
+          className={styles.menuToggleButtonRight}
+          onClick={() => setIsRightMenuOpen(!isRightMenuOpen)}
+          disabled={isLeftMenuOpen}
+        >
+          {isRightMenuOpen ? '✕' : '!'}
+        </button>
+
         {isOrderAvailable ? (
           <ChatOrderInfo order={order} />
         ) : (
           <div className={styles.noOrderMessage}></div>
         )}
       </div>
-
-      <button
-        className={styles.menuToggleButtonRight}
-        onClick={() => setIsRightMenuOpen(!isRightMenuOpen)}
-      >
-        {isRightMenuOpen ? '✕' : '!'}
-      </button>
 
       {(isLeftMenuOpen || isRightMenuOpen) && (
         <div
@@ -102,5 +100,6 @@ const ChatPage = () => {
     </div>
   );
 };
+
 
 export default ChatPage;

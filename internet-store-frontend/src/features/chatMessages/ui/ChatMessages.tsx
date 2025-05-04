@@ -5,6 +5,7 @@ import { useMessages } from "../hooks/useMessages";
 import { MessagesList } from "../../../entities/MessagesList/ui/MessagesList";
 import styles from "./ChatMessages.module.css";
 import { ChatMessagesProps } from "../../../interfaces";
+import ImagePreviewModal from "../../../entities/imagePreviewModal/ImagePreviewModal";
 
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
@@ -13,6 +14,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const currentUser = localStorage.getItem("username") || "currentUser";
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
 
   const { sendMessage } = useWebSocket(chatId, messages, setMessages);
 
@@ -37,7 +39,9 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setSelectedImages(Array.from(e.target.files));
+      const files = Array.from(e.target.files);
+      setSelectedImages(files);
+      setShowPreviewModal(true);
     }
   };
 
@@ -70,10 +74,27 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ chatId }) => {
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          className={styles.messageInputField}
           placeholder="Введите сообщение"
         />
         <img onClick={sendMessageHandler} src="/chat/send.svg" alt="" />
       </div>
+
+      {showPreviewModal && (
+        <ImagePreviewModal
+          images={selectedImages}
+          message={newMessage}
+          onMessageChange={setNewMessage}
+          onClose={() => {
+            setShowPreviewModal(false);
+            setSelectedImages([]);
+          }}
+          onSend={() => {
+            sendMessageHandler();
+            setShowPreviewModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };

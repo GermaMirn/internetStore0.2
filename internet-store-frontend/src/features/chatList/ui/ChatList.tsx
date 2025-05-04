@@ -58,7 +58,7 @@ const ChatList: React.FC<ChatListProps> = ({ onSelectChat, onSelectChatOrder, se
           }}
         >
           <div className={styles.header}>
-            <h3>{dateFormattingForChats(chat.order.created_at)}</h3>
+            <h3 className={styles.headerText}>{dateFormattingForChats(chat.order.created_at)}</h3>
             <p>#{chat.order.id}</p>
           </div>
         </div>
